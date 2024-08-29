@@ -1,0 +1,57 @@
+@model progettoUMRidolfiPagani.Models.Movimento
+
+@{
+    ViewData["Title"] = "Cancella Movimento";
+}
+
+<h1>Cancella Movimento</h1>
+
+<h3>Sei sicuro di voler cancellare questo movimento?</h3>
+<div>
+    <h4>Movimento</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Articolo
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Articolo.Codice - @Model.Articolo.Descrizione
+        </dd>
+        <dt class="col-sm-2">
+            Tipo Movimento
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TipoMovimento
+        </dd>
+        <dt class="col-sm-2">
+            Quantità
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Quantita
+        </dd>
+        <dt class="col-sm-2">
+            Data Movimento
+        </dt>
+        <dd class="col-sm-10">
+            @Model.DataMovimento.ToString("dd/MM/yyyy")
+        </dd>
+        <dt class="col-sm-2">
+            Posizione Iniziale
+        </dt>
+        <dd class="col-sm-10">
+            @Model.PosizioneIniziale?.Nome
+        </dd>
+        <dt class="col-sm-2">
+            Posizione Finale
+        </dt>
+        <dd class="col-sm-10">
+            @Model.PosizioneFinale?.Nome
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Cancella" class="btn btn-danger" /> |
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Annulla</a>
+    </form>
+</div>

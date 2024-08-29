@@ -1,0 +1,43 @@
+@model IEnumerable<progettoUMRidolfiPagani.Models.Movimento>
+
+    @{
+    ViewData["Title"] = "Elenco Movimenti";
+    }
+
+    <h1>Elenco Movimenti</h1>
+
+    <p>
+        <a href="@Url.Action("Create")" class="btn btn-primary">Registra Nuovo Movimento</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Articolo</th>
+                <th>Tipo Movimento</th>
+                <th>Quantità</th>
+                <th>Data Movimento</th>
+                <th>Posizione Iniziale</th>
+                <th>Posizione Finale</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movimento in Model)
+    {
+            <tr>
+                <td>@movimento.Articolo.Codice</td>
+                <td>@movimento.TipoMovimento</td>
+                <td>@movimento.Quantita</td>
+                <td>@movimento.DataMovimento.ToString("dd/MM/yyyy")</td>
+                <td>@movimento.PosizioneIniziale?.Nome</td>
+                <td>@movimento.PosizioneFinale?.Nome</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = movimento.Id })" class="btn btn-info">Dettagli</a>
+                    <a href="@Url.Action("Edit", new { id = movimento.Id })" class="btn btn-warning">Modifica</a>
+                    <a href="@Url.Action("Delete", new { id = movimento.Id })" class="btn btn-danger">Cancella</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>

@@ -1,0 +1,36 @@
+@model IEnumerable<progettoUMRidolfiPagani.Models.Articolo>
+
+    @{
+    ViewData["Title"] = "Storico Articoli";
+    }
+
+    <h1>Storico Articoli</h1>
+
+    <p>
+        <form method="get" asp-action="Index">
+            <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Cerca Articolo" class="form-control" />
+            <input type="submit" value="Cerca" class="btn btn-primary" />
+        </form>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Codice Articolo</th>
+                <th>Descrizione</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var articolo in Model)
+    {
+            <tr>
+                <td>@articolo.Codice</td>
+                <td>@articolo.Descrizione</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = articolo.Id })" class="btn btn-info">Visualizza Storico</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>

@@ -1,0 +1,30 @@
+@model progettoUMRidolfiPagani.Models.Posizione
+
+@{
+    ViewData["Title"] = "Dettagli Postazione";
+}
+
+<h1>Dettagli Postazione</h1>
+
+<div>
+    <h4>Postazione</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nome Postazione
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Nome
+        </dd>
+        <dt class="col-sm-2">
+            Descrizione
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Descrizione
+        </dd>
+    </dl>
+</div>
+<div>
+    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">Modifica</a> |
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Torna all'elenco</a>
+</div>

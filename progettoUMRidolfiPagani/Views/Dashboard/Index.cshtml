@@ -1,0 +1,120 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+<div class="row">
+    <!-- Widget per la quantità totale di articoli -->
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Totale Articoli in Magazzino</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.TotaleArticoli</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget per il numero di movimenti recenti -->
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Movimenti Recenti</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.MovimentiRecenti</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget per le postazioni più utilizzate -->
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Postazioni più Utilizzate</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.PostazioniPiuUtilizzate</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget per articoli in attesa di spostamento -->
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Articoli in Attesa di Spostamento</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.ArticoliInAttesa</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Grafico della distribuzione degli articoli per postazione -->
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">Distribuzione Articoli per Postazione</div>
+            <div class="card-body">
+                <canvas id="distribuzioneArticoliChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grafico dei movimenti per giorno -->
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-header">Movimenti per Giorno</div>
+            <div class="card-body">
+                <canvas id="movimentiGiornoChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Codice JavaScript per generare il grafico della distribuzione degli articoli
+        var ctx1 = document.getElementById('distribuzioneArticoliChart').getContext('2d');
+        var distribuzioneArticoliChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.NomiPostazioni)),
+                datasets: [{
+                    label: 'Numero Articoli',
+                    data: @Html.Raw(Json.Serialize(Model.QuantitaArticoliPerPostazione)),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Codice JavaScript per generare il grafico dei movimenti per giorno
+        var ctx2 = document.getElementById('movimentiGiornoChart').getContext('2d');
+        var movimentiGiornoChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Giorni)),
+                datasets: [{
+                    label: 'Movimenti',
+                    data: @Html.Raw(Json.Serialize(Model.NumeroMovimentiPerGiorno)),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
