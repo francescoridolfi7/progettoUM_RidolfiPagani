@@ -81,7 +81,6 @@ namespace progettoUMRidolfiPagani.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Gestisci l'errore, ad esempio loggando l'eccezione
                     ModelState.AddModelError("", "Non è stato possibile aggiornare l'articolo.");
                     return View(articolo);
                 }
