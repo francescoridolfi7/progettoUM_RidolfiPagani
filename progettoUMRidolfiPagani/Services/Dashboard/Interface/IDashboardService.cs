@@ -1,4 +1,7 @@
-public interface IDashboardService
+namespace progettoUMRidolfiPagani.Services.Interface
 {
-    Task<DashboardViewModel> GetDashboardDataAsync();
+    public interface IDashboardService
+    {
+        Task<DashboardViewModel> GetDashboardDataAsync();
+    }
 }

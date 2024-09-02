@@ -1,11 +1,18 @@
-public interface IArticoloService
+
+using progettoUMRidolfiPagani.Models;
+
+namespace progettoUMRidolfiPagani.Services.Interface
 {
-    Task<IEnumerable<Articolo>> GetAllAsync();
-    Task<Articolo> GetByIdAsync(int id);
-    Task<Articolo> CreateAsync(Articolo articolo);
-    Task<Articolo> UpdateAsync(Articolo articolo);
-    Task DeleteAsync(int id);
-    Task<Articolo> GetByCodiceAsync(string codice);
-    Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int id);
-    Task<IEnumerable<Articolo>> SearchAsync(string searchString);
+    public interface IArticoloService
+    {
+        Task<IEnumerable<Articolo>> GetAllAsync();
+        Task<Articolo> GetByIdAsync(int id);
+        Task<Articolo> CreateAsync(Articolo articolo);
+        Task<Articolo> UpdateAsync(Articolo articolo);
+        Task DeleteAsync(int id);
+        Task<Articolo> GetByCodiceAsync(string codice);
+        Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int id);
+        Task<IEnumerable<Articolo>> SearchAsync(string searchString);
+    }
 }
+
