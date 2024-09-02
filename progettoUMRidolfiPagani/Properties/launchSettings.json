@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "progettoUMRidolfiPagani": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:33735;http://localhost:33736"
+    }
+  }
+}
