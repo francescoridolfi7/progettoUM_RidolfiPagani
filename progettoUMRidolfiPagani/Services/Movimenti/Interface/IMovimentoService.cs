@@ -1,4 +1,6 @@
 
+using progettoUMRidolfiPagani.Models;
+
 namespace progettoUMRidolfiPagani.Services.Interface
 {
     public interface IMovimentoService
