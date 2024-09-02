@@ -1,4 +1,6 @@
-public class ArticoloDifettoso
+namespace progettoUMRidolfiPagani.Models
+{
+    public class ArticoloDifettoso
 {
     public int Id { get; set; }
     public int ArticoloId { get; set; }
@@ -6,4 +8,6 @@ public class ArticoloDifettoso
     public string DescrizioneDifetto { get; set; }
     public DateTime DataSegnalazione { get; set; }
     public string Stato { get; set; }  // "In Attesa", "Riparato", "Scartato"
+}
+
 }
