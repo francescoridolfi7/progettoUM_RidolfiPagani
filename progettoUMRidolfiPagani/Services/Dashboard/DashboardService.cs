@@ -1,4 +1,6 @@
 
+using progettoUMRidolfiPagani.Services.Interface;
+
 namespace progettoUMRidolfiPagani.Services {
     public class DashboardService : IDashboardService
     {
