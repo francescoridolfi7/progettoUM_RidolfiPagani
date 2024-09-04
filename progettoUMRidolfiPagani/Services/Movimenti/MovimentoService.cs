@@ -2,7 +2,8 @@
 using progettoUMRidolfiPagani.Models;
 using progettoUMRidolfiPagani.Services.Interface;
 
-namespace progettoUMRidolfiPagani.Services {
+namespace progettoUMRidolfiPagani.Services
+{
     public class MovimentoService : IMovimentoService
     {
         private readonly ApplicationDbContext _context;
@@ -75,7 +76,7 @@ namespace progettoUMRidolfiPagani.Services {
                 PosizioneInizialeId = posizioneIniziale?.Id,
                 PosizioneFinaleId = posizioneFinaleId,
                 DataMovimento = DateTime.Now,
-                Quantita = articolo.QuantitaCorrente,  // Assumendo che la quantità venga trasferita interamente
+                Quantita = articolo.Quantita,  
                 TipoMovimento = TipoMovimento.Spostamento
             };
 
@@ -106,5 +107,116 @@ namespace progettoUMRidolfiPagani.Services {
                 .OrderByDescending(m => m.DataMovimento)
                 .ToListAsync();
         }
+
+        public async Task<int> GetMovimentiCountAsync()
+        {
+            return await _context.Movimenti.CountAsync();
+        }
+
+        public async Task<IEnumerable<Movimento>> GetDatiGraficoMovimentiAsync()
+        {
+            return await _context.Movimenti
+                .OrderBy(m => m.DataMovimento)
+                .ToListAsync();
+        }
+
+        public async Task<double> GetMediaGiorniPermanenzaAsync()
+        {
+            return await _context.Movimenti.AverageAsync(m => EF.Functions.DateDiffDay(m.DataInizio, m.DataFine));
+        }
+
+        public async Task<StatisticheMovimentiViewModel> GetStatisticheMovimentiAsync()
+        {
+            var totaleMovimenti = await _context.Movimenti.CountAsync();
+            var movimentiPerTipo = await _context.Movimenti
+                .GroupBy(m => m.TipoMovimento)
+                .Select(g => new { TipoMovimento = g.Key, Conteggio = g.Count() })
+                .ToListAsync();
+
+            var viewModel = new StatisticheMovimentiViewModel
+            {
+                TotaleMovimenti = totaleMovimenti,
+                MovimentiPerTipo = movimentiPerTipo.ToDictionary(m => m.TipoMovimento.ToString(), m => m.Conteggio)
+            };
+
+            return viewModel;
+        }
+
+        public async Task RegistraIngressoAsync(int articoloId, int posizioneId, int quantita)
+        {
+            var articolo = await _context.Articoli.FindAsync(articoloId);
+            if (articolo == null) throw new ArgumentException("Articolo non trovato");
+
+            var posizione = await _context.Posizioni.FindAsync(posizioneId);
+            if (posizione == null) throw new ArgumentException("Posizione non trovata");
+
+            var movimento = new Movimento
+            {
+                ArticoloId = articoloId,
+                PosizioneFinaleId = posizioneId,
+                Quantita = quantita,
+                TipoMovimento = "Ingresso",
+                DataMovimento = DateTime.Now
+            };
+
+            _context.Movimenti.Add(movimento);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RegistraUscitaAsync(int articoloId, int quantita)
+        {
+            var articolo = await _context.Articoli.FindAsync(articoloId);
+            if (articolo == null) throw new ArgumentException("Articolo non trovato");
+
+            var movimento = new Movimento
+            {
+                ArticoloId = articoloId,
+                PosizioneInizialeId = articolo.PosizioneId,
+                Quantita = quantita,
+                TipoMovimento = "Uscita",
+                DataMovimento = DateTime.Now
+            };
+
+            _context.Movimenti.Add(movimento);
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneInizialeId, int posizioneFinaleId)
+        {
+            var articolo = await _context.Articoli.Include(a => a.Movimenti).FirstOrDefaultAsync(a => a.Id == articoloId);
+            if (articolo == null) throw new ArgumentException("Articolo non trovato");
+
+            var posizioneIniziale = await _context.Posizioni.FindAsync(posizioneInizialeId);
+            var posizioneFinale = await _context.Posizioni.FindAsync(posizioneFinaleId);
+            if (posizioneIniziale == null || posizioneFinale == null) throw new ArgumentException("Posizione non trovata");
+
+            var movimento = new Movimento
+            {
+                ArticoloId = articoloId,
+                PosizioneInizialeId = posizioneInizialeId,
+                PosizioneFinaleId = posizioneFinaleId,
+                Quantita = articolo.Quantita,
+                TipoMovimento = "Spostamento",
+                DataMovimento = DateTime.Now
+            };
+
+            _context.Movimenti.Add(movimento);
+            await _context.SaveChangesAsync();
+
+            return movimento;
+        }
+
+
+        public async Task<IEnumerable<Movimento>> GetStoricoMovimentiAsync(int articoloId)
+        {
+            return await _context.Movimenti
+                .Where(m => m.ArticoloId == articoloId)
+                .OrderByDescending(m => m.DataMovimento)
+                .ToListAsync();
+        }
+
+
     }
 }
+

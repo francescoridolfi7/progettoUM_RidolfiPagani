@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using progettoUMRidolfiPagani.Services;
 using System.Threading.Tasks;
 using progettoUMRidolfiPagani.ViewModels;
+using progettoUMRidolfiPagani.Services.Interface;
 
 namespace progettoUMRidolfiPagani.Controllers
 {

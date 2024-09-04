@@ -1,7 +1,7 @@
 using progettoUMRidolfiPagani.Models;
 using progettoUMRidolfiPagani.Services.Interface;
 
-namespace progettoUMRidolfiPagani.Services 
+namespace progettoUMRidolfiPagani.Services
 {
     public class ArticoloService : IArticoloService
     {
@@ -71,6 +71,25 @@ namespace progettoUMRidolfiPagani.Services
                 .ToListAsync();
         }
 
+        public async Task<int> GetArticoliCountAsync()
+        {
+            return await _context.Articoli.CountAsync();
+        }
+
+        public async Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync()
+        {
+            return await _context.Articoli
+                .Where(a => a.Quantita <= a.SogliaMinima)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetArticoliDifettosiCountAsync()
+        {
+            return await _context.Articoli.CountAsync(a => a.Stato == "Difettoso");
+        }
+
+
     }
 }
+
 

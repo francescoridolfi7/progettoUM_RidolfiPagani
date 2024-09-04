@@ -1,7 +1,9 @@
 
+using progettoUMRidolfiPagani.Models;
 using progettoUMRidolfiPagani.Services.Interface;
 
-namespace progettoUMRidolfiPagani.Services {
+namespace progettoUMRidolfiPagani.Services
+{
     public class DashboardService : IDashboardService
     {
         private readonly IArticoloService _articoloService;
@@ -19,6 +21,36 @@ namespace progettoUMRidolfiPagani.Services {
             _movimentoService = movimentoService;
             _magazzinoService = magazzinoService;
             _storicoService = storicoService;
+        }
+
+        public async Task<int> GetNumeroTotaleArticoliAsync()
+        {
+            return await _articoloService.GetArticoliCountAsync();
+        }
+
+        public async Task<int> GetNumeroTotaleMovimentiAsync()
+        {
+            return await _movimentoService.GetMovimentiCountAsync();
+        }
+
+        public async Task<int> GetNumeroPosizioniDisponibiliAsync()
+        {
+            return await _magazzinoService.GetPosizioniDisponibiliCountAsync();
+        }
+
+        public async Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync()
+        {
+            return await _articoloService.GetArticoliInEsaurimentoAsync();
+        }
+
+        public async Task<IEnumerable<Movimento>> GetDatiGraficoMovimentiAsync()
+        {
+            return await _movimentoService.GetDatiGraficoMovimentiAsync();
+        }
+
+        public async Task<double> GetMediaGiorniPermanenzaAsync()
+        {
+            return await _movimentoService.GetMediaGiorniPermanenzaAsync();
         }
 
         public async Task<DashboardViewModel> GetDashboardDataAsync()

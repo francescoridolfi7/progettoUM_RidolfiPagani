@@ -3,6 +3,7 @@ using progettoUMRidolfiPagani.Services;
 using progettoUMRidolfiPagani.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using progettoUMRidolfiPagani.Services.Interface;
 
 namespace progettoUMRidolfiPagani.Controllers
 {
@@ -18,14 +19,14 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Articoli
         public async Task<IActionResult> Index()
         {
-            var articoli = await _articoloService.GetAllArticoliAsync();
+            var articoli = await _articoloService.GetAllAsync();
             return View(articoli);
         }
 
         // GET: Articoli/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var articolo = await _articoloService.GetArticoloByIdAsync(id);
+            var articolo = await _articoloService.GetByIdAsync(id);
             if (articolo == null)
             {
                 return NotFound();
@@ -46,7 +47,7 @@ namespace progettoUMRidolfiPagani.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _articoloService.AddArticoloAsync(articolo);
+                await _articoloService.CreateAsync(articolo);
                 return RedirectToAction(nameof(Index));
             }
             return View(articolo);
@@ -55,7 +56,7 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Articoli/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var articolo = await _articoloService.GetArticoloByIdAsync(id);
+            var articolo = await _articoloService.GetByIdAsync(id);
             if (articolo == null)
             {
                 return NotFound();
@@ -77,7 +78,7 @@ namespace progettoUMRidolfiPagani.Controllers
             {
                 try
                 {
-                    await _articoloService.UpdateArticoloAsync(articolo);
+                    await _articoloService.UpdateAsync(articolo);
                 }
                 catch (Exception ex)
                 {
@@ -92,7 +93,7 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Articoli/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var articolo = await _articoloService.GetArticoloByIdAsync(id);
+            var articolo = await _articoloService.GetByIdAsync(id);
             if (articolo == null)
             {
                 return NotFound();
@@ -105,7 +106,7 @@ namespace progettoUMRidolfiPagani.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _articoloService.DeleteArticoloAsync(id);
+            await _articoloService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -119,7 +120,7 @@ namespace progettoUMRidolfiPagani.Controllers
         [HttpPost]
         public async Task<IActionResult> Search(string searchTerm)
         {
-            var results = await _articoloService.SearchArticoliAsync(searchTerm);
+            var results = await _articoloService.SearchAsync(searchTerm);
             return View("Index", results);
         }
     }

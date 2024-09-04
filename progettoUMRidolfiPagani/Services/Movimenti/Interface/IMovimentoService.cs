@@ -13,6 +13,18 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneFinaleId);
         Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int articoloId);
         Task<IEnumerable<Movimento>> GetMovimentiRecentiAsync(int days);
+        Task<int> GetMovimentiCountAsync();
+        Task<IEnumerable<Movimento>> GetDatiGraficoMovimentiAsync();
+        Task<double> GetMediaGiorniPermanenzaAsync();
+        Task<StatisticheMovimentiViewModel> GetStatisticheMovimentiAsync();
+        Task RegistraIngressoAsync(int articoloId, int posizione, int quantita);
+        Task RegistraUscitaAsync(int articoloId, int quantita);
+        Task SpostaArticoloAsync(int articoloId, int posizione, int nuovaPosizione);
+        Task<IEnumerable<Movimento>> GetStoricoMovimentiAsync(int articoloId);
+
+
+
     }
 }
-  
+
+

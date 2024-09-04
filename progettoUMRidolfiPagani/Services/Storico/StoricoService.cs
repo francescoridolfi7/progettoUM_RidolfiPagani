@@ -85,6 +85,47 @@ namespace progettoUMRidolfiPagani.Services
                 .OrderByDescending(m => m.DataMovimento)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Movimento>> GetStoricoCompletoAsync()
+        {
+            return await _context.Movimenti
+                .Include(m => m.Articolo)
+                .Include(m => m.PosizioneIniziale)
+                .Include(m => m.PosizioneFinale)
+                .OrderBy(m => m.DataMovimento)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Movimento>> GetStoricoByArticoloIdAsync(int articoloId)
+        {
+            return await _context.Movimenti
+                .Where(m => m.ArticoloId == articoloId)
+                .Include(m => m.PosizioneIniziale)
+                .Include(m => m.PosizioneFinale)
+                .OrderBy(m => m.DataMovimento)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Movimento>> GetStoricoFiltratoAsync(StoricoFiltraViewModel filtro)
+        {
+            return await _context.Movimenti
+                .Where(m => m.DataMovimento >= filtro.DataInizio && m.DataMovimento <= filtro.DataFine)
+                .Include(m => m.Articolo)
+                .Include(m => m.PosizioneIniziale)
+                .Include(m => m.PosizioneFinale)
+                .OrderBy(m => m.DataMovimento)
+                .ToListAsync();
+        }
+
+        public async Task<Movimento> GetMovimentoDettagliByIdAsync(int movimentoId)
+        {
+            return await _context.Movimenti
+                .Include(m => m.Articolo)
+                .Include(m => m.PosizioneIniziale)
+                .Include(m => m.PosizioneFinale)
+                .FirstOrDefaultAsync(m => m.Id == movimentoId);
+        }
+
     }
 
 }

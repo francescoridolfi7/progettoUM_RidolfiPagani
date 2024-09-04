@@ -18,10 +18,6 @@ namespace progettoUMRidolfiPagani.Services
             return await _context.Posizioni.ToListAsync();
         }
 
-        public async Task<Posizione> GetPosizioneByIdAsync(int id)
-        {
-            return await _context.Posizioni.FirstOrDefaultAsync(p => p.Id == id);
-        }
 
         public async Task<bool> CheckDisponibilitaPosizioneAsync(int posizioneId)
         {
@@ -100,6 +96,45 @@ namespace progettoUMRidolfiPagani.Services
                 .Include(a => a.Movimenti)
                 .ToListAsync();
         }
+
+        public async Task<int> GetPosizioniDisponibiliCountAsync()
+        {
+            return await _context.Posizioni.CountAsync(p => p.Occupata == false);
+        }
+
+        public async Task<Posizione> GetPosizioneByIdAsync(int id)
+        {
+            return await _context.Posizioni.FindAsync(id);
+        }
+
+        public async Task<Posizione> GetPosizioneByCodiceArticoloAsync(string codiceArticolo)
+        {
+            return await _context.Posizioni.FirstOrDefaultAsync(p => p.Articoli.Any(a => a.Codice == codiceArticolo));
+        }
+
+        public async Task UpdateQuantitaPosizioneAsync(int id, int nuovaQuantita)
+        {
+            var posizione = await _context.Posizioni.FindAsync(id);
+            if (posizione != null)
+            {
+                posizione.Quantita = nuovaQuantita;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<Movimento>> GetStoricoMovimentiPosizioneAsync(int id)
+        {
+            return await _context.Movimenti
+                .Where(m => m.PosizioneInizialeId == id || m.PosizioneFinaleId == id)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetArticoliInMagazzinoCountAsync()
+        {
+            return await _context.Articoli.CountAsync(a => a.PosizioneId != null);
+        }
+
     }
 }
+
 

@@ -21,14 +21,14 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Movimenti
         public async Task<IActionResult> Index()
         {
-            var movimenti = await _movimentoService.GetAllMovimentiAsync();
+            var movimenti = await _movimentoService.GetAllAsync();
             return View(movimenti);
         }
 
         // GET: Movimenti/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var movimento = await _movimentoService.GetMovimentoByIdAsync(id);
+            var movimento = await _movimentoService.GetByIdAsync(id);
             if (movimento == null)
             {
                 return NotFound();
@@ -39,7 +39,7 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Movimenti/Ingresso
         public async Task<IActionResult> Ingresso()
         {
-            var articoli = await _articoloService.GetAllArticoliAsync();
+            var articoli = await _articoloService.GetAllAsync();
             ViewBag.Articoli = articoli;
             return View();
         }
@@ -47,20 +47,21 @@ namespace progettoUMRidolfiPagani.Controllers
         // POST: Movimenti/Ingresso
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Ingresso([Bind("ArticoloId,Posizione,Quantita")] Movimento movimento)
+        public async Task<IActionResult> Ingresso([Bind("ArticoloId,PosizioneId,Quantita")] Movimento movimento)
         {
             if (ModelState.IsValid)
             {
-                await _movimentoService.RegistraIngressoAsync(movimento.ArticoloId, movimento.Posizione, movimento.Quantita);
+                await _movimentoService.RegistraIngressoAsync(movimento.ArticoloId, movimento.PosizioneInizialeId.Value, movimento.Articolo.Quantita);
                 return RedirectToAction(nameof(Index));
             }
             return View(movimento);
         }
 
+
         // GET: Movimenti/Uscita
         public async Task<IActionResult> Uscita()
         {
-            var articoli = await _articoloService.GetAllArticoliAsync();
+            var articoli = await _articoloService.GetAllAsync();
             ViewBag.Articoli = articoli;
             return View();
         }
@@ -72,7 +73,7 @@ namespace progettoUMRidolfiPagani.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _movimentoService.RegistraUscitaAsync(movimento.ArticoloId, movimento.Quantita);
+                await _movimentoService.RegistraUscitaAsync(movimento.ArticoloId, movimento.Articolo.Quantita);
                 return RedirectToAction(nameof(Index));
             }
             return View(movimento);
@@ -81,7 +82,7 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Movimenti/Spostamento
         public async Task<IActionResult> Spostamento()
         {
-            var articoli = await _articoloService.GetAllArticoliAsync();
+            var articoli = await _articoloService.GetAllAsync();
             ViewBag.Articoli = articoli;
             return View();
         }
@@ -89,11 +90,11 @@ namespace progettoUMRidolfiPagani.Controllers
         // POST: Movimenti/Spostamento
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Spostamento([Bind("ArticoloId,Posizione,NuovaPosizione")] Movimento movimento)
+        public async Task<IActionResult> Spostamento([Bind("ArticoloId,PosizioneInizialeId,PosizioneFinaleId")] Movimento movimento)
         {
             if (ModelState.IsValid)
             {
-                await _movimentoService.SpostaArticoloAsync(movimento.ArticoloId, movimento.Posizione, movimento.NuovaPosizione);
+                await _movimentoService.SpostaArticoloAsync(movimento.ArticoloId, movimento.PosizioneInizialeId.Value, movimento.PosizioneFinaleId.Value);
                 return RedirectToAction(nameof(Index));
             }
             return View(movimento);

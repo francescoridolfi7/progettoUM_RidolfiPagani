@@ -10,6 +10,11 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<decimal> CalcolaMediaGiorniPermanenzaAsync();
         Task<IEnumerable<Articolo>> GetArticoliPiuVecchiAsync(int count);
         Task<IEnumerable<Movimento>> GetMovimentiRecentiAsync(int days);
+        Task<IEnumerable<Movimento>> GetStoricoCompletoAsync();
+        Task<IEnumerable<Movimento>> GetStoricoByArticoloIdAsync(int articoloId);
+        Task<IEnumerable<Movimento>> GetStoricoFiltratoAsync(StoricoFiltraViewModel filtro);
+        Task<Movimento> GetMovimentoDettagliByIdAsync(int movimentoId);
+
     }
 }
 
