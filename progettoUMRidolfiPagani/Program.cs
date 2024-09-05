@@ -24,7 +24,7 @@ namespace progettoUMRidolfiPagani
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    var context = services.GetRequiredService<MagazzinoDbContext>();
                     context.Database.Migrate(); // Applies any pending migrations at startup
                 }
                 catch (Exception ex)

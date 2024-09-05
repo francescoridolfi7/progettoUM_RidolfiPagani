@@ -5,9 +5,9 @@ namespace progettoUMRidolfiPagani.Services
 {
     public class ArticoloService : IArticoloService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MagazzinoDbContext _context;
 
-        public ArticoloService(ApplicationDbContext context)
+        public ArticoloService(MagazzinoDbContext context)
         {
             _context = context;
         }

@@ -10,7 +10,6 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<Movimento> CreateAsync(Movimento movimento);
         Task<Movimento> UpdateAsync(Movimento movimento);
         Task DeleteAsync(int id);
-        Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneFinaleId);
         Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int articoloId);
         Task<IEnumerable<Movimento>> GetMovimentiRecentiAsync(int days);
         Task<int> GetMovimentiCountAsync();
@@ -19,7 +18,7 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<StatisticheMovimentiViewModel> GetStatisticheMovimentiAsync();
         Task RegistraIngressoAsync(int articoloId, int posizione, int quantita);
         Task RegistraUscitaAsync(int articoloId, int quantita);
-        Task SpostaArticoloAsync(int articoloId, int posizione, int nuovaPosizione);
+        Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneInizialeId, int posizioneFinaleId);
         Task<IEnumerable<Movimento>> GetStoricoMovimentiAsync(int articoloId);
 
 

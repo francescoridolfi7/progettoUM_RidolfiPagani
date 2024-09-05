@@ -6,9 +6,9 @@ namespace progettoUMRidolfiPagani.Services
 {
     public class MagazzinoService : IMagazzinoService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MagazzinoDbContext _context;
 
-        public MagazzinoService(ApplicationDbContext context)
+        public MagazzinoService(MagazzinoDbContext context)
         {
             _context = context;
         }

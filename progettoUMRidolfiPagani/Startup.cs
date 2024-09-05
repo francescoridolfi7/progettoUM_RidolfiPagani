@@ -28,7 +28,7 @@ namespace progettoUMRidolfiPagani
         public void ConfigureServices(IServiceCollection services)
         {
             // Configurazione del DbContext con SQL Server (o altro database)
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<MagazzinoDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 

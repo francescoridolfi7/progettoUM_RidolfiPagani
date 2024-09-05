@@ -6,9 +6,9 @@ namespace progettoUMRidolfiPagani.Services
 {
     public class MovimentoService : IMovimentoService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MagazzinoDbContext _context;
 
-        public MovimentoService(ApplicationDbContext context)
+        public MovimentoService(MagazzinoDbContext context)
         {
             _context = context;
         }
@@ -55,36 +55,45 @@ namespace progettoUMRidolfiPagani.Services
             }
         }
 
-        public async Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneFinaleId)
+        public async Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneInizialeId, int posizioneFinaleId)
         {
+            // Trova l'articolo da spostare
             var articolo = await _context.Articoli.Include(a => a.Movimenti).FirstOrDefaultAsync(a => a.Id == articoloId);
             if (articolo == null)
             {
                 throw new ArgumentException("Articolo non trovato");
             }
 
-            var posizioneIniziale = articolo.Movimenti.OrderByDescending(m => m.DataMovimento).FirstOrDefault()?.PosizioneFinale;
+            // Trova la posizione iniziale e finale
+            var posizioneIniziale = await _context.Posizioni.FindAsync(posizioneInizialeId);
             var posizioneFinale = await _context.Posizioni.FindAsync(posizioneFinaleId);
-            if (posizioneFinale == null)
+
+            if (posizioneIniziale == null || posizioneFinale == null)
             {
-                throw new ArgumentException("Posizione finale non trovata");
+                throw new ArgumentException("Posizione iniziale o finale non trovata");
             }
 
+            // Creare un nuovo movimento per registrare lo spostamento
             var nuovoMovimento = new Movimento
             {
                 ArticoloId = articoloId,
-                PosizioneInizialeId = posizioneIniziale?.Id,
+                PosizioneInizialeId = posizioneInizialeId,
                 PosizioneFinaleId = posizioneFinaleId,
                 DataMovimento = DateTime.Now,
-                Quantita = articolo.Quantita,  
-                TipoMovimento = TipoMovimento.Spostamento
+                Quantita = articolo.Quantita,  // Usa la quantità associata all'articolo
+                TipoMovimento = "Spostamento"
             };
 
+            // Aggiorna la posizione corrente dell'articolo
+            articolo.PosizioneId = posizioneFinaleId;
+
+            // Aggiungi il nuovo movimento e salva i cambiamenti nel contesto
             _context.Movimenti.Add(nuovoMovimento);
             await _context.SaveChangesAsync();
 
             return nuovoMovimento;
         }
+
 
         public async Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int articoloId)
         {
@@ -179,32 +188,6 @@ namespace progettoUMRidolfiPagani.Services
 
             _context.Movimenti.Add(movimento);
             await _context.SaveChangesAsync();
-        }
-
-
-        public async Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneInizialeId, int posizioneFinaleId)
-        {
-            var articolo = await _context.Articoli.Include(a => a.Movimenti).FirstOrDefaultAsync(a => a.Id == articoloId);
-            if (articolo == null) throw new ArgumentException("Articolo non trovato");
-
-            var posizioneIniziale = await _context.Posizioni.FindAsync(posizioneInizialeId);
-            var posizioneFinale = await _context.Posizioni.FindAsync(posizioneFinaleId);
-            if (posizioneIniziale == null || posizioneFinale == null) throw new ArgumentException("Posizione non trovata");
-
-            var movimento = new Movimento
-            {
-                ArticoloId = articoloId,
-                PosizioneInizialeId = posizioneInizialeId,
-                PosizioneFinaleId = posizioneFinaleId,
-                Quantita = articolo.Quantita,
-                TipoMovimento = "Spostamento",
-                DataMovimento = DateTime.Now
-            };
-
-            _context.Movimenti.Add(movimento);
-            await _context.SaveChangesAsync();
-
-            return movimento;
         }
 
 

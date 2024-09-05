@@ -6,9 +6,9 @@ namespace progettoUMRidolfiPagani.Services
 {
     public class StoricoService : IStoricoService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly MagazzinoDbContext _context;
 
-        public StoricoService(ApplicationDbContext context)
+        public StoricoService(MagazzinoDbContext context)
         {
             _context = context;
         }
