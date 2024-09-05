@@ -106,16 +106,6 @@ namespace progettoUMRidolfiPagani.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Movimento>> GetStoricoFiltratoAsync(StoricoFiltraViewModel filtro)
-        {
-            return await _context.Movimenti
-                .Where(m => m.DataMovimento >= filtro.DataInizio && m.DataMovimento <= filtro.DataFine)
-                .Include(m => m.Articolo)
-                .Include(m => m.PosizioneIniziale)
-                .Include(m => m.PosizioneFinale)
-                .OrderBy(m => m.DataMovimento)
-                .ToListAsync();
-        }
 
         public async Task<Movimento> GetMovimentoDettagliByIdAsync(int movimentoId)
         {

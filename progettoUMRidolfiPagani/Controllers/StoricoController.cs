@@ -38,18 +38,6 @@ namespace progettoUMRidolfiPagani.Controllers
             return View();
         }
 
-        // POST: Storico/Filtra
-        [HttpPost]
-        public async Task<IActionResult> Filtra(StoricoFiltraViewModel filtro)
-        {
-            if (ModelState.IsValid)
-            {
-                var storicoFiltrato = await _storicoService.GetStoricoFiltratoAsync(filtro);
-                return View("Index", storicoFiltrato);
-            }
-            return View(filtro);
-        }
-
         // GET: Storico/Dettagli/5
         public async Task<IActionResult> Dettagli(int id)
         {

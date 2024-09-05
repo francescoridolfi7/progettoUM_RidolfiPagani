@@ -1,5 +1,6 @@
 
 using progettoUMRidolfiPagani.Models;
+using progettoUMRidolfiPagani.ViewModels;
 
 namespace progettoUMRidolfiPagani.Services.Interface
 {

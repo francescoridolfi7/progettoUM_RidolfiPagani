@@ -7,8 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using progettoUMRidolfiPagani.Data; // Namespace del DbContext
-using Microsoft.EntityFrameworkCore;
+//using progettoUMRidolfiPagani.Data; // Namespace del DbContext
+//using Microsoft.EntityFrameworkCore;
 
 namespace progettoUMRidolfiPagani
 {

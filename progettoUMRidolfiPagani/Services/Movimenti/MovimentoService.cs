@@ -1,6 +1,7 @@
 
 using progettoUMRidolfiPagani.Models;
 using progettoUMRidolfiPagani.Services.Interface;
+using progettoUMRidolfiPagani.ViewModels;
 
 namespace progettoUMRidolfiPagani.Services
 {
@@ -144,7 +145,7 @@ namespace progettoUMRidolfiPagani.Services
 
             var viewModel = new StatisticheMovimentiViewModel
             {
-                TotaleMovimenti = totaleMovimenti,
+                NumeroTotaleMovimenti = totaleMovimenti,
                 MovimentiPerTipo = movimentiPerTipo.ToDictionary(m => m.TipoMovimento.ToString(), m => m.Conteggio)
             };
 
