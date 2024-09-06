@@ -64,7 +64,7 @@ namespace progettoUMRidolfiPagani.Services
 
             return new DashboardViewModel
             {
-                ArticoliTotali = articoliTotali,
+                NumeroTotaleArticoli = articoliTotali,
                 ArticoliInMagazzino = articoliInMagazzino,
                 MovimentiRecenti = movimentiRecenti,
                 MediaGiorniPermanenza = mediaPermanenza,

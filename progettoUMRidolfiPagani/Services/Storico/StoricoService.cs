@@ -1,5 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
 using progettoUMRidolfiPagani.Models;
+using progettoUMRidolfiPagani.Repository;
 using progettoUMRidolfiPagani.Services.Interface;
 
 namespace progettoUMRidolfiPagani.Services
@@ -49,7 +51,7 @@ namespace progettoUMRidolfiPagani.Services
             return ultimoMovimento - primoMovimento;
         }
 
-        public async Task<decimal> CalcolaMediaGiorniPermanenzaAsync()
+        public async Task<double> CalcolaMediaGiorniPermanenzaAsync()
         {
             var articoli = await _context.Articoli.ToListAsync();
             var totalDays = 0;
@@ -62,7 +64,7 @@ namespace progettoUMRidolfiPagani.Services
                 count++;
             }
 
-            return count > 0 ? (decimal)totalDays / count : 0;
+            return count > 0 ? totalDays / count : 0;
         }
 
         public async Task<IEnumerable<Articolo>> GetArticoliPiuVecchiAsync(int count)

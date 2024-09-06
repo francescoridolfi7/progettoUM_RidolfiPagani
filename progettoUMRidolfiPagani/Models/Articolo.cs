@@ -9,7 +9,9 @@ namespace progettoUMRidolfiPagani.Models
         public DateTime? DataUscita { get; set; }
         public string Stato { get; set; }  // "In Magazzino", "Consegnato", "Difettoso"
         public int Quantita { get; set; }  // Quantità di articoli 
+        public int PosizioneId { get; set; }
         public ICollection<Movimento> Movimenti { get; set; }  // Storico dei movimenti dell'articolo
+        public int SogliaMinima { get; set; }
     }
 
 }

@@ -1,5 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
 using progettoUMRidolfiPagani.Models;
+using progettoUMRidolfiPagani.Repository;
 using progettoUMRidolfiPagani.Services.Interface;
 using progettoUMRidolfiPagani.ViewModels;
 
@@ -82,7 +84,7 @@ namespace progettoUMRidolfiPagani.Services
                 PosizioneFinaleId = posizioneFinaleId,
                 DataMovimento = DateTime.Now,
                 Quantita = articolo.Quantita,  // Usa la quantità associata all'articolo
-                TipoMovimento = "Spostamento"
+                TipoMovimento = TipoMovimento.Spostamento
             };
 
             // Aggiorna la posizione corrente dell'articolo
@@ -132,8 +134,18 @@ namespace progettoUMRidolfiPagani.Services
 
         public async Task<double> GetMediaGiorniPermanenzaAsync()
         {
-            return await _context.Movimenti.AverageAsync(m => EF.Functions.DateDiffDay(m.DataInizio, m.DataFine));
+            var movimenti = await _context.Movimenti.ToListAsync();
+
+            if (movimenti.Count == 0)
+                return 0;
+
+            var permanenze = movimenti
+                .Where(m => m.TipoMovimento == TipoMovimento.Uscita && m.DataMovimento != null)
+                .Select(m => (m.DataMovimento - m.Articolo.DataArrivo).TotalDays);
+
+            return permanenze.Average();
         }
+
 
         public async Task<StatisticheMovimentiViewModel> GetStatisticheMovimentiAsync()
         {
@@ -165,7 +177,7 @@ namespace progettoUMRidolfiPagani.Services
                 ArticoloId = articoloId,
                 PosizioneFinaleId = posizioneId,
                 Quantita = quantita,
-                TipoMovimento = "Ingresso",
+                TipoMovimento = TipoMovimento.Ingresso,
                 DataMovimento = DateTime.Now
             };
 
@@ -183,7 +195,7 @@ namespace progettoUMRidolfiPagani.Services
                 ArticoloId = articoloId,
                 PosizioneInizialeId = articolo.PosizioneId,
                 Quantita = quantita,
-                TipoMovimento = "Uscita",
+                TipoMovimento = TipoMovimento.Uscita,
                 DataMovimento = DateTime.Now
             };
 

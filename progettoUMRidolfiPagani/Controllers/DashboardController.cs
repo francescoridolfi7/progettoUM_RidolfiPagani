@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using progettoUMRidolfiPagani.Services;
 using progettoUMRidolfiPagani.Services.Interface;
+using progettoUMRidolfiPagani.ViewModels;
 using System.Threading.Tasks;
 
 namespace progettoUMRidolfiPagani.Controllers
@@ -22,12 +23,12 @@ namespace progettoUMRidolfiPagani.Controllers
         {
             var dashboardViewModel = new DashboardViewModel
             {
-                NumeroTotaleArticoli = await _dashboardService.GetDashboardDataAsync().Result.NumeroTotaleArticoli,
-                NumeroTotaleMovimenti = await _dashboardService.GetDashboardDataAsync().Result.NumeroTotaleMovimenti,
-                NumeroPosizioniDisponibili = await _dashboardService.GetDashboardDataAsync().Result.NumeroPosizioniDisponibili,
-                ArticoliInEsaurimento = await _dashboardService.GetDashboardDataAsync().Result.ArticoliInEsaurimento,
-                GraficoMovimenti = await _dashboardService.GetDashboardDataAsync().Result.GraficoMovimenti,
-                MediaGiorniPermanenza = await _dashboardService.GetDashboardDataAsync().Result.MediaGiorniPermanenza
+                NumeroTotaleArticoli = await _dashboardService.GetNumeroTotaleArticoliAsync(),
+                NumeroTotaleMovimenti = await _dashboardService.GetNumeroTotaleMovimentiAsync(),
+                NumeroPosizioniDisponibili = await _dashboardService.GetNumeroPosizioniDisponibiliAsync(),
+                ArticoliInEsaurimento = await _dashboardService.GetArticoliInEsaurimentoAsync(),
+                GraficoMovimenti = await _dashboardService.GetDatiGraficoMovimentiAsync(),
+                MediaGiorniPermanenza = await _dashboardService.GetMediaGiorniPermanenzaAsync()
             };
 
             return View(dashboardViewModel);
@@ -36,7 +37,7 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Dashboard/ArticoliInEsaurimento
         public async Task<IActionResult> ArticoliInEsaurimento()
         {
-            var articoliInEsaurimento = await _dashboardService.GetDashboardDataAsync().Result.ArticoliInEsaurimento;
+            var articoliInEsaurimento = await _dashboardService.GetArticoliInEsaurimentoAsync();
             return View(articoliInEsaurimento);
         }
 
@@ -50,7 +51,7 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Dashboard/GraficoMovimenti
         public async Task<IActionResult> GraficoMovimenti()
         {
-            var datiGrafico = await _dashboardService.GetDashboardDataAsync().Result.GraficoMovimenti;
+            var datiGrafico = await _dashboardService.GetDatiGraficoMovimentiAsync();
             return Json(datiGrafico); // Restituisce i dati come JSON per l'integrazione con un grafico frontend
         }
     }
