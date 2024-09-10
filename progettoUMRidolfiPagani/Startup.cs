@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using progettoUMRidolfiPagani.Services; // Namespace dei Services
 using progettoUMRidolfiPagani.Services.Interface;
 using progettoUMRidolfiPagani.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace progettoUMRidolfiPagani
 {
@@ -28,7 +29,7 @@ namespace progettoUMRidolfiPagani
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configurazione del DbContext con SQL Server (o altro database)
+            // Configurazione del DbContext con SQL Server 
             services.AddDbContext<MagazzinoDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -89,7 +90,7 @@ namespace progettoUMRidolfiPagani
                 // Definizione delle route per i controller
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
 
             });
