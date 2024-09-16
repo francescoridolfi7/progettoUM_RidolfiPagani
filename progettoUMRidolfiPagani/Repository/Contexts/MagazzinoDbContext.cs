@@ -12,7 +12,6 @@ namespace progettoUMRidolfiPagani.Repository
 
         public DbSet<Articolo> Articoli { get; set; }
         public DbSet<ArticoloDifettoso> ArticoliDifettosi { get; set; }
-        public DbSet<Magazzino> Magazzini { get; set; }
         public DbSet<Movimento> Movimenti { get; set; }
         public DbSet<Posizione> Posizioni { get; set; }
         public DbSet<Storico> Storico { get; set; }

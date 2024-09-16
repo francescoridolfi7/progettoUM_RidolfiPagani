@@ -9,26 +9,26 @@ namespace progettoUMRidolfiPagani.Controllers
 {
     public class MagazzinoController : Controller
     {
-        private readonly IMagazzinoService _magazzinoService;
+        private readonly IPosizioneService _posizioneService;
         private readonly IArticoloService _articoloService;
 
-        public MagazzinoController(IMagazzinoService magazzinoService, IArticoloService articoloService)
+        public MagazzinoController(IPosizioneService posizioneService, IArticoloService articoloService)
         {
-            _magazzinoService = magazzinoService;
+            _posizioneService = posizioneService;
             _articoloService = articoloService;
         }
 
         // GET: Magazzino
         public async Task<IActionResult> Index()
         {
-            var posizioni = await _magazzinoService.GetAllPosizioniAsync();
+            var posizioni = await _posizioneService.GetAllPosizioniAsync();
             return View(posizioni);
         }
 
         // GET: Magazzino/DettagliPosizione/5
         public async Task<IActionResult> DettagliPosizione(int id)
         {
-            var posizione = await _magazzinoService.GetPosizioneByIdAsync(id);
+            var posizione = await _posizioneService.GetPosizioneByIdAsync(id);
             if (posizione == null)
             {
                 return NotFound();
@@ -46,7 +46,7 @@ namespace progettoUMRidolfiPagani.Controllers
         [HttpPost]
         public async Task<IActionResult> Ricerca(string codiceArticolo)
         {
-            var posizione = await _magazzinoService.GetPosizioneByCodiceArticoloAsync(codiceArticolo);
+            var posizione = await _posizioneService.GetPosizioneByCodiceArticoloAsync(codiceArticolo);
             if (posizione == null)
             {
                 return NotFound($"Articolo con codice {codiceArticolo} non trovato nel magazzino.");
@@ -57,7 +57,7 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Magazzino/ControlloQuantita/5
         public async Task<IActionResult> ControlloQuantita(int id)
         {
-            var posizione = await _magazzinoService.GetPosizioneByIdAsync(id);
+            var posizione = await _posizioneService.GetPosizioneByIdAsync(id);
             if (posizione == null)
             {
                 return NotFound();
@@ -74,22 +74,22 @@ namespace progettoUMRidolfiPagani.Controllers
             {
                 try
                 {
-                    await _magazzinoService.UpdateQuantitaPosizioneAsync(id, nuovaQuantita);
+                    await _posizioneService.UpdateQuantitaPosizioneAsync(id, nuovaQuantita);
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Non è stato possibile aggiornare la quantità.");
-                    return View("ControlloQuantita", await _magazzinoService.GetPosizioneByIdAsync(id));
+                    return View("ControlloQuantita", await _posizioneService.GetPosizioneByIdAsync(id));
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View("ControlloQuantita", await _magazzinoService.GetPosizioneByIdAsync(id));
+            return View("ControlloQuantita", await _posizioneService.GetPosizioneByIdAsync(id));
         }
 
         // GET: Magazzino/StoricoMovimenti/5
         public async Task<IActionResult> StoricoMovimenti(int id)
         {
-            var storico = await _magazzinoService.GetStoricoMovimentiPosizioneAsync(id);
+            var storico = await _posizioneService.GetStoricoMovimentiPosizioneAsync(id);
             if (storico == null)
             {
                 return NotFound();

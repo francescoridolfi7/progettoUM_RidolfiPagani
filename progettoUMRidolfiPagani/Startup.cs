@@ -36,7 +36,7 @@ public class Startup
             // Registrazione dei servizi personalizzati
             services.AddScoped<IArticoloService, ArticoloService>();
             services.AddScoped<IMovimentoService, MovimentoService>();
-            services.AddScoped<IMagazzinoService, MagazzinoService>();
+            services.AddScoped<IPosizioneService, PosizioneService>();
             services.AddScoped<IStoricoService, StoricoService>();
             services.AddScoped<IDashboardService, DashboardService>();
 

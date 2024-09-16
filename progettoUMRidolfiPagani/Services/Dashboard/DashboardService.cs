@@ -9,18 +9,18 @@ namespace progettoUMRidolfiPagani.Services
     {
         private readonly IArticoloService _articoloService;
         private readonly IMovimentoService _movimentoService;
-        private readonly IMagazzinoService _magazzinoService;
+        private readonly IPosizioneService _posizioneService;
         private readonly IStoricoService _storicoService;
 
         public DashboardService(
             IArticoloService articoloService,
             IMovimentoService movimentoService,
-            IMagazzinoService magazzinoService,
+            IPosizioneService magazzinoService,
             IStoricoService storicoService)
         {
             _articoloService = articoloService;
             _movimentoService = movimentoService;
-            _magazzinoService = magazzinoService;
+            _posizioneService = magazzinoService;
             _storicoService = storicoService;
         }
 
@@ -36,7 +36,7 @@ namespace progettoUMRidolfiPagani.Services
 
         public async Task<int> GetNumeroPosizioniDisponibiliAsync()
         {
-            return await _magazzinoService.GetPosizioniDisponibiliCountAsync();
+            return await _posizioneService.GetPosizioniDisponibiliCountAsync();
         }
 
         public async Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync()
@@ -57,7 +57,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<DashboardViewModel> GetDashboardDataAsync()
         {
             var articoliTotali = await _articoloService.GetArticoliCountAsync();
-            var articoliInMagazzino = await _magazzinoService.GetArticoliInMagazzinoCountAsync();
+            var articoliInMagazzino = await _posizioneService.GetArticoliInMagazzinoCountAsync();
             var movimentiRecenti = await _storicoService.GetMovimentiRecentiAsync(7);
             var mediaPermanenza = await _storicoService.CalcolaMediaGiorniPermanenzaAsync();
             var articoliDifettosi = await _articoloService.GetArticoliDifettosiCountAsync();

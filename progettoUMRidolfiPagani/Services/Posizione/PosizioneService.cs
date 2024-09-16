@@ -6,11 +6,11 @@ using progettoUMRidolfiPagani.Services.Interface;
 
 namespace progettoUMRidolfiPagani.Services
 {
-    public class MagazzinoService : IMagazzinoService
+    public class PosizioneService : IPosizioneService
     {
         private readonly MagazzinoDbContext _context;
 
-        public MagazzinoService(MagazzinoDbContext context)
+        public PosizioneService(MagazzinoDbContext context)
         {
             _context = context;
         }
@@ -131,9 +131,14 @@ namespace progettoUMRidolfiPagani.Services
                 .ToListAsync();
         }
 
-        public async Task<int> GetArticoliInMagazzinoCountAsync()
+        public async Task<int> GetArticoliInPosizioneCountAsync()
         {
             return await _context.Articoli.CountAsync(a => a.PosizioneId != null);
+        }
+
+        public async Task<int> GetArticoliInMagazzinoCountAsync()
+        {
+            return await _context.Articoli.SumAsync(a => a.Quantita);
         }
 
     }

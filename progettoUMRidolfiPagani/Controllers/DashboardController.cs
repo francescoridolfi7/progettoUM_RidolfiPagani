@@ -10,7 +10,6 @@ namespace progettoUMRidolfiPagani.Controllers
     {
         private readonly IDashboardService _dashboardService;
         private readonly IMovimentoService _movimentoService;
-        private readonly IMagazzinoService _magazzinoService;
 
         public DashboardController(IDashboardService dashboardService)
         {

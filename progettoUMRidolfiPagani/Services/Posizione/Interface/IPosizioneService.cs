@@ -3,7 +3,7 @@ using progettoUMRidolfiPagani.Models;
 
 namespace progettoUMRidolfiPagani.Services.Interface
 {
-    public interface IMagazzinoService
+    public interface IPosizioneService
     {
         Task<IEnumerable<Posizione>> GetAllPosizioniAsync();
         Task<Posizione> GetPosizioneByIdAsync(int id);
@@ -15,9 +15,10 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<IEnumerable<Articolo>> GetArticoliInPosizioneAsync(int posizioneId);
         Task<int> GetPosizioniDisponibiliCountAsync();
         Task<Posizione> GetPosizioneByCodiceArticoloAsync(string codiceArticolo);
+        Task<int> GetArticoliInMagazzinoCountAsync();
         Task UpdateQuantitaPosizioneAsync(int id, int nuovaQuantita);
         Task<IEnumerable<Movimento>> GetStoricoMovimentiPosizioneAsync(int id);
-        Task<int> GetArticoliInMagazzinoCountAsync();
+        Task<int> GetArticoliInPosizioneCountAsync();
 
     }
 
