@@ -1,0 +1,27 @@
+@model progettoUMRidolfiPagani.Models.Storico
+
+@{
+    ViewData["Title"] = "Crea Storico";
+}
+
+<h1>Crea Nuovo Storico</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="DataEvento" class="control-label"></label>
+        <input asp-for="DataEvento" class="form-control" />
+        <span asp-validation-for="DataEvento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DescrizioneEvento" class="control-label"></label>
+        <input asp-for="DescrizioneEvento" class="form-control" />
+        <span asp-validation-for="DescrizioneEvento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Crea" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Torna alla lista</a>
+</div>

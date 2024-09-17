@@ -1,0 +1,31 @@
+@model progettoUMRidolfiPagani.Models.Storico
+
+@{
+    ViewData["Title"] = "Dettagli Storico";
+}
+
+<h1>Dettagli Storico</h1>
+
+<div>
+    <h4>Storico</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataOperazione)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataOperazione)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DescrizioneOperazione)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DescrizioneOperazione)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Modifica</a> |
+    <a asp-action="Index">Torna alla lista</a>
+</div>

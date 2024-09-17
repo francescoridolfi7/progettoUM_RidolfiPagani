@@ -1,0 +1,37 @@
+@model IEnumerable<progettoUMRidolfiPagani.Models.ArticoloDifettoso>
+
+    @{
+    ViewData["Title"] = "Elenco Articoli Difettosi";
+    }
+
+    <h1>Elenco Articoli Difettosi</h1>
+
+    <p>
+        <a asp-action="Create">Crea Nuovo Articolo Difettoso</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Articolo.Codice)</th>
+                <th>@Html.DisplayNameFor(model => model.Articolo.Descrizione)</th>
+                <th>@Html.DisplayNameFor(model => model.DataSegnalazione)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+    {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Articolo.Codice)</td>
+                <td>@Html.DisplayFor(modelItem => item.Articolo.Descrizione)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataSegnalazione)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>

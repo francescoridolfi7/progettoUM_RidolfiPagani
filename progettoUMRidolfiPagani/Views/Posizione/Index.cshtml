@@ -1,0 +1,35 @@
+@model IEnumerable<progettoUMRidolfiPagani.Models.Posizione>
+
+    @{
+    ViewData["Title"] = "Index";
+    }
+
+    <h1>Elenco Posizioni</h1>
+
+    <p>
+        <a asp-action="Create">Crea Nuova Posizione</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Codice)</th>
+                <th>@Html.DisplayNameFor(model => model.Descrizione)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+    {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Codice)</td>
+                <td>@Html.DisplayFor(modelItem => item.Descrizione)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>

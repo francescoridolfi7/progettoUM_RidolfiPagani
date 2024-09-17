@@ -79,7 +79,7 @@ public class Startup
                 // Definizione delle route per i controller
             endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+                pattern: "{controller=Posizione}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
 
         });

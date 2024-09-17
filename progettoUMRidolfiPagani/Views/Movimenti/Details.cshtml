@@ -1,0 +1,49 @@
+@model progettoUMRidolfiPagani.Models.Movimento
+
+@{
+    ViewData["Title"] = "Dettagli Movimento";
+}
+
+<h1>Dettagli Movimento</h1>
+
+<div>
+    <h4>Movimento</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataMovimento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataMovimento)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantita)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quantita)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TipoMovimento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoMovimento)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ArticoloId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ArticoloId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PosizioneIniziale.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PosizioneIniziale.Id)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Modifica</a> |
+    <a asp-action="Index">Torna alla lista</a>
+</div>

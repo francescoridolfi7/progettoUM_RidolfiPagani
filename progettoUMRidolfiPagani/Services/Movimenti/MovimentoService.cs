@@ -134,17 +134,19 @@ namespace progettoUMRidolfiPagani.Services
 
         public async Task<double> GetMediaGiorniPermanenzaAsync()
         {
+            // Recupera tutti i movimenti dal contesto
             var movimenti = await _context.Movimenti.ToListAsync();
 
-            if (movimenti.Count == 0)
-                return 0;
+            // Calcola la media dei giorni di permanenza, ignorando i movimenti senza TempoPermanenza
+            var mediaPermanenza = movimenti
+                .Where(m => m.TempoPermanenza.HasValue)  // Controllo null per TempoPermanenza
+                .Select(m => m.TempoPermanenza.Value.TotalDays)  // Accede al valore solo se esiste
+                .DefaultIfEmpty(0)  // Ritorna 0 se non ci sono movimenti validi
+                .Average();  // Calcola la media
 
-            var permanenze = movimenti
-                .Where(m => m.TipoMovimento == TipoMovimento.Uscita && m.DataMovimento != null)
-                .Select(m => (m.DataMovimento - m.Articolo.DataArrivo).TotalDays);
-
-            return permanenze.Average();
+            return mediaPermanenza;
         }
+
 
 
         public async Task<StatisticheMovimentiViewModel> GetStatisticheMovimentiAsync()

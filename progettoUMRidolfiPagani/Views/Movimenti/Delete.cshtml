@@ -1,0 +1,52 @@
+@model progettoUMRidolfiPagani.Models.Movimento
+
+@{
+    ViewData["Title"] = "Elimina Movimento";
+}
+
+<h1>Sei sicuro di voler eliminare questo movimento?</h1>
+
+<div>
+    <h4>Movimento</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataMovimento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataMovimento)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantita)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quantita)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TipoMovimento)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoMovimento)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ArticoloId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ArticoloId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PosizioneIniziale.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PosizioneIniziale.Id)
+        </dd>
+    </dl>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <input type="submit" value="Elimina" class="btn btn-danger" /> |
+        <a asp-action="Index">Annulla</a>
+    </div>
+</form>
