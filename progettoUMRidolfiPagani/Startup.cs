@@ -47,8 +47,16 @@ public class Startup
             // Configurazione di SignalR 
             services.AddSignalR();
 
-        
-    }
+            //serializzatore JSON per preservare i riferimenti circolari
+            services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+        });
+
+
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

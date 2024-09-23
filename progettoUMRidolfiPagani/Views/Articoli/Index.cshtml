@@ -1,35 +1,60 @@
-@model IEnumerable<progettoUMRidolfiPagani.Models.Articolo>
+@model progettoUMRidolfiPagani.ViewModels.ArticoliViewModel
 
-    @{
+@{
     ViewData["Title"] = "Index";
-    }
+}
 
+<div id="articoli">
     <h1>Elenco Articoli</h1>
 
+    <!-- Form per la ricerca -->
+    <form @@submit.prevent="searchByCodice">
+        <input type="text" v-model="codice" placeholder="Cerca per codice">
+        <button type="submit">Cerca</button>
+    </form>
+
+    <form @@submit.prevent="searchArticoli">
+        <input type="text" v-model="searchString" placeholder="Cerca articoli">
+        <button type="submit">Cerca</button>
+    </form>
+
+    <!-- Mostra totale articoli e articoli difettosi -->
+    <p>Totale articoli: {{ totaleArticoli }}</p>
+    <p>Articoli difettosi: {{ articoliDifettosi }}</p>
+
     <p>
-        <a asp-action="Create">Crea Nuovo Articolo</a>
+        <a href="/Articoli/Create">Registra Nuovo Articolo</a>
     </p>
 
     <table class="table">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(model => model.Codice)</th>
-                <th>@Html.DisplayNameFor(model => model.Descrizione)</th>
+                <th>Codice</th>
+                <th>Descrizione</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-    {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Codice)</td>
-                <td>@Html.DisplayFor(modelItem => item.Descrizione)</td>
+            <tr v-for="articolo in articoli" :key="articolo.Id">
+                <td>{{ articolo.Codice }}</td>
+                <td>{{ articolo.Descrizione }}</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+                    <a :href="`/Articoli/Edit/${articolo.Id}`">Modifica</a> |
+                    <a :href="`/Articoli/Details/${articolo.Id}`">Dettagli</a> |
+                    <a :href="`/Articoli/Delete/${articolo.Id}`">Elimina</a> |
+                    <button @@click="getMovimenti(articolo.Id)">Visualizza Movimenti</button>
                 </td>
             </tr>
-    }
         </tbody>
     </table>
+
+    <h2>Articoli in esaurimento</h2>
+    <ul>
+        <li v-for="articolo in articoliInEsaurimento" :key="articolo.Id">
+            {{ articolo.Codice }} - {{ articolo.Descrizione }}
+        </li>
+    </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+<script src="/js/articoli.js"></script>

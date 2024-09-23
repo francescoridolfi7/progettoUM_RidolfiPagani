@@ -18,7 +18,7 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<double> GetMediaGiorniPermanenzaAsync();
         Task<StatisticheMovimentiViewModel> GetStatisticheMovimentiAsync();
         Task RegistraIngressoAsync(int articoloId, int posizione, int quantita);
-        Task RegistraUscitaAsync(int articoloId, int quantita);
+        Task RegistraUscitaAsync(int articoloId, int quantita, int posizione);
         Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneInizialeId, int posizioneFinaleId);
         Task<IEnumerable<Movimento>> GetStoricoMovimentiAsync(int articoloId);
 

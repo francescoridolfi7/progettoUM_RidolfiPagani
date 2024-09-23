@@ -4,6 +4,7 @@ using progettoUMRidolfiPagani.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using progettoUMRidolfiPagani.Services.Interface;
+using progettoUMRidolfiPagani.ViewModels;
 
 namespace progettoUMRidolfiPagani.Controllers
 {
@@ -19,9 +20,30 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Articoli
         public async Task<IActionResult> Index()
         {
+            // Ottieni il conteggio totale degli articoli
+            var totalArticoli = await _articoloService.GetArticoliCountAsync();
+
+            // Ottieni il conteggio degli articoli difettosi
+            var articoliDifettosi = await _articoloService.GetArticoliDifettosiCountAsync();
+
+            // Ottieni gli articoli in esaurimento
+            var articoliInEsaurimento = await _articoloService.GetArticoliInEsaurimentoAsync();
+
+            // Ottieni tutti gli articoli
             var articoli = await _articoloService.GetAllAsync();
-            return View(articoli);
+
+            // Crea un ViewModel per passare i dati alla vista
+            var viewModel = new ArticoliViewModel
+            {
+                TotalArticoli = totalArticoli,
+                ArticoliDifettosi = articoliDifettosi,
+                ArticoliInEsaurimento = articoliInEsaurimento,
+                Articoli = articoli.ToList() // se hai bisogno di una lista
+            };
+
+            return View(viewModel);
         }
+
 
         // GET: Articoli/Details/5
         public async Task<IActionResult> Details(int id)
@@ -80,7 +102,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 {
                     await _articoloService.UpdateAsync(articolo);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ModelState.AddModelError("", "Non è stato possibile aggiornare l'articolo.");
                     return View(articolo);
@@ -123,5 +145,43 @@ namespace progettoUMRidolfiPagani.Controllers
             var results = await _articoloService.SearchAsync(searchTerm);
             return View("Index", results);
         }
+
+        // GET: Articoli/GetByCodice
+        [HttpGet]
+        public async Task<IActionResult> GetByCodice(string codice)
+        {
+            var articolo = await _articoloService.GetByCodiceAsync(codice);
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+            return Json(articolo);
+        }
+
+        // GET: Articoli/GetArticoliCount
+        [HttpGet]
+        public async Task<IActionResult> GetArticoliCount()
+        {
+            var count = await _articoloService.GetArticoliCountAsync();
+            return Json(count);
+        }
+
+        // GET: Articoli/GetArticoliDifettosiCount
+        [HttpGet]
+        public async Task<IActionResult> GetArticoliDifettosiCount()
+        {
+            var count = await _articoloService.GetArticoliDifettosiCountAsync();
+            return Json(count);
+        }
+
+        // GET: Articoli/GetArticoliInEsaurimento
+        [HttpGet]
+        public async Task<IActionResult> GetArticoliInEsaurimento()
+        {
+            var articoli = await _articoloService.GetArticoliInEsaurimentoAsync();
+            return Json(articoli);
+        }
+
+
     }
 }

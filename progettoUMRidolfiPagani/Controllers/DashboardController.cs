@@ -6,16 +6,10 @@ using System.Threading.Tasks;
 
 namespace progettoUMRidolfiPagani.Controllers
 {
-    public class DashboardController : Controller
+    public class DashboardController(IDashboardService dashboardService) : Controller
     {
-        private readonly IDashboardService _dashboardService;
+        private readonly IDashboardService _dashboardService = dashboardService;
         private readonly IMovimentoService _movimentoService;
-
-        public DashboardController(IDashboardService dashboardService)
-        {
-            _dashboardService = dashboardService;
-           
-        }
 
         // GET: Dashboard
         public async Task<IActionResult> Index()

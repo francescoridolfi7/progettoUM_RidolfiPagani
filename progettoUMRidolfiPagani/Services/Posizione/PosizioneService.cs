@@ -70,12 +70,14 @@ namespace progettoUMRidolfiPagani.Services
                 // Crea un nuovo movimento per registrare lo spostamento
                 var nuovoMovimento = new Movimento
                 {
-                    ArticoloId = articoloId,
-                    PosizioneInizialeId = articolo.Movimenti.OrderByDescending(m => m.DataMovimento).FirstOrDefault()?.PosizioneFinaleId,
-                    PosizioneFinaleId = nuovaPosizioneId,
+                    Articolo = new Articolo { Id = articoloId },
+                    PosizioneIniziale = articolo.Movimenti.OrderByDescending(m => m.DataMovimento)
+                                        .FirstOrDefault()?.PosizioneFinale,
+                    PosizioneFinale = new Posizione { Id = nuovaPosizioneId },
                     DataMovimento = DateTime.Now,
                     TipoMovimento = TipoMovimento.Spostamento
                 };
+
 
                 _context.Movimenti.Add(nuovoMovimento);
 
@@ -127,14 +129,10 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<IEnumerable<Movimento>> GetStoricoMovimentiPosizioneAsync(int id)
         {
             return await _context.Movimenti
-                .Where(m => m.PosizioneInizialeId == id || m.PosizioneFinaleId == id)
+                .Where(m => m.PosizioneIniziale.Id == id || m.PosizioneFinale.Id == id)
                 .ToListAsync();
         }
 
-        public async Task<int> GetArticoliInPosizioneCountAsync()
-        {
-            return await _context.Articoli.CountAsync(a => a.PosizioneId != null);
-        }
 
         public async Task<int> GetArticoliInMagazzinoCountAsync()
         {

@@ -51,7 +51,7 @@ namespace progettoUMRidolfiPagani.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _movimentoService.RegistraIngressoAsync(movimento.ArticoloId, movimento.PosizioneInizialeId.Value, movimento.Articolo.Quantita);
+                await _movimentoService.RegistraIngressoAsync(movimento.Articolo.Id, movimento.PosizioneIniziale.Id, movimento.Articolo.Quantita);
                 return RedirectToAction(nameof(Index));
             }
             return View(movimento);
@@ -73,7 +73,7 @@ namespace progettoUMRidolfiPagani.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _movimentoService.RegistraUscitaAsync(movimento.ArticoloId, movimento.Articolo.Quantita);
+                await _movimentoService.RegistraUscitaAsync(movimento.Articolo.Id, movimento.Articolo.Quantita, movimento.PosizioneIniziale.Id);
                 return RedirectToAction(nameof(Index));
             }
             return View(movimento);
@@ -94,7 +94,7 @@ namespace progettoUMRidolfiPagani.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _movimentoService.SpostaArticoloAsync(movimento.ArticoloId, movimento.PosizioneInizialeId.Value, movimento.PosizioneFinaleId.Value);
+                await _movimentoService.SpostaArticoloAsync(movimento.Articolo.Id, movimento.PosizioneIniziale.Id, movimento.PosizioneFinale.Id);
                 return RedirectToAction(nameof(Index));
             }
             return View(movimento);

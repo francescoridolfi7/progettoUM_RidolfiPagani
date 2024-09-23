@@ -79,9 +79,9 @@ namespace progettoUMRidolfiPagani.Services
             // Creare un nuovo movimento per registrare lo spostamento
             var nuovoMovimento = new Movimento
             {
-                ArticoloId = articoloId,
-                PosizioneInizialeId = posizioneInizialeId,
-                PosizioneFinaleId = posizioneFinaleId,
+                Articolo = new Articolo { Id = articoloId },
+                PosizioneIniziale = new Posizione { Id = posizioneInizialeId },
+                PosizioneFinale = new Posizione { Id = posizioneFinaleId },
                 DataMovimento = DateTime.Now,
                 Quantita = articolo.Quantita,  // Usa la quantità associata all'articolo
                 TipoMovimento = TipoMovimento.Spostamento
@@ -101,7 +101,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int articoloId)
         {
             return await _context.Movimenti
-                .Where(m => m.ArticoloId == articoloId)
+                .Where(m => m.Articolo.Id == articoloId)
                 .Include(m => m.PosizioneIniziale)
                 .Include(m => m.PosizioneFinale)
                 .OrderBy(m => m.DataMovimento)
@@ -176,8 +176,8 @@ namespace progettoUMRidolfiPagani.Services
 
             var movimento = new Movimento
             {
-                ArticoloId = articoloId,
-                PosizioneFinaleId = posizioneId,
+                Articolo = new Articolo { Id = articoloId },
+                PosizioneIniziale = new Posizione { Id = posizioneId },
                 Quantita = quantita,
                 TipoMovimento = TipoMovimento.Ingresso,
                 DataMovimento = DateTime.Now
@@ -187,15 +187,15 @@ namespace progettoUMRidolfiPagani.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task RegistraUscitaAsync(int articoloId, int quantita)
+        public async Task RegistraUscitaAsync(int articoloId, int quantita, int posizioneId)
         {
             var articolo = await _context.Articoli.FindAsync(articoloId);
             if (articolo == null) throw new ArgumentException("Articolo non trovato");
 
             var movimento = new Movimento
             {
-                ArticoloId = articoloId,
-                PosizioneInizialeId = articolo.PosizioneId,
+                Articolo = new Articolo { Id = articoloId },
+                PosizioneIniziale = new Posizione { Id = posizioneId },
                 Quantita = quantita,
                 TipoMovimento = TipoMovimento.Uscita,
                 DataMovimento = DateTime.Now
@@ -209,7 +209,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<IEnumerable<Movimento>> GetStoricoMovimentiAsync(int articoloId)
         {
             return await _context.Movimenti
-                .Where(m => m.ArticoloId == articoloId)
+                .Where(m => m.Articolo.Id == articoloId)
                 .OrderByDescending(m => m.DataMovimento)
                 .ToListAsync();
         }

@@ -16,7 +16,7 @@
                 <th>@Html.DisplayNameFor(model => model.DataMovimento)</th>
                 <th>@Html.DisplayNameFor(model => model.Quantita)</th>
                 <th>@Html.DisplayNameFor(model => model.TipoMovimento)</th>
-                <th>@Html.DisplayNameFor(model => model.ArticoloId)</th>
+                <th>@Html.DisplayNameFor(model => model.Articolo.Id)</th>
                 <th>@Html.DisplayNameFor(model => model.PosizioneIniziale.Id)</th>
                 <th></th>
             </tr>
@@ -28,7 +28,7 @@
                 <td>@Html.DisplayFor(modelItem => item.DataMovimento)</td>
                 <td>@Html.DisplayFor(modelItem => item.Quantita)</td>
                 <td>@Html.DisplayFor(modelItem => item.TipoMovimento)</td>
-                <td>@Html.DisplayFor(modelItem => item.ArticoloId)</td>
+                <td>@Html.DisplayFor(modelItem => item.Articolo.Id)</td>
                 <td>@Html.DisplayFor(modelItem => item.PosizioneIniziale.Id)</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |

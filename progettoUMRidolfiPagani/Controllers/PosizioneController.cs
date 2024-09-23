@@ -76,7 +76,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 {
                     await _posizioneService.UpdateQuantitaPosizioneAsync(id, nuovaQuantita);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ModelState.AddModelError("", "Non è stato possibile aggiornare la quantità.");
                     return View("ControlloQuantita", await _posizioneService.GetPosizioneByIdAsync(id));

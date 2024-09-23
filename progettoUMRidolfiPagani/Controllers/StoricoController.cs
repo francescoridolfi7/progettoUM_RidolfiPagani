@@ -24,13 +24,19 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Storico/Articolo/5
         public async Task<IActionResult> Articolo(int id)
         {
-            var storicoArticolo = await _storicoService.GetStoricoByArticoloIdAsync(id);
-            if (storicoArticolo == null)
+            // Ottieni i movimenti dall'articolo
+            var movimenti = await _storicoService.GetStoricoByArticoloIdAsync(id);
+
+            if (movimenti == null || !movimenti.Any())
             {
                 return NotFound($"Non sono stati trovati movimenti per l'articolo con ID {id}.");
             }
-            return View(storicoArticolo);
+
+            // Passa i movimenti direttamente alla vista
+            return View(movimenti);
         }
+
+
 
         // GET: Storico/Filtra
         public IActionResult Filtra()

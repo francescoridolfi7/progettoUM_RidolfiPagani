@@ -18,7 +18,6 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<int> GetArticoliInMagazzinoCountAsync();
         Task UpdateQuantitaPosizioneAsync(int id, int nuovaQuantita);
         Task<IEnumerable<Movimento>> GetStoricoMovimentiPosizioneAsync(int id);
-        Task<int> GetArticoliInPosizioneCountAsync();
 
     }
 

@@ -18,7 +18,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int articoloId)
         {
             return await _context.Movimenti
-                .Where(m => m.ArticoloId == articoloId)
+                .Where(m => m.Articolo.Id == articoloId)
                 .Include(m => m.PosizioneIniziale)
                 .Include(m => m.PosizioneFinale)
                 .OrderBy(m => m.DataMovimento)
@@ -101,7 +101,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<IEnumerable<Movimento>> GetStoricoByArticoloIdAsync(int articoloId)
         {
             return await _context.Movimenti
-                .Where(m => m.ArticoloId == articoloId)
+                .Where(m => m.Articolo.Id == articoloId)
                 .Include(m => m.PosizioneIniziale)
                 .Include(m => m.PosizioneFinale)
                 .OrderBy(m => m.DataMovimento)

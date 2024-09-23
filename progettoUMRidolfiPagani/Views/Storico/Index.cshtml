@@ -1,35 +1,32 @@
-@model IEnumerable<progettoUMRidolfiPagani.Models.Storico>
+@model IEnumerable<progettoUMRidolfiPagani.Models.Movimento>
 
-    @{
-    ViewData["Title"] = "Elenco Storici";
-    }
-
-    <h1>Elenco Storici</h1>
-
-    <p>
-        <a asp-action="Create">Crea Nuovo Storico</a>
-    </p>
+    <h1>Storico Movimenti per Articolo</h1>
 
     <table class="table">
         <thead>
             <tr>
-            <th>@Html.DisplayNameFor(model => model.DataOperazione)</th>
-            <th>@Html.DisplayNameFor(model => model.DescrizioneOperazione)</th>
-                <th></th>
+                <th>Data Movimento</th>
+                <th>Quantità</th>
+                <th>Posizione Iniziale</th>
+                <th>Posizione Finale</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-    {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.DataOperazione)</td>
-                <td>@Html.DisplayFor(modelItem => item.DescrizioneOperazione)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
-                </td>
-            </tr>
-    }
+            @foreach (var movimento in Model)
+            {
+                <tr>
+                    <td>@movimento.DataMovimento</td>
+                    <td>@movimento.Quantita</td>
+                    <td>@movimento.PosizioneIniziale?.Id</td>
+                    <td>@movimento.PosizioneFinale?.Id ?? "N/A"</td>
+                </tr>
+            }
         </tbody>
     </table>
+
+    <h3>Tempo totale permanenza in magazzino</h3>
+    <p>
+        @Model.FirstOrDefault()?.Articolo.Codice ha trascorso
+        @((Model.LastOrDefault()?.Articolo.DataUscita - Model.FirstOrDefault()?.Articolo.DataArrivo)?.TotalDays ?? 0) giorni in magazzino.
+    </p>
+</div>
