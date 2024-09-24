@@ -14,6 +14,7 @@
         this.getTotaleArticoli();
         this.getArticoliDifettosi();
         this.getArticoliInEsaurimento();
+        this.getAllArticoli();  
     },
     methods: {
         searchByCodice() {
@@ -81,8 +82,9 @@
                 })
                 .catch(error => console.error('Errore:', error));
         },
-        getMovimenti(articoloId) {
-            fetch(`/Articoli/GetMovimentiByArticoloId?id=${articoloId}`)
+        getAllArticoli() {
+            console.log('Fetching all articles');
+            fetch('/Articoli/GetAllArticoli')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Errore nella richiesta: ' + response.status);
@@ -90,10 +92,14 @@
                     return response.json();
                 })
                 .then(data => {
-                    this.movimenti = data;
+                    console.log('Received articles', data);
+                    // Accedi ai dati sotto la proprietà $values
+                    this.articoli = data.$values;
                 })
                 .catch(error => console.error('Errore:', error));
         }
+
+
     }
 });
 

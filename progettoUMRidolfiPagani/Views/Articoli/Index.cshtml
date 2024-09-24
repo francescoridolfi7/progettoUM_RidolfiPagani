@@ -26,27 +26,25 @@
         <a href="/Articoli/Create">Registra Nuovo Articolo</a>
     </p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Codice</th>
-                <th>Descrizione</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="articolo in articoli" :key="articolo.Id">
-                <td>{{ articolo.Codice }}</td>
-                <td>{{ articolo.Descrizione }}</td>
-                <td>
-                    <a :href="`/Articoli/Edit/${articolo.Id}`">Modifica</a> |
-                    <a :href="`/Articoli/Details/${articolo.Id}`">Dettagli</a> |
-                    <a :href="`/Articoli/Delete/${articolo.Id}`">Elimina</a> |
-                    <button @@click="getMovimenti(articolo.Id)">Visualizza Movimenti</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="articoli">
+        <h3>Lista degli Articoli</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Codice</th>
+                    <th>Descrizione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="articolo in articoli" :key="articolo.id">
+                    <td>{{ articolo.codice }}</td>
+                    <td>{{ articolo.descrizione }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
 
     <h2>Articoli in esaurimento</h2>
     <ul>

@@ -38,7 +38,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 TotalArticoli = totalArticoli,
                 ArticoliDifettosi = articoliDifettosi,
                 ArticoliInEsaurimento = articoliInEsaurimento,
-                Articoli = articoli.ToList() // se hai bisogno di una lista
+                Articoli = articoli.ToList() 
             };
 
             return View(viewModel);
@@ -181,6 +181,14 @@ namespace progettoUMRidolfiPagani.Controllers
             var articoli = await _articoloService.GetArticoliInEsaurimentoAsync();
             return Json(articoli);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllArticoli()
+        {
+            var articoli = await _articoloService.GetAllAsync();
+            return Ok(articoli);
+        }
+
 
 
     }

@@ -81,7 +81,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync()
         {
             return await _context.Articoli
-                .Where(a => a.Quantita <= a.SogliaMinima)
+                .Where(a => a.Quantita <= 5)
                 .ToListAsync();
         }
 
