@@ -78,7 +78,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    this.articoliInEsaurimento = data;
+                    this.articoliInEsaurimento = data.$values;
                 })
                 .catch(error => console.error('Errore:', error));
         },
