@@ -53,7 +53,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<Articolo> GetByCodiceAsync(string codice)
         {
             return await _context.Articoli
-                .Include(a => a.Movimenti)
+                .Include(a => a.Posizione)
                 .FirstOrDefaultAsync(a => a.Codice == codice);
         }
 
@@ -66,12 +66,14 @@ namespace progettoUMRidolfiPagani.Services
             return articolo?.Movimenti ?? new List<Movimento>();
         }
 
-        public async Task<IEnumerable<Articolo>> SearchAsync(string searchString)
+        public async Task<IEnumerable<Articolo>> GetByPosizioneAsync(string posizione)
         {
             return await _context.Articoli
-                .Where(a => a.Codice.Contains(searchString) || a.Descrizione.Contains(searchString))
+                .Include(a => a.Posizione) 
+                .Where(a => a.Posizione.CodicePosizione.Equals(posizione))
                 .ToListAsync();
         }
+
 
         public async Task<int> GetArticoliCountAsync()
         {

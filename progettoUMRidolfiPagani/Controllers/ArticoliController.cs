@@ -138,13 +138,14 @@ namespace progettoUMRidolfiPagani.Controllers
             return View();
         }
 
-        // POST: Articoli/Search
-        [HttpPost]
-        public async Task<IActionResult> Search(string searchTerm)
+        // GET: Articoli/GetByPosizione
+        [HttpGet] 
+        public async Task<IActionResult> GetByPosizione(string posizione)
         {
-            var results = await _articoloService.SearchAsync(searchTerm);
-            return View("Index", results);
+            var articolo = await _articoloService.GetByPosizioneAsync(posizione);
+            return Json(articolo); // Restituisce i risultati come JSON per il frontend
         }
+
 
         // GET: Articoli/GetByCodice
         [HttpGet]

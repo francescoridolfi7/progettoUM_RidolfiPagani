@@ -13,8 +13,8 @@
         <button type="submit">Cerca</button>
     </form>
 
-    <form @@submit.prevent="searchArticoli">
-        <input type="text" v-model="searchString" placeholder="Cerca articoli">
+    <form @@submit.prevent="searchByPosizione">
+        <input type="text" v-model="posizione" placeholder="Cerca per posizione">
         <button type="submit">Cerca</button>
     </form>
 

@@ -2,7 +2,7 @@
     data() {
         return {
             codice: '',
-            searchString: '',
+            posizione: '',
             articoli: [],
             movimenti: [],
             totaleArticoli: 0,
@@ -18,20 +18,44 @@
     },
     methods: {
         searchByCodice() {
+            console.log("Valore di codice:", this.codice);
+            if (!this.codice) {
+                console.error('Errore: il campo codice è vuoto');
+                return;
+            }
             fetch(`/Articoli/GetByCodice?codice=${this.codice}`)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Errore nella richiesta: ' + response.status);
+                        if (response.status === 404) {
+                            console.warn('Nessun articolo trovato per il codice inserito.');
+                            this.articoli = []; 
+                            return null;
+                        } else {
+                            throw new Error('Errore nella richiesta: ' + response.status);
+                        }
                     }
                     return response.json();
                 })
                 .then(data => {
-                    this.articoli = [data];
+                    if (data) {  // Se esiste un articolo restituito
+                        this.articoli = [{
+                            ...data,
+                            codicePosizione: data.posizione ? data.posizione.codicePosizione : 'Posizione non disponibile'
+                        }];
+                    } else {
+                        this.articoli = []; // Altrimenti restituiamo una lista vuota
+                    }
+                    console.log(this.articoli);
                 })
                 .catch(error => console.error('Errore:', error));
         },
-        searchArticoli() {
-            fetch(`/Articoli/Search?searchString=${this.searchString}`)
+        searchByPosizione() {
+            console.log("Valore di posizione:", this.posizione);
+            if (!this.posizione) {
+                console.error('Errore: il campo posizione è vuoto');
+                return;
+            }
+            fetch(`/Articoli/GetByPosizione?posizione=${this.posizione}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Errore nella richiesta: ' + response.status);
@@ -39,7 +63,15 @@
                     return response.json();
                 })
                 .then(data => {
-                    this.articoli = data;
+                    console.log("Risposta dal server:", data); // Log della risposta
+
+                    // Accedi ai dati sotto la proprietà $values
+                    this.articoli = data.$values.map(articolo => ({
+                        ...articolo,
+                        codicePosizione: articolo.posizione ? articolo.posizione.codicePosizione : 'Posizione non disponibile'
+                    }));
+
+                    console.log(this.articoli); // Verifica gli articoli processati
                 })
                 .catch(error => console.error('Errore:', error));
         },

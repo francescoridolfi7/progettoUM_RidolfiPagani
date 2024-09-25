@@ -12,7 +12,7 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task DeleteAsync(int id);
         Task<Articolo> GetByCodiceAsync(string codice);
         Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int id);
-        Task<IEnumerable<Articolo>> SearchAsync(string searchString);
+        Task<IEnumerable<Articolo>> GetByPosizioneAsync(string posizione);
         Task<int> GetArticoliCountAsync();
         Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync();
         Task<int> GetArticoliDifettosiCountAsync();
