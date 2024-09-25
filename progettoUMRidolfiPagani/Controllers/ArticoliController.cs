@@ -182,6 +182,7 @@ namespace progettoUMRidolfiPagani.Controllers
             return Json(articoli);
         }
 
+        // GET: Articoli/GetAllArticoli
         [HttpGet]
         public async Task<IActionResult> GetAllArticoli()
         {

@@ -78,7 +78,10 @@
                     return response.json();
                 })
                 .then(data => {
-                    this.articoliInEsaurimento = data.$values;
+                    this.articoliInEsaurimento = data.$values.map(articolo => ({
+                        ...articolo,
+                        codicePosizione: articolo.posizione.codicePosizione
+                    }));
                 })
                 .catch(error => console.error('Errore:', error));
         },
@@ -93,11 +96,15 @@
                 })
                 .then(data => {
                     console.log('Received articles', data);
-                    // Accedi ai dati sotto la proprietà $values
-                    this.articoli = data.$values;
+                    // Accesso ai dati sotto la proprietà $values
+                    this.articoli = data.$values.map(articolo => ({
+                        ...articolo,
+                        codicePosizione: articolo.posizione.codicePosizione 
+                    }));
                 })
                 .catch(error => console.error('Errore:', error));
         }
+
 
 
     }

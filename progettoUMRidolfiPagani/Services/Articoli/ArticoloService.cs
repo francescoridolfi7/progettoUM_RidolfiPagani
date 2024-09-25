@@ -16,7 +16,7 @@ namespace progettoUMRidolfiPagani.Services
 
         public async Task<IEnumerable<Articolo>> GetAllAsync()
         {
-            return await _context.Articoli.ToListAsync();
+           return await  _context.Articoli.Include(a => a.Posizione).ToListAsync();
         }
 
         public async Task<Articolo> GetByIdAsync(int id)
@@ -81,6 +81,7 @@ namespace progettoUMRidolfiPagani.Services
         public async Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync()
         {
             return await _context.Articoli
+                .Include(a => a.Posizione)
                 .Where(a => a.Quantita <= 5)
                 .ToListAsync();
         }

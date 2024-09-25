@@ -33,12 +33,16 @@
                 <tr>
                     <th>Codice</th>
                     <th>Descrizione</th>
+                    <th>Quantità</th>
+                    <th>Posizione</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="articolo in articoli" :key="articolo.id">
                     <td>{{ articolo.codice }}</td>
                     <td>{{ articolo.descrizione }}</td>
+                    <td>{{ articolo.quantita }}</td>
+                    <td>{{ articolo.codicePosizione }}</td>
                 </tr>
             </tbody>
         </table>
@@ -47,11 +51,24 @@
 
 
     <h2>Articoli in esaurimento</h2>
-    <ul>
-        <li v-for="articolo in articoliInEsaurimento" :key="articolo.Id">
-            {{ articolo.codice }} - {{ articolo.descrizione }}
-        </li>
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Codice</th>
+                <th>Descrizione</th>
+                <th>Quantità</th>
+                <th>Posizione</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="articolo in articoliInEsaurimento" :key="articolo.id">
+                <td>{{ articolo.codice }}</td>
+                <td>{{ articolo.descrizione }}</td>
+                <td>{{ articolo.quantita }}</td>
+                <td>{{ articolo.codicePosizione }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
