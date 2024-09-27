@@ -57,10 +57,20 @@ namespace progettoUMRidolfiPagani.Controllers
         }
 
         // GET: Articoli/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            // Ottieni le posizioni libere
+            var posizioniLibere = await _articoloService.GetPosizioniLibereAsync();
+
+            // Crea un ViewModel per passare i dati alla vista Create
+            var createViewModel = new CreateArticoloViewModel
+            {
+                PosizioniLibere = posizioniLibere.ToList()  // Convertiamo in lista
+            };
+
+            return View(createViewModel);
         }
+
 
         // POST: Articoli/Create
         [HttpPost]
@@ -190,6 +200,15 @@ namespace progettoUMRidolfiPagani.Controllers
             var articoli = await _articoloService.GetAllAsync();
             return Ok(articoli);
         }
+
+        // GET: Articoli/GetPosizioniLibere
+        [HttpGet]
+        public async Task<IActionResult> GetPosizioniLibere()
+        {
+            var posizioniLibere = await _articoloService.GetPosizioniLibereAsync();
+            return Ok(posizioniLibere);
+        }
+
 
 
 

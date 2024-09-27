@@ -93,6 +93,11 @@ namespace progettoUMRidolfiPagani.Services
             return await _context.Articoli.CountAsync(a => a.Stato == "Difettoso");
         }
 
+        public async Task<IEnumerable<Posizione>> GetPosizioniLibereAsync()
+        {
+            return await _context.Posizioni.Where(p => p.Occupata == false).ToListAsync();
+        }
+
 
     }
 }

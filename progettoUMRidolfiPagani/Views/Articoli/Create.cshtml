@@ -1,22 +1,56 @@
-@model progettoUMRidolfiPagani.Models.Articolo
+@model progettoUMRidolfiPagani.ViewModels.CreateArticoloViewModel
 
 @{
-    ViewData["Title"] = "Crea Articolo";
+    ViewData["Title"] = "Registra Articolo";
 }
 
-<h1>Crea Nuovo Articolo</h1>
+<div id="nuovo-articolo">
+<h1>Registra Nuovo Articolo</h1>
 
 <form asp-action="Create">
     <div class="form-group">
-        <label asp-for="Nome" class="control-label"></label>
-        <input asp-for="Nome" class="form-control" />
-        <span asp-validation-for="Nome" class="text-danger"></span>
+        <label asp-for="Codice" class="control-label">Codice Articolo</label>
+        <input asp-for="Codice" class="form-control" placeholder="Inserisci il codice a barre (es. N51)" />
+        <span asp-validation-for="Codice" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label asp-for="Descrizione" class="control-label"></label>
-        <input asp-for="Descrizione" class="form-control" />
+        <label asp-for="Descrizione" class="control-label">Descrizione Articolo</label>
+        <input asp-for="Descrizione" class="form-control" placeholder="Descrivi brevemente l'articolo" />
         <span asp-validation-for="Descrizione" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <label asp-for="Stato" class="control-label">Stato dell'Articolo</label>
+        <select asp-for="Stato" class="form-control">
+            <option value="In Magazzino">In Magazzino</option>
+            <option value="Reparto">Reparto</option>
+            <option value="Difettoso">Difettoso</option>
+        </select>
+        <span asp-validation-for="Stato" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Quantita" class="control-label">Quantità</label>
+        <input asp-for="Quantita" class="form-control" type="number" min="1" step="1" placeholder="Inserisci la quantità di articoli" />
+        <span asp-validation-for="Quantita" class="text-danger"></span>
+    </div>
+
+        <div class="form-group">
+            <label for="posizioneSelect">Seleziona una Posizione Libera</label>
+            <select v-model="selectedPosizione" class="form-control" id="posizioneSelect">
+                <option v-for="posizione in posizioniLibere" :key="posizione.id" :value="posizione.id">
+                    {{ posizione.codicePosizione }}
+                </option>
+            </select>
+        </div>
+
+
+
+    <div class="form-group">
+        <input type="hidden" asp-for="DataArrivo" value="@DateTime.Now" />
+    </div>
+
     <div class="form-group">
         <input type="submit" value="Crea" class="btn btn-primary" />
     </div>
@@ -25,3 +59,8 @@
 <div>
     <a asp-action="Index">Torna alla lista</a>
 </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+<script src="/js/nuovo-articolo.js"></script>
