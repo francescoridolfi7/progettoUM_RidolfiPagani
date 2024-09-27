@@ -112,7 +112,7 @@
                 .then(data => {
                     this.articoliInEsaurimento = data.$values.map(articolo => ({
                         ...articolo,
-                        codicePosizione: articolo.posizione.codicePosizione
+                        codicePosizione: articolo.posizione ? articolo.posizione.codicePosizione : 'Articolo consegnato direttamente al reparto'
                     }));
                 })
                 .catch(error => console.error('Errore:', error));
@@ -131,11 +131,12 @@
                     // Accesso ai dati sotto la proprietà $values
                     this.articoli = data.$values.map(articolo => ({
                         ...articolo,
-                        codicePosizione: articolo.posizione.codicePosizione 
+                        codicePosizione: articolo.posizione ? articolo.posizione.codicePosizione : 'Articolo consegnato direttamente al reparto'
                     }));
                 })
                 .catch(error => console.error('Errore:', error));
         }
+
 
 
 

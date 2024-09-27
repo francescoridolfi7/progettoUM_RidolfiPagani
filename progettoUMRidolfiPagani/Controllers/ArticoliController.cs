@@ -75,15 +75,31 @@ namespace progettoUMRidolfiPagani.Controllers
         // POST: Articoli/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,Quantita,Stato")] Articolo articolo)
+        public async Task<IActionResult> Create([FromBody] CreateArticoloViewModel model)
         {
+            ModelState.Remove("PosizioniLibere");
+
             if (ModelState.IsValid)
             {
+                var articolo = new Articolo
+                {
+                    Codice = model.Codice,
+                    Descrizione = model.Descrizione,
+                    Quantita = model.Quantita,
+                    Stato = model.Stato,
+                    PosizioneId = model.PosizioneId
+                };
+
                 await _articoloService.CreateAsync(articolo);
                 return RedirectToAction(nameof(Index));
             }
-            return View(articolo);
+
+            return View(model);
         }
+
+
+
+
 
         // GET: Articoli/Edit/5
         public async Task<IActionResult> Edit(int id)
