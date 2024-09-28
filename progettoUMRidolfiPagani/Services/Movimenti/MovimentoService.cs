@@ -132,20 +132,20 @@ namespace progettoUMRidolfiPagani.Services
                 .ToListAsync();
         }
 
-        public async Task<double> GetMediaGiorniPermanenzaAsync()
-        {
-            // Recupera tutti i movimenti dal contesto
-            var movimenti = await _context.Movimenti.ToListAsync();
+        //public async Task<double> GetMediaGiorniPermanenzaAsync()
+        //{
+        //    // Recupera tutti i movimenti dal contesto
+        //    var movimenti = await _context.Movimenti.ToListAsync();
 
-            // Calcola la media dei giorni di permanenza, ignorando i movimenti senza TempoPermanenza
-            var mediaPermanenza = movimenti
-                .Where(m => m.TempoPermanenza.HasValue)  // Controllo null per TempoPermanenza
-                .Select(m => m.TempoPermanenza.Value.TotalDays)  // Accede al valore solo se esiste
-                .DefaultIfEmpty(0)  // Ritorna 0 se non ci sono movimenti validi
-                .Average();  // Calcola la media
+        //    // Calcola la media dei giorni di permanenza, ignorando i movimenti senza TempoPermanenza
+        //    var mediaPermanenza = movimenti
+        //        .Where(m => m.TempoPermanenza.HasValue)  // Controllo null per TempoPermanenza
+        //        .Select(m => m.TempoPermanenza.Value.TotalDays)  // Accede al valore solo se esiste
+        //        .DefaultIfEmpty(0)  // Ritorna 0 se non ci sono movimenti validi
+        //        .Average();  // Calcola la media
 
-            return mediaPermanenza;
-        }
+        //    return mediaPermanenza;
+        //}
 
 
 

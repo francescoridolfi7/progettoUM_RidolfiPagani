@@ -49,10 +49,10 @@ namespace progettoUMRidolfiPagani.Services
             return await _movimentoService.GetDatiGraficoMovimentiAsync();
         }
 
-        public async Task<double> GetMediaGiorniPermanenzaAsync()
-        {
-            return await _movimentoService.GetMediaGiorniPermanenzaAsync();
-        }
+        //public async Task<double> GetMediaGiorniPermanenzaAsync()
+        //{
+        //    return await _movimentoService.GetMediaGiorniPermanenzaAsync();
+        //}
 
         public async Task<DashboardViewModel> GetDashboardDataAsync()
         {

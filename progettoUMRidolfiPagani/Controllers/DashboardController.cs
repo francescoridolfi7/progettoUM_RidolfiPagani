@@ -21,7 +21,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 NumeroPosizioniDisponibili = await _dashboardService.GetNumeroPosizioniDisponibiliAsync(),
                 ArticoliInEsaurimento = await _dashboardService.GetArticoliInEsaurimentoAsync(),
                 GraficoMovimenti = await _dashboardService.GetDatiGraficoMovimentiAsync(),
-                MediaGiorniPermanenza = await _dashboardService.GetMediaGiorniPermanenzaAsync()
+                //MediaGiorniPermanenza = await _dashboardService.GetMediaGiorniPermanenzaAsync()
             };
 
             return View(dashboardViewModel);

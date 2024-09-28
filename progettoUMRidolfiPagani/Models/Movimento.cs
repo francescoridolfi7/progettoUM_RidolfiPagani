@@ -3,23 +3,27 @@ namespace progettoUMRidolfiPagani.Models
     public class Movimento
     {
         public int Id { get; set; }
-        public required Articolo Articolo { get; set; }  // Relazione con l'articolo
 
-        public TipoMovimento TipoMovimento { get; set; }  // "Ingresso", "Uscita", "Spostamento"
+        // Relazione con Articolo
+        public int ArticoloId { get; set; } // Chiave esterna per Articolo
+        public required Articolo Articolo { get; set; }  // Navigazione
 
-        public required Posizione PosizioneIniziale { get; set; }
-        public Posizione? PosizioneFinale { get; set; }
+        public TipoMovimento TipoMovimento { get; set; }  // Enum per tipo di movimento
+        public int? PosizioneInizialeId { get; set; } // Chiave esterna per la Posizione Iniziale
+        public Posizione? PosizioneIniziale { get; set; }
+        public int? PosizioneFinaleId { get; set; } // Chiave esterna per la Posizione Finale
+        public Posizione? PosizioneFinale { get; set; } 
 
-        public DateTime DataMovimento { get; set; }
-        public TimeSpan? TempoPermanenza { get; set; }  // Calcolato per permanenze lunghe
-        public int Quantita { get; set; }  // Quantità di articoli movimentati
+        public DateTime DataMovimento { get; set; } // Data del movimento
+
+        public int Quantita { get; set; }  // Quantità movimentata
     }
 
+    // Enum per i tipi di movimento
     public enum TipoMovimento
     {
-        Ingresso,
-        Uscita,
-        Spostamento
+        Ingresso,  // 0
+        Uscita,    // 1
+        Spostamento  // 2
     }
-
 }

@@ -28,10 +28,29 @@ namespace progettoUMRidolfiPagani.Services
 
         public async Task<Articolo> CreateAsync(Articolo articolo)
         {
+            // Aggiungi l'articolo al database
             _context.Articoli.Add(articolo);
             await _context.SaveChangesAsync();
+
+            // Crea un nuovo movimento associato all'articolo
+            var movimento = new Movimento
+            {
+                Articolo = articolo,
+                ArticoloId = articolo.Id, // Associa l'articolo al movimento
+                TipoMovimento = 0, // Movimento in entrata (0)
+                PosizioneInizialeId = null, // Nessuna posizione iniziale
+                PosizioneFinaleId = articolo.PosizioneId, // La posizione selezionata dall'utente
+                DataMovimento = articolo.DataArrivo, // Uguale alla DataArrivo dell'articolo
+                Quantita = articolo.Quantita // Quantità selezionata dall'utente
+            };
+
+            // Aggiungi il movimento al database
+            _context.Movimenti.Add(movimento);
+            await _context.SaveChangesAsync();
+
             return articolo;
         }
+
 
         public async Task<Articolo> UpdateAsync(Articolo articolo)
         {
