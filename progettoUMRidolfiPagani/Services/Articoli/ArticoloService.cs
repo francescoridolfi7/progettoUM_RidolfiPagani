@@ -48,6 +48,19 @@ namespace progettoUMRidolfiPagani.Services
             _context.Movimenti.Add(movimento);
             await _context.SaveChangesAsync();
 
+            // Aggiorna la posizione associata all'articolo
+            if (articolo.PosizioneId.HasValue)
+            {
+                var posizione = await _context.Posizioni.FindAsync(articolo.PosizioneId.Value);
+                if (posizione != null)
+                {
+                    posizione.Occupata = true; // Imposta la posizione come occupata
+                    posizione.Quantita = articolo.Quantita;
+                    _context.Posizioni.Update(posizione);
+                    await _context.SaveChangesAsync(); // Salva le modifiche nel database
+                }
+            }
+
             return articolo;
         }
 
