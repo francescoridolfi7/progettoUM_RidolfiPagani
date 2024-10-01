@@ -14,7 +14,7 @@ namespace progettoUMRidolfiPagani.Models
         public int? PosizioneFinaleId { get; set; } // Chiave esterna per la Posizione Finale
         public Posizione? PosizioneFinale { get; set; } 
 
-        public DateTime DataMovimento { get; set; } // Data del movimento
+        public DateTime DataMovimento { get; set; } = DateTime.Now; // Data del movimento
 
         public int Quantita { get; set; }  // Quantità movimentata
     }

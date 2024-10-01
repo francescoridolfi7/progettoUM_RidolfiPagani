@@ -1,27 +1,59 @@
-@model progettoUMRidolfiPagani.Models.Articolo
+@model progettoUMRidolfiPagani.ViewModels.EditArticoloViewModel
 
 @{
-    ViewData["Title"] = "Modifica Articolo";
+    ViewData["Title"] = "Sposta Articolo";
 }
 
-<h1>Modifica Articolo</h1>
+<h1>Sposta Articolo</h1>
 
-<form asp-action="Edit">
-    <div class="form-group">
-        <label asp-for="Nome" class="control-label"></label>
-        <input asp-for="Nome" class="form-control" />
-        <span asp-validation-for="Nome" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Descrizione" class="control-label"></label>
-        <input asp-for="Descrizione" class="form-control" />
-        <span asp-validation-for="Descrizione" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Salva modifiche" class="btn btn-primary" />
-    </div>
-</form>
+<div id="sposta-articolo">
+    <form method="post" asp-action="Edit">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label for="Codice">Codice</label>
+            <input type="text" class="form-control" v-model="codice" id="Codice" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="Descrizione">Descrizione</label>
+            <input type="text" class="form-control" v-model="descrizione" id="Descrizione" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="Stato">Stato</label>
+            <input type="text" class="form-control" v-model="stato" id="Stato" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="Quantita">Quantità</label>
+            <input type="number" class="form-control" v-model="quantita" id="Quantita" />
+        </div>
+
+        <div class="form-group">
+            <label for="CodicePosizioneCorrente">Posizione Corrente</label>
+            <input type="text" class="form-control" v-model="codicePosizioneCorrente" id="CodicePosizioneCorrente" readonly />
+        </div>
+
+        <!-- Select per scegliere una nuova posizione -->
+        <div class="form-group">
+            <label for="PosizioneId">Seleziona Nuova Posizione</label>
+            <select v-model="selectedPosizione" class="form-control" id="PosizioneId">
+                <option v-for="posizione in posizioniLibere" :key="posizione.id" :value="posizione.id">
+                    {{ posizione.codicePosizione }}
+                </option>
+            </select>
+        </div>
+
+        <button type="button" class="btn btn-primary" @@click="updateArticolo">Sposta Articolo</button>
+    </form>
+</div>
+
+
 
 <div>
     <a asp-action="Index">Torna alla lista</a>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+<script src="/js/sposta-articolo.js"></script>

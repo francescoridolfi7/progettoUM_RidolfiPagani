@@ -109,34 +109,88 @@ namespace progettoUMRidolfiPagani.Controllers
             {
                 return NotFound();
             }
-            return View(articolo);
+
+            // Verifica che l'articolo abbia una posizione associata
+            string codicePosizioneCorrente = articolo.Posizione?.CodicePosizione ?? "Nessuna posizione";
+
+            // Ottieni le posizioni libere
+            var posizioniLibere = await _articoloService.GetPosizioniLibereAsync();
+
+            // Crea il ViewModel per la vista di Edit
+            var editViewModel = new EditArticoloViewModel
+            {
+                Id = articolo.Id,
+                Codice = articolo.Codice,
+                Descrizione = articolo.Descrizione,
+                Quantita = articolo.Quantita,
+                Stato = articolo.Stato,
+                PosizioneIdCorrente = articolo.PosizioneId, // Posizione corrente
+                PosizioniLibere = posizioniLibere.ToList()
+            };
+
+            return View(editViewModel);
         }
+
+
 
         // POST: Articoli/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Codice,Descrizione,Quantita,Stato")] Articolo articolo)
+        public async Task<IActionResult> Edit(int id, [FromBody] EditArticoloViewModel model)
         {
-            if (id != articolo.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
+
+            // Rimossi i campi che non devono essere modificabili dal model state
+            ModelState.Remove("PosizioniLibere");
+            ModelState.Remove("Codice");
+            ModelState.Remove("Descrizione");
+            ModelState.Remove("Stato");
+
+            // Verifica che i valori originali siano stati ricevuti correttamente
+            Console.WriteLine($"Quantità ricevuta: {model.Quantita}");
+            Console.WriteLine($"PosizioneId ricevuta: {model.PosizioneId}");
+            Console.WriteLine($"Quantità originale ricevuta: {model.QuantitaOriginale}");
+            Console.WriteLine($"Posizione originale ricevuta: {model.PosizioneIdCorrente}");
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _articoloService.UpdateAsync(articolo);
+                    var articolo = await _articoloService.GetByIdAsync(id);
+                    if (articolo == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Usa i valori originali per gestire lo spostamento
+                    await _articoloService.UpdateAsync(
+                        articolo,
+                        model.Quantita,
+                        model.PosizioneId,
+                        model.QuantitaOriginale,
+                        model.PosizioneIdCorrente
+                    );
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine("Errore: " + ex.Message);
                     ModelState.AddModelError("", "Non è stato possibile aggiornare l'articolo.");
-                    return View(articolo);
+                    return View(model);
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(articolo);
+
+            model.PosizioniLibere = (List<Posizione>)await _articoloService.GetPosizioniLibereAsync();
+            return View(model);
         }
+
+
+
+
 
         // GET: Articoli/Delete/5
         public async Task<IActionResult> Delete(int id)
@@ -224,6 +278,37 @@ namespace progettoUMRidolfiPagani.Controllers
             var posizioniLibere = await _articoloService.GetPosizioniLibereAsync();
             return Ok(posizioniLibere);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetArticoloById(int id)
+        {
+            var articolo = await _articoloService.GetByIdAsync(id);
+
+            if (articolo == null)
+            {
+                return NotFound(new { message = "Articolo non trovato" });
+            }
+
+            // Ottieni il codice della posizione corrente
+            var codicePosizioneCorrente = articolo.PosizioneId.HasValue
+                ? (await _articoloService.GetPosizioneByIdAsync(articolo.PosizioneId.Value))?.CodicePosizione
+                : "Nessuna posizione";
+
+            // Costruisci un oggetto JSON da restituire con le informazioni dell'articolo
+            var articoloDto = new
+            {
+                Id = articolo.Id,
+                Codice = articolo.Codice,
+                Descrizione = articolo.Descrizione,
+                Quantita = articolo.Quantita,
+                Stato = articolo.Stato,
+                PosizioneId = articolo.PosizioneId, // Posizione corrente
+                CodicePosizioneCorrente = codicePosizioneCorrente
+            };
+
+            return Ok(articoloDto);
+        }
+
+
 
 
 

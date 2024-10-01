@@ -43,7 +43,11 @@
                     <td>{{ articolo.descrizione }}</td>
                     <td>{{ articolo.quantita }}</td>
                     <td>{{ articolo.codicePosizione }}</td>
+                    <td>
+                        <a :href="`/Articoli/Edit/${articolo.id}`" class="btn btn-primary">Sposta</a>
+                    </td>
                 </tr>
+
             </tbody>
         </table>
     </div>
@@ -66,6 +70,9 @@
                 <td>{{ articolo.descrizione }}</td>
                 <td>{{ articolo.quantita }}</td>
                 <td>{{ articolo.codicePosizione }}</td>
+                <td>
+                    <a :href="`/Articoli/Edit/${articolo.id}`" class="btn btn-primary">Sposta</a>
+                </td>
             </tr>
         </tbody>
     </table>
