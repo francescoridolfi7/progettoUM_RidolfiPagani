@@ -1,34 +1,27 @@
-@model progettoUMRidolfiPagani.Models.Articolo
+@model progettoUMRidolfiPagani.ViewModels.DeleteArticoloViewModel
 
-@{
-    ViewData["Title"] = "Elimina Articolo";
-}
+<h2>Uscita Articolo</h2>
 
-<h1>Sei sicuro di voler eliminare questo articolo?</h1>
+<div id="uscita-articolo">
+    @Html.AntiForgeryToken()
+    <div>
+        <p><strong>Codice:</strong> @Model.Codice</p>
+        <p><strong>Descrizione:</strong> @Model.Descrizione</p>
+        <p><strong>Stato:</strong> @Model.Stato</p>
+        <p><strong>Posizione Corrente:</strong> {{ codicePosizioneCorrente }}</p>
+        <div class="form-group">
+            <label for="quantita">Quantità da fare uscire:</label>
+            <input type="number" v-model="quantita" class="form-control" min="1" :max="quantita" required />
+        </div>
+    </div>
 
-<div>
-    <h4>Articolo</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Codice)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Codice)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Descrizione)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Descrizione)
-        </dd>
-    </dl>
+    <div>
+        <p>Vuoi fare uscire l'articolo?</p>
+        <button class="btn btn-danger" @@click="confermaUscita">Si, procedi con l'eliminazione</button>
+        <a href="/Articoli" class="btn btn-secondary">No, torna alla pagina principale</a>
+    </div>
 </div>
 
-<form asp-action="Delete">
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <input type="submit" value="Elimina" class="btn btn-danger" /> |
-        <a asp-action="Index">Annulla</a>
-    </div>
-</form>
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+<script src="/js/uscita-articolo.js"></script>
+

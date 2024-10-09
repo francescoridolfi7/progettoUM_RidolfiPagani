@@ -145,14 +145,57 @@ namespace progettoUMRidolfiPagani.Services
             return articolo;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int articoloId, int quantitaDaUscire)
         {
-            var articolo = await _context.Articoli.FindAsync(id);
-            if (articolo != null)
+            var articolo = await _context.Articoli
+                .Include(a => a.Posizione)  // Includi la posizione collegata all'articolo
+                .FirstOrDefaultAsync(a => a.Id == articoloId);
+
+            if (articolo == null)
+                throw new Exception("Articolo non trovato");
+
+            var posizione = articolo.Posizione;
+
+            // Creazione di un nuovo record nella tabella Movimenti prima dell'eliminazione
+            var movimento = new Movimento
             {
-                _context.Articoli.Remove(articolo);
-                await _context.SaveChangesAsync();
+                Articolo = articolo,
+                ArticoloId = articolo.Id,
+                TipoMovimento = (TipoMovimento)2,  // Uscita
+                PosizioneInizialeId = posizione?.Id,
+                PosizioneFinaleId = null,
+                Quantita = quantitaDaUscire,
+                DataMovimento = DateTime.Now
+            };
+
+            _context.Movimenti.Add(movimento);
+            await _context.SaveChangesAsync();
+
+            // Ora gestiamo l'uscita totale o parziale dell'articolo
+            if (quantitaDaUscire >= articolo.Quantita)
+            {
+                if (posizione != null)
+                {
+                    posizione.Quantita = 0;
+                    posizione.Occupata = false;
+                    _context.Posizioni.Update(posizione);
+                }
+
+                _context.Articoli.Remove(articolo);  // Elimina l'articolo
             }
+            else
+            {
+                articolo.Quantita -= quantitaDaUscire;
+                _context.Articoli.Update(articolo);
+
+                if (posizione != null)
+                {
+                    posizione.Quantita -= quantitaDaUscire;
+                    _context.Posizioni.Update(posizione);
+                }
+            }
+
+            await _context.SaveChangesAsync();  // Salva tutte le altre modifiche nel contesto originale
         }
 
         public async Task<Articolo> GetByCodiceAsync(string codice)

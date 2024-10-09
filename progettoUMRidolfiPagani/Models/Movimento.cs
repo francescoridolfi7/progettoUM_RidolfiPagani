@@ -23,7 +23,7 @@ namespace progettoUMRidolfiPagani.Models
     public enum TipoMovimento
     {
         Ingresso,  // 0
-        Uscita,    // 1
-        Spostamento  // 2
+        Spostamento,    // 1
+        Uscita  // 2
     }
 }

@@ -35,6 +35,7 @@
                     <th>Descrizione</th>
                     <th>Quantità</th>
                     <th>Posizione</th>
+                    <th>Azioni</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,6 +46,7 @@
                     <td>{{ articolo.codicePosizione }}</td>
                     <td>
                         <a :href="`/Articoli/Edit/${articolo.id}`" class="btn btn-primary">Sposta</a>
+                        <a :href="`/Articoli/Delete/${articolo.id}`" class="btn btn-primary">Uscita</a>
                     </td>
                 </tr>
 
@@ -72,6 +74,7 @@
                 <td>{{ articolo.codicePosizione }}</td>
                 <td>
                     <a :href="`/Articoli/Edit/${articolo.id}`" class="btn btn-primary">Sposta</a>
+                    <a :href="`/Articoli/Delete/${articolo.id}`" class="btn btn-primary">Uscita</a>
                 </td>
             </tr>
         </tbody>

@@ -200,16 +200,37 @@ namespace progettoUMRidolfiPagani.Controllers
             {
                 return NotFound();
             }
-            return View(articolo);
+
+            // Creiamo un DeleteArticoloViewModel
+            var deleteViewModel = new DeleteArticoloViewModel
+            {
+                Id = articolo.Id,
+                Codice = articolo.Codice,
+                Descrizione = articolo.Descrizione,
+                Quantita = articolo.Quantita,
+                Stato = articolo.Stato,
+                PosizioneIdCorrente = articolo.PosizioneId,
+                CodicePosizioneCorrente = articolo.Posizione?.CodicePosizione ?? "Nessuna posizione"
+            };
+
+            return View(deleteViewModel);
         }
 
         // POST: Articoli/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id, [FromBody] DeleteArticoloViewModel model)
         {
-            await _articoloService.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _articoloService.DeleteAsync(id, model.Quantita);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Errore nell'uscita dell'articolo: {ex.Message}");
+                return View(model);
+            }
         }
 
         // GET: Articoli/Search
