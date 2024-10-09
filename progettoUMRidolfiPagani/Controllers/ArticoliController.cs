@@ -53,8 +53,30 @@ namespace progettoUMRidolfiPagani.Controllers
             {
                 return NotFound();
             }
-            return View(articolo);
+
+            var movimenti = await _articoloService.GetMovimentiByArticoloIdAsync(id);
+
+            var detailsViewModel = new DetailsArticoloViewModel
+            {
+                Id = articolo.Id,
+                Codice = articolo.Codice,
+                Descrizione = articolo.Descrizione,
+                Quantita = articolo.Quantita,
+                Stato = articolo.Stato,
+                Movimenti = movimenti.Select(m => new MovimentoViewModel
+                {
+                    DataMovimento = m.DataMovimento,
+                    TipoMovimento = m.TipoMovimento == TipoMovimento.Ingresso ? "Entrata" :
+                    m.TipoMovimento == TipoMovimento.Spostamento ? "Spostamento" : "Uscita",
+                    Quantita = m.Quantita,
+                    PosizioneIniziale = m.PosizioneIniziale?.CodicePosizione,
+                    PosizioneFinale = m.PosizioneFinale?.CodicePosizione
+                }).ToList()
+            };
+
+            return View(detailsViewModel);
         }
+
 
         // GET: Articoli/Create
         public async Task<IActionResult> Create()
@@ -148,11 +170,11 @@ namespace progettoUMRidolfiPagani.Controllers
             ModelState.Remove("Codice");
             ModelState.Remove("Descrizione");
             ModelState.Remove("Stato");
+            ModelState.Remove("Quantita");
 
             // Verifica che i valori originali siano stati ricevuti correttamente
             Console.WriteLine($"Quantità ricevuta: {model.Quantita}");
             Console.WriteLine($"PosizioneId ricevuta: {model.PosizioneId}");
-            Console.WriteLine($"Quantità originale ricevuta: {model.QuantitaOriginale}");
             Console.WriteLine($"Posizione originale ricevuta: {model.PosizioneIdCorrente}");
 
             if (ModelState.IsValid)
@@ -168,9 +190,7 @@ namespace progettoUMRidolfiPagani.Controllers
                     // Usa i valori originali per gestire lo spostamento
                     await _articoloService.UpdateAsync(
                         articolo,
-                        model.Quantita,
                         model.PosizioneId,
-                        model.QuantitaOriginale,
                         model.PosizioneIdCorrente
                     );
                 }
@@ -299,6 +319,7 @@ namespace progettoUMRidolfiPagani.Controllers
             var posizioniLibere = await _articoloService.GetPosizioniLibereAsync();
             return Ok(posizioniLibere);
         }
+        // GET: Articoli/GetArticoloById/5
         [HttpGet]
         public async Task<IActionResult> GetArticoloById(int id)
         {
@@ -306,27 +327,32 @@ namespace progettoUMRidolfiPagani.Controllers
 
             if (articolo == null)
             {
-                return NotFound(new { message = "Articolo non trovato" });
+                return NotFound();
             }
 
-            // Ottieni il codice della posizione corrente
-            var codicePosizioneCorrente = articolo.PosizioneId.HasValue
-                ? (await _articoloService.GetPosizioneByIdAsync(articolo.PosizioneId.Value))?.CodicePosizione
-                : "Nessuna posizione";
+            var movimenti = await _articoloService.GetMovimentiByArticoloIdAsync(id);
 
-            // Costruisci un oggetto JSON da restituire con le informazioni dell'articolo
-            var articoloDto = new
+            var response = new
             {
-                Id = articolo.Id,
-                Codice = articolo.Codice,
-                Descrizione = articolo.Descrizione,
-                Quantita = articolo.Quantita,
-                Stato = articolo.Stato,
-                PosizioneId = articolo.PosizioneId, // Posizione corrente
-                CodicePosizioneCorrente = codicePosizioneCorrente
+                id = articolo.Id,
+                codice = articolo.Codice,
+                descrizione = articolo.Descrizione,
+                quantita = articolo.Quantita,
+                stato = articolo.Stato,
+                posizioneId = articolo.PosizioneId,
+                codicePosizioneCorrente = articolo.Posizione?.CodicePosizione,
+                movimenti = movimenti.Select(m => new
+                {
+                    id = m.Id,
+                    dataMovimento = m.DataMovimento,
+                    tipoMovimento = m.TipoMovimento.ToString(),
+                    quantita = m.Quantita,
+                    posizioneIniziale = m.PosizioneIniziale?.CodicePosizione,
+                    posizioneFinale = m.PosizioneFinale?.CodicePosizione
+                }).ToList()
             };
 
-            return Ok(articoloDto);
+            return Ok(response);
         }
 
 

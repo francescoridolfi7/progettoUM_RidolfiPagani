@@ -45,8 +45,9 @@
                     <td>{{ articolo.quantita }}</td>
                     <td>{{ articolo.codicePosizione }}</td>
                     <td>
-                        <a :href="`/Articoli/Edit/${articolo.id}`" class="btn btn-primary">Sposta</a>
-                        <a :href="`/Articoli/Delete/${articolo.id}`" class="btn btn-primary">Uscita</a>
+                        <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary">Sposta</a>
+                        <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary">Uscita</a>
+                        <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary">Dettagli Movimenti</a>
                     </td>
                 </tr>
 
@@ -64,6 +65,7 @@
                 <th>Descrizione</th>
                 <th>Quantità</th>
                 <th>Posizione</th>
+                <th>Azioni</th>
             </tr>
         </thead>
         <tbody>
@@ -73,8 +75,9 @@
                 <td>{{ articolo.quantita }}</td>
                 <td>{{ articolo.codicePosizione }}</td>
                 <td>
-                    <a :href="`/Articoli/Edit/${articolo.id}`" class="btn btn-primary">Sposta</a>
-                    <a :href="`/Articoli/Delete/${articolo.id}`" class="btn btn-primary">Uscita</a>
+                    <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary">Sposta</a>
+                    <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary">Uscita</a>
+                    <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary">Dettagli Movimenti</a>
                 </td>
             </tr>
         </tbody>

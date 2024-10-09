@@ -8,10 +8,10 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<IEnumerable<Articolo>> GetAllAsync();
         Task<Articolo> GetByIdAsync(int id);
         Task<Articolo> CreateAsync(Articolo articolo);
-        Task<Articolo> UpdateAsync(Articolo articolo, int nuovaQuantita, int? nuovaPosizioneId, int quantitaOriginale, int? posizioneIdCorrente);
+        Task<Articolo> UpdateAsync(Articolo articolo, int? nuovaPosizioneId, int? posizioneIdCorrente);
         Task DeleteAsync(int articoloId, int quantitaDaUscire);
         Task<Articolo> GetByCodiceAsync(string codice);
-        Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int id);
+        Task<List<Movimento>> GetMovimentiByArticoloIdAsync(int articoloId);
         Task<IEnumerable<Articolo>> GetByPosizioneAsync(string posizione);
         Task<int> GetArticoliCountAsync();
         Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync();

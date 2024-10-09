@@ -65,7 +65,7 @@ namespace progettoUMRidolfiPagani.Services
         }
 
 
-        public async Task<Articolo> UpdateAsync(Articolo articolo, int nuovaQuantita, int? nuovaPosizioneId, int quantitaOriginale, int? posizioneIdCorrente)
+        public async Task<Articolo> UpdateAsync(Articolo articolo,int? nuovaPosizioneId,int? posizioneIdCorrente)
         {
             var articoloDb = await _context.Articoli
                 .Include(a => a.Posizione)
@@ -74,35 +74,8 @@ namespace progettoUMRidolfiPagani.Services
             if (articoloDb == null)
                 throw new Exception("Articolo non trovato");
 
-            // Verifica se viene spostata tutta la quantità o solo una parte
-            if (nuovaQuantita < quantitaOriginale)
-            {
-                articoloDb.Quantita -= nuovaQuantita;
-
-                // Aggiorna la quantità nella vecchia posizione
-                var vecchiaPosizione = await _context.Posizioni.FirstOrDefaultAsync(p => p.Id == posizioneIdCorrente);
-                if (vecchiaPosizione != null)
-                {
-                    vecchiaPosizione.Quantita -= nuovaQuantita;  // Sottrae la quantità spostata
-                    _context.Posizioni.Update(vecchiaPosizione);
-                }
-
-                // Crea un nuovo articolo per la quantità spostata
-                var nuovoArticolo = new Articolo
-                {
-                    Codice = articoloDb.Codice,
-                    Descrizione = articoloDb.Descrizione,
-                    Stato = articoloDb.Stato,
-                    Quantita = nuovaQuantita,
-                    PosizioneId = nuovaPosizioneId
-                };
-
-                _context.Articoli.Add(nuovoArticolo);
-            }
-            else
-            {
-                articoloDb.PosizioneId = nuovaPosizioneId;
-            }
+            articoloDb.PosizioneId = nuovaPosizioneId;
+            
 
             _context.Articoli.Update(articoloDb);
 
@@ -110,14 +83,11 @@ namespace progettoUMRidolfiPagani.Services
             var nuovaPosizione = await _context.Posizioni.FirstOrDefaultAsync(p => p.Id == nuovaPosizioneId);
             if (nuovaPosizione != null)
             {
-                nuovaPosizione.Quantita += nuovaQuantita;
+                nuovaPosizione.Quantita += articolo.Quantita;
                 nuovaPosizione.Occupata = true;
                 _context.Posizioni.Update(nuovaPosizione);
             }
 
-            // Se viene spostata l'intera quantità, libera la vecchia posizione
-            if (nuovaQuantita == quantitaOriginale)
-            {
                 var vecchiaPosizione = await _context.Posizioni.FirstOrDefaultAsync(p => p.Id == posizioneIdCorrente);
                 if (vecchiaPosizione != null)
                 {
@@ -125,7 +95,6 @@ namespace progettoUMRidolfiPagani.Services
                     vecchiaPosizione.Occupata = false;
                     _context.Posizioni.Update(vecchiaPosizione);
                 }
-            }
 
             // Crea un nuovo record nella tabella Movimenti
             var movimento = new Movimento
@@ -135,7 +104,7 @@ namespace progettoUMRidolfiPagani.Services
                 TipoMovimento = (TipoMovimento)1, // Spostamento (1)
                 PosizioneInizialeId = posizioneIdCorrente,  // Posizione originale
                 PosizioneFinaleId = nuovaPosizioneId,  // Posizione finale
-                Quantita = nuovaQuantita,  // Quantità spostata
+                Quantita = articoloDb.Quantita,  // Quantità spostata
                 DataMovimento = DateTime.Now  // Imposta la data del movimento
             };
 
@@ -205,14 +174,15 @@ namespace progettoUMRidolfiPagani.Services
                 .FirstOrDefaultAsync(a => a.Codice == codice);
         }
 
-        public async Task<IEnumerable<Movimento>> GetMovimentiByArticoloIdAsync(int id)
+        public async Task<List<Movimento>> GetMovimentiByArticoloIdAsync(int articoloId)
         {
-            var articolo = await _context.Articoli
-                .Include(a => a.Movimenti)
-                .FirstOrDefaultAsync(a => a.Id == id);
-
-            return articolo?.Movimenti ?? new List<Movimento>();
+            return await _context.Movimenti
+                .Include(m => m.PosizioneIniziale)
+                .Include(m => m.PosizioneFinale)
+                .Where(m => m.ArticoloId == articoloId)
+                .ToListAsync();
         }
+
 
         public async Task<IEnumerable<Articolo>> GetByPosizioneAsync(string posizione)
         {

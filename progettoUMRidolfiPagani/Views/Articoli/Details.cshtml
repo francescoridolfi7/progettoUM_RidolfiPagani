@@ -1,31 +1,49 @@
-@model progettoUMRidolfiPagani.Models.Articolo
+@model progettoUMRidolfiPagani.ViewModels.DetailsArticoloViewModel
 
-@{
-    ViewData["Title"] = "Dettagli Articolo";
-}
+<h2>Dettagli Movimenti per Articolo @Model.Codice</h2>
 
-<h1>Dettagli Articolo</h1>
-
-<div>
+<div id="dettagliArticolo" data-articolo-id="@Model.Id">
     <h4>Articolo</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Codice)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Codice)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Descrizione)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Descrizione)
-        </dd>
+        <dt class="col-sm-2">Codice</dt>
+        <dd class="col-sm-10">{{ articolo?.codice }}</dd>
+
+        <dt class="col-sm-2">Descrizione</dt>
+        <dd class="col-sm-10">{{ articolo?.descrizione }}</dd>
+
+        <dt class="col-sm-2">Quantità</dt>
+        <dd class="col-sm-10">{{ articolo?.quantita }}</dd>
+
+        <dt class="col-sm-2">Stato</dt>
+        <dd class="col-sm-10">{{ articolo?.stato }}</dd>
     </dl>
+
+    <h4>Movimenti</h4>
+    <table class="table" v-if="movimenti.length > 0">
+        <thead>
+            <tr>
+                <th>Data Movimento</th>
+                <th>Tipo Movimento</th>
+                <th>Quantità</th>
+                <th>Posizione Iniziale</th>
+                <th>Posizione Finale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="movimento in movimenti" :key="movimento.id">
+                <td>{{ movimento.dataMovimento }}</td>
+                <td>{{ movimento.tipoMovimento }}</td>
+                <td>{{ movimento.quantita }}</td>
+                <td>{{ movimento.posizioneIniziale }}</td>
+                <td>{{ movimento.posizioneFinale }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p v-else>Nessun movimento trovato per questo articolo.</p>
+
+    <a asp-action="Index" class="btn btn-secondary">Torna all'elenco</a>
 </div>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Modifica</a> |
-    <a asp-action="Index">Torna alla lista</a>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+<script src="/js/dettagli-articolo.js"></script>

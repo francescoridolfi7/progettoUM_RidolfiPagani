@@ -22,8 +22,6 @@ namespace progettoUMRidolfiPagani.ViewModels
 
         // Lista delle posizioni libere per la selezione
         public List<Posizione> PosizioniLibere { get; set; }
-        // Quantità originale prima della modifica
-        public int QuantitaOriginale { get; set; }
     }
 
 }

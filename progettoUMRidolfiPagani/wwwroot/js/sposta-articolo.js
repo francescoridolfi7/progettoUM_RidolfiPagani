@@ -3,7 +3,7 @@
         return {
             codice: '',  // Codice dell'articolo
             descrizione: '',  // Descrizione dell'articolo
-            quantita: 0,  // Quantità dell'articolo
+            quantita: 0,  // Quantità totale dell'articolo
             stato: '',  // Stato dell'articolo
             codicePosizioneCorrente: '',  // Codice della posizione corrente
             selectedPosizione: null,  // Posizione selezionata per lo spostamento
@@ -15,7 +15,6 @@
         this.getPosizioniLibere();
     },
     methods: {
-        // Recupera i dettagli dell'articolo corrente
         getArticolo() {
             const articoloId = window.location.pathname.split('/').pop();
             fetch(`/Articoli/GetArticoloById/${articoloId}`)
@@ -23,16 +22,13 @@
                 .then(data => {
                     this.codice = data.codice;
                     this.descrizione = data.descrizione;
-                    this.quantita = data.quantita;
-                    this.quantitaOriginale = data.quantita;  // Salva la quantità originale
+                    this.quantita = data.quantita;  // Imposta sempre la quantità totale
                     this.stato = data.stato;
                     this.codicePosizioneCorrente = data.codicePosizioneCorrente;
-                    this.posizioneIdCorrente = data.posizioneId;  // Salva la posizione originale
                     this.selectedPosizione = data.posizioneId;  // Imposta la posizione corrente come selezionata
                 })
                 .catch(error => console.error('Errore nel recupero dell\'articolo:', error));
         },
-        // Recupera la lista delle posizioni libere
         getPosizioniLibere() {
             fetch('/Articoli/GetPosizioniLibere')
                 .then(response => response.json())
@@ -44,34 +40,21 @@
                 })
                 .catch(error => console.error('Errore nella richiesta delle posizioni:', error));
         },
-        // Aggiorna l'articolo e sposta la sua posizione
         updateArticolo() {
-            const articoloId = window.location.pathname.split('/').pop(); // Estrai l'ID dalla URL corrente
-
-            // Assicurati che la quantità sia un numero valido
-            if (this.quantita <= 0) {
-                console.error('Quantità non valida.');
-                return;
-            }
+            const articoloId = window.location.pathname.split('/').pop();
 
             if (!this.selectedPosizione) {
                 console.error('Posizione non selezionata.');
                 return;
             }
 
-            console.log("Quantità:", this.quantita);  // Debug quantità
-            console.log("Posizione selezionata:", this.selectedPosizione);  // Debug posizione
-
-            // Passiamo i valori originali separatamente
             const articoloData = {
-                id: articoloId,  // ID dell'articolo
-                quantita: this.quantita,  // La nuova quantità selezionata
-                posizioneId: this.selectedPosizione,  // La nuova posizione selezionata
-                quantitaOriginale: this.quantitaOriginale,  // Quantità originale prima della modifica
-                posizioneIdCorrente: this.posizioneIdCorrente  // Posizione originale
+                id: articoloId,
+                quantita: this.quantita,  // Passa la quantità totale
+                posizioneId: this.selectedPosizione  // La nuova posizione selezionata
             };
 
-            fetch(`/Articoli/Edit/${articoloId}`, {  // Aggiungi l'ID dell'articolo nell'URL
+            fetch(`/Articoli/Edit/${articoloId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,14 +64,13 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        window.location.href = '/Articoli'; // Reindirizza alla lista degli articoli dopo il successo
+                        window.location.href = '/Articoli';
                     } else {
                         console.error('Errore durante l\'aggiornamento dell\'articolo:', response.status);
                     }
                 })
                 .catch(error => console.error('Errore durante l\'aggiornamento dell\'articolo:', error));
         }
-
     }
 });
 
