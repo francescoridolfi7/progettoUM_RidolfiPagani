@@ -354,6 +354,27 @@ namespace progettoUMRidolfiPagani.Controllers
 
             return Ok(response);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetArticoloPiuVecchio()
+        {
+            var articoloPiuVecchio = await _articoloService.GetArticoloPiuVecchioAsync();
+            if (articoloPiuVecchio == null)
+            {
+                return NotFound();
+            }
+
+            var response = new
+            {
+                id = articoloPiuVecchio.Id,
+                codice = articoloPiuVecchio.Codice,
+                descrizione = articoloPiuVecchio.Descrizione,
+                quantita = articoloPiuVecchio.Quantita,
+                codicePosizione = articoloPiuVecchio.Posizione?.CodicePosizione ?? "Articolo consegnato direttamente al reparto"
+            };
+
+            return Ok(response);
+        }
+
 
 
 

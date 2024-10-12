@@ -219,6 +219,14 @@ namespace progettoUMRidolfiPagani.Services
         {
             return await _context.Posizioni.FindAsync(id);
         }
+        public async Task<Articolo> GetArticoloPiuVecchioAsync()
+        {
+            return await _context.Articoli
+                .Include(a => a.Posizione)
+                .OrderBy(a => a.DataArrivo)  // Ordina per data di arrivo
+                .FirstOrDefaultAsync();  // Restituisci l'articolo più vecchio
+        }
+
 
 
 

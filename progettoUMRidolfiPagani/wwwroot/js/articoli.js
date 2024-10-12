@@ -135,6 +135,23 @@
                     }));
                 })
                 .catch(error => console.error('Errore:', error));
+        },
+        searchArticoloPiuVecchio() {
+            fetch('/Articoli/GetArticoloPiuVecchio')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        this.articoli = [data];  // Restituiamo un singolo articolo in un array
+                    } else {
+                        this.articoli = [];  // Nessun articolo trovato
+                    }
+                })
+                .catch(error => console.error('Errore:', error));
         }
 
 
