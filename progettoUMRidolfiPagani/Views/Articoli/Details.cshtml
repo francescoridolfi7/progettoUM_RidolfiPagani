@@ -1,5 +1,9 @@
 @model progettoUMRidolfiPagani.ViewModels.DetailsArticoloViewModel
 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Dettagli Articolo";
+}
 <h2>Dettagli Movimenti per Articolo @Model.Codice</h2>
 
 <div id="dettagliArticolo" data-articolo-id="@Model.Id">
