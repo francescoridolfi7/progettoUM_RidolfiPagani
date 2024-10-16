@@ -46,6 +46,7 @@
                             </div>
                         </form>
 
+
                         
                         <div v-if="errorMessages.length" class="alert alert-danger mt-3">
                             <ul>
@@ -54,6 +55,12 @@
                         </div>
                         <div v-if="registrazioneSuccesso" class="alert alert-success mt-3">
                             Registrazione avvenuta con successo!
+                        </div>
+
+                        <div style="color: blue; border: 1px solid blue; padding: 10px; border-radius: 5px;">
+                            <ul>
+                                <a href="/Account/Login">Hai già un account? Vai al login</a>
+                            </ul>
                         </div>
                     </div>
                 </div>
