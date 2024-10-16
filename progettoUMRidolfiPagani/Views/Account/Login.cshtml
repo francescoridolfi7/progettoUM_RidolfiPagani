@@ -1,0 +1,50 @@
+﻿@model progettoUMRidolfiPagani.ViewModel.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Login";
+}
+
+<div id="registrazione">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>Login</h3>
+                    </div>
+                    <div class="card-body">  
+                       
+                        <form @@submit.prevent="login">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input v-model="username" class="form-control" placeholder="Inserisci il tuo username" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input v-model="password" type="password" class="form-control" placeholder="Inserisci la tua password" />
+                            </div>
+
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            </div>
+                        </form>
+                        <div v-if="errorMessages.length > 0" class="alert alert-danger mt-3" style="color: red; border: 1px solid red; padding: 10px; border-radius: 5px;">
+                            <ul>
+                                <li v-for="error in errorMessages" :key="error">{{ error }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+    <script src="/js/account.js"></script>
+}

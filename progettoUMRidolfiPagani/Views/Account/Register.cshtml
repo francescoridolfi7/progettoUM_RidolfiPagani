@@ -1,0 +1,70 @@
+﻿@model progettoUMRidolfiPagani.ViewModel.RegisterViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Registrazione";
+}
+
+<div id="registrazione">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>Registrazione</h3>
+                    </div>
+                    <div class="card-body">
+                       
+                        <form @@submit.prevent="registrati">
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input v-model="nome" class="form-control" placeholder="Inserisci il tuo nome" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cognome">Cognome</label>
+                                <input v-model="cognome" class="form-control" placeholder="Inserisci il tuo cognome" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input v-model="email" type="email" class="form-control" placeholder="Inserisci la tua email" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input v-model="username" class="form-control" placeholder="Inserisci il tuo username" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input v-model="password" type="password" class="form-control" placeholder="Inserisci la tua password" />
+                            </div>
+
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-block">Registrati</button>
+                            </div>
+                        </form>
+
+                        
+                        <div v-if="errorMessages.length" class="alert alert-danger mt-3">
+                            <ul>
+                                <li v-for="error in errorMessages" :key="error">{{ error }}</li>
+                            </ul>
+                        </div>
+                        <div v-if="registrazioneSuccesso" class="alert alert-success mt-3">
+                            Registrazione avvenuta con successo!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+    <script src="/js/account.js"></script>
+}
