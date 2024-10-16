@@ -1,5 +1,5 @@
-
 using progettoUMRidolfiPagani.Models;
+using System.Collections.Generic;
 
 namespace progettoUMRidolfiPagani.ViewModels
 {
@@ -14,5 +14,13 @@ namespace progettoUMRidolfiPagani.ViewModels
         public object GraficoMovimenti { get; set; }
         public int ArticoliInMagazzino { get; set; }
         public int ArticoliDifettosi { get; set; }
+        public IDictionary<string, int> MovimentiPerTipo { get; set; }
+        public IEnumerable<MovimentoConteggio> ConteggiPerTipoMovimento { get; set; }
+
+        public class MovimentoConteggio
+        {
+            public string TipoMovimento { get; set; }
+            public int Conteggio { get; set; }
+        }
     }
 }

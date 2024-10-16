@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace progettoUMRidolfiPagani.Controllers
 {
-    public class DashboardController(IDashboardService dashboardService) : Controller
+    public class DashboardController : Controller
     {
-        private readonly IDashboardService _dashboardService = dashboardService;
-        private readonly IMovimentoService _movimentoService;
+        private readonly IDashboardService _dashboardService;
+
+        public DashboardController(IDashboardService dashboardService)
+        {
+            _dashboardService = dashboardService;
+        }
 
         // GET: Dashboard
         public async Task<IActionResult> Index()
@@ -21,31 +25,17 @@ namespace progettoUMRidolfiPagani.Controllers
                 NumeroPosizioniDisponibili = await _dashboardService.GetNumeroPosizioniDisponibiliAsync(),
                 ArticoliInEsaurimento = await _dashboardService.GetArticoliInEsaurimentoAsync(),
                 GraficoMovimenti = await _dashboardService.GetDatiGraficoMovimentiAsync(),
-                //MediaGiorniPermanenza = await _dashboardService.GetMediaGiorniPermanenzaAsync()
             };
 
             return View(dashboardViewModel);
         }
 
-        // GET: Dashboard/ArticoliInEsaurimento
-        public async Task<IActionResult> ArticoliInEsaurimento()
+        // Nuova azione per ottenere i dati della dashboard
+        [HttpGet]
+        public async Task<IActionResult> GetDashboardData()
         {
-            var articoliInEsaurimento = await _dashboardService.GetArticoliInEsaurimentoAsync();
-            return View(articoliInEsaurimento);
-        }
-
-        // GET: Dashboard/StatisticheMovimenti
-        public async Task<IActionResult> StatisticheMovimenti()
-        {
-            var statisticheMovimenti = await _movimentoService.GetStatisticheMovimentiAsync();
-            return View(statisticheMovimenti);
-        }
-
-        // GET: Dashboard/GraficoMovimenti
-        public async Task<IActionResult> GraficoMovimenti()
-        {
-            var datiGrafico = await _dashboardService.GetDatiGraficoMovimentiAsync();
-            return Json(datiGrafico); // Restituisce i dati come JSON per l'integrazione con un grafico frontend
+            var dashboardData = await _dashboardService.GetDashboardDataAsync();
+            return Json(dashboardData);
         }
     }
 }

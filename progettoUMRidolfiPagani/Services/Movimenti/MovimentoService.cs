@@ -132,40 +132,6 @@ namespace progettoUMRidolfiPagani.Services
                 .ToListAsync();
         }
 
-        //public async Task<double> GetMediaGiorniPermanenzaAsync()
-        //{
-        //    // Recupera tutti i movimenti dal contesto
-        //    var movimenti = await _context.Movimenti.ToListAsync();
-
-        //    // Calcola la media dei giorni di permanenza, ignorando i movimenti senza TempoPermanenza
-        //    var mediaPermanenza = movimenti
-        //        .Where(m => m.TempoPermanenza.HasValue)  // Controllo null per TempoPermanenza
-        //        .Select(m => m.TempoPermanenza.Value.TotalDays)  // Accede al valore solo se esiste
-        //        .DefaultIfEmpty(0)  // Ritorna 0 se non ci sono movimenti validi
-        //        .Average();  // Calcola la media
-
-        //    return mediaPermanenza;
-        //}
-
-
-
-        public async Task<StatisticheMovimentiViewModel> GetStatisticheMovimentiAsync()
-        {
-            var totaleMovimenti = await _context.Movimenti.CountAsync();
-            var movimentiPerTipo = await _context.Movimenti
-                .GroupBy(m => m.TipoMovimento)
-                .Select(g => new { TipoMovimento = g.Key, Conteggio = g.Count() })
-                .ToListAsync();
-
-            var viewModel = new StatisticheMovimentiViewModel
-            {
-                NumeroTotaleMovimenti = totaleMovimenti,
-                MovimentiPerTipo = movimentiPerTipo.ToDictionary(m => m.TipoMovimento.ToString(), m => m.Conteggio)
-            };
-
-            return viewModel;
-        }
-
         public async Task RegistraIngressoAsync(int articoloId, int posizioneId, int quantita)
         {
             var articolo = await _context.Articoli.FindAsync(articoloId);
@@ -213,6 +179,15 @@ namespace progettoUMRidolfiPagani.Services
                 .OrderByDescending(m => m.DataMovimento)
                 .ToListAsync();
         }
+
+        public async Task<IDictionary<string, int>> GetMovimentiPerTipoAsync()
+        {
+            return await _context.Movimenti
+                .GroupBy(m => m.TipoMovimento)
+                .Select(g => new { Tipo = g.Key.ToString(), Conteggio = g.Count() })
+                .ToDictionaryAsync(g => g.Tipo, g => g.Conteggio);
+        }
+
 
 
     }

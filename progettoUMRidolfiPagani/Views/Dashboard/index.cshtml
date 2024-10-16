@@ -1,13 +1,21 @@
 @model progettoUMRidolfiPagani.ViewModels.DashboardViewModel
 
-<div class="container">
+<div id="dashboard" class="container">
     <h1>Dashboard</h1>
     <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Numero Totale Articoli</h5>
-                    <p class="card-text">@Model.NumeroTotaleArticoli</p>
+                    <p class="card-text">{{ numeroTotaleArticoli }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Articoli In Magazzino</h5>
+                    <p class="card-text">{{ articoliInMagazzino }}</p>
                 </div>
             </div>
         </div>
@@ -15,7 +23,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Numero Totale Movimenti</h5>
-                    <p class="card-text">@Model.NumeroTotaleMovimenti</p>
+                    <p class="card-text">{{ numeroTotaleMovimenti }}</p>
                 </div>
             </div>
         </div>
@@ -23,71 +31,46 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Posizioni Disponibili</h5>
-                    <p class="card-text">@Model.NumeroPosizioniDisponibili</p>
+                    <p class="card-text">{{ numeroPosizioniDisponibili }}</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <h3>Articoli in Esaurimento</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Nome Articolo</th>
-                        <th>Quantità</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var articolo in Model.ArticoliInEsaurimento)
-                    {
-                        <tr>
-                            <td>@articolo.Codice</td>
-                            <td>@articolo.Quantita</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Grafico Movimenti</h3>
-            <div>
-                <!-- Segnaposto per il grafico -->
-                <canvas id="movimentiChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Media Giorni Permanenza</h5>
-                    <p class="card-text">@Model.MediaGiorniPermanenza</p>
+                    <h5 class="card-title">Articoli Difettosi</h5>
+                    <p class="card-text">{{ articoliDifettosi }}</p>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
+    <div class="col-md-12">
+        <h3>Movimenti per Tipo</h3>
+        <ul>
+            <li v-for="([tipo, count], index) in movimentiPerTipo" :key="index" v-if="tipo !== '$id'">
+                {{ tipo }}: {{ count }}
+            </li>
+        </ul>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var ctx = document.getElementById('movimentiChart').getContext('2d');
-    var chartData = @Json.Serialize(Model.GraficoMovimenti); // Usa il metodo di serializzazione integrato
+<div class="row">
+    <div class="col-md-12">
+        <h3>Media Giorni Permanenza Articoli</h3>
+        <canvas id="graficoMediaGiorniPermanenza" width="400" height="200"></canvas>
+    </div>
+</div>
 
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
+
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+<script src="/js/dashboard.js"></script>
