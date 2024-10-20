@@ -5,6 +5,8 @@
     ViewData["Title"] = "Login";
 }
 
+<link rel="stylesheet" href="~/css/style.css" />
+
 <div id="registrazione">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -30,12 +32,12 @@
                                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                             </div>
                         </form>
-                        <div v-if="errorMessages.length > 0" class="alert alert-danger mt-3" style="color: red; border: 1px solid red; padding: 10px; border-radius: 5px;">
+                        <div v-if="errorMessages.length > 0" class="alert alert-danger mt-3 alert-error">
                             <ul>
                                 <li v-for="error in errorMessages" :key="error">{{ error }}</li>
                             </ul>
                         </div>
-                        <div style="color: blue; border: 1px solid blue; padding: 10px; border-radius: 5px;">
+                        <div class="alert-info">
                             <ul>
                                 <a href="/Account/Register">Non hai un account? Registrati</a>
                             </ul>

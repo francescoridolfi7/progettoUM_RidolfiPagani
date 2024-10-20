@@ -1,0 +1,18 @@
+﻿.text-danger {
+    color: red;
+    font-weight: bold;
+}
+
+.alert-no-article {
+    color: red;
+    border: 1px solid red;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-info {
+    color: blue;
+    border: 1px solid blue;
+    padding: 10px;
+    border-radius: 5px;
+}

@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link rel="stylesheet" href="~/css/style.css" />
+
 <div id="articoli" class="container mt-4">
 
     <!-- Card per la ricerca -->
@@ -23,7 +25,7 @@
                 </div>
 
             </form>
-            <div v-if="articoloTrovatoPerCodice === 'Nessun articolo trovato'" class="alert alert-danger mt-3" style="color: red; border: 1px solid red; padding: 10px; border-radius: 5px;">
+            <div v-if="articoloTrovatoPerCodice === 'Nessun articolo trovato'" class="alert alert-danger mt-3 alert-no-article">
             <p >{{ articoloTrovatoPerCodice}}</p>
             </div>
 
@@ -37,7 +39,7 @@
                 </div>
 
             </form>
-            <div v-if="articoloTrovatoPerPosizione === 'Nessun articolo trovato'" class="alert alert-danger mt-3" style="color: red; border: 1px solid red; padding: 10px; border-radius: 5px;">
+            <div v-if="articoloTrovatoPerPosizione === 'Nessun articolo trovato'" class="alert alert-danger mt-3 alert-no-article">
                 <p>{{ articoloTrovatoPerPosizione }}</p>
             </div>
         </div>
@@ -185,10 +187,10 @@
                 </thead>
                 <tbody>
                     <tr v-for="articolo in articoli" :key="articolo.id">
-                        <td>{{ articolo.codice }}</td>
-                        <td>{{ articolo.descrizione }}</td>
-                        <td>{{ articolo.quantita }}</td>
-                        <td>{{ articolo.codicePosizione }}</td>
+                        <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.codice }}</td>
+                        <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.descrizione }}</td>
+                        <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.quantita }}</td>
+                        <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.codicePosizione }}</td>
                         <td class="text-center">
                             <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm">Sposta</a>
                             <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm">Uscita</a>
