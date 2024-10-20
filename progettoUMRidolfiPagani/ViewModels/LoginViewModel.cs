@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace progettoUMRidolfiPagani.ViewModel
+namespace progettoUMRidolfiPagani.ViewModels
 {
     public class LoginViewModel
     {

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Services\Posizione\Interface\" />
+    <Folder Include="ViewModel\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
 

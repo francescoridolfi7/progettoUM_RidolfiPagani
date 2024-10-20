@@ -39,21 +39,25 @@
         <!-- Select per scegliere una nuova posizione -->
         <div class="form-group">
             <label for="PosizioneId">Seleziona Nuova Posizione</label>
-            <select v-model="selectedPosizione" class="form-control" id="PosizioneId">
+            <select v-model="selectedPosizione" class="form-control" id="PosizioneId" required>
+                <option value="" disabled>Seleziona una posizione</option>
                 <option v-for="posizione in posizioniLibere" :key="posizione.id" :value="posizione.id">
                     {{ posizione.codicePosizione }}
                 </option>
             </select>
+            <!-- Messaggio di errore se la posizione non è selezionata -->
+            <div v-if="!selectedPosizione" class="text-danger mt-2">Devi selezionare una nuova posizione.</div>
         </div>
 
-        <button type="button" class="btn btn-primary" @@click="updateArticolo">Sposta Articolo</button>
+        <button type="button" class="btn btn-primary" @@click="updateArticolo" :disabled="!selectedPosizione">Sposta Articolo</button>
+
     </form>
 </div>
 
 
 
 <div>
-    <a asp-action="Index">Torna alla lista</a>
+    <a href="/Articoli" class="btn btn-secondary">Torna alla pagina principale</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>

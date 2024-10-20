@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using progettoUMRidolfiPagani.Models;
-using progettoUMRidolfiPagani.ViewModel;
 using System.Linq;
 using System.Threading.Tasks;
 using progettoUMRidolfiPagani.Repository;
 using Microsoft.EntityFrameworkCore;
+using progettoUMRidolfiPagani.ViewModels;
 
 namespace progettoUMRidolfiPagani.Controllers
 {

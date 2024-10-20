@@ -13,7 +13,16 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="@Url.Action("Index", "Articoli")">Home</a>
+        @if (Context.Session.GetString("Username") != null)
+        {
+            <a class="navbar-brand" href="@Url.Action("Index", "Articoli")">Home</a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+        }
+        else
+        {
+            <span class="navbar-brand text-muted" style="pointer-events: none;">Home</span>
+            <span class="navbar-brand text-muted" style="pointer-events: none;">Dashboard</span>
+        }
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

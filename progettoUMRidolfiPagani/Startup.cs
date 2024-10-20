@@ -115,7 +115,13 @@ namespace progettoUMRidolfiPagani
 
             app.UseEndpoints(endpoints =>
             {
-                // Definizione delle route per i controller
+                // rotta esplicita per Articoli/Index
+                endpoints.MapControllerRoute(
+                    name: "articoli",
+                    pattern: "Articoli/{action=Index}/{id?}",
+                    defaults: new { controller = "Articoli", action = "Index" });
+
+                // Rotta di default per Account/Login
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}/{id?}");

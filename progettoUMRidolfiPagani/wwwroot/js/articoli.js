@@ -7,7 +7,10 @@
             movimenti: [],
             totaleArticoli: 0,
             articoliDifettosi: 0,
-            articoliInEsaurimento: []
+            articoliInEsaurimento: [],
+            articoloPiuVecchio: null,
+            articoloTrovatoPerCodice: null,
+            articoloTrovatoPerPosizione: null  
         };
     },
     mounted() {
@@ -28,7 +31,7 @@
                     if (!response.ok) {
                         if (response.status === 404) {
                             console.warn('Nessun articolo trovato per il codice inserito.');
-                            this.articoli = []; 
+                            this.articoloTrovatoPerCodice = null;  // Nessun articolo trovato
                             return null;
                         } else {
                             throw new Error('Errore nella richiesta: ' + response.status);
@@ -37,15 +40,15 @@
                     return response.json();
                 })
                 .then(data => {
-                    if (data) {  // Se esiste un articolo restituito
-                        this.articoli = [{
+                    if (data) {
+                        this.articoloTrovatoPerCodice = {
                             ...data,
                             codicePosizione: data.posizione ? data.posizione.codicePosizione : 'Posizione non disponibile'
-                        }];
+                        };
                     } else {
-                        this.articoli = []; // Altrimenti restituiamo una lista vuota
+                        this.articoloTrovatoPerCodice = null;
                     }
-                    console.log(this.articoli);
+                    console.log(this.articoloTrovatoPerCodice);
                 })
                 .catch(error => console.error('Errore:', error));
         },
@@ -63,15 +66,16 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Risposta dal server:", data); // Log della risposta
-
-                    // Accedi ai dati sotto la proprietà $values
-                    this.articoli = data.$values.map(articolo => ({
-                        ...articolo,
-                        codicePosizione: articolo.posizione ? articolo.posizione.codicePosizione : 'Posizione non disponibile'
-                    }));
-
-                    console.log(this.articoli); // Verifica gli articoli processati
+                    if (data.$values.length > 0) {
+                        const articolo = data.$values[0];
+                        this.articoloTrovatoPerPosizione = {
+                            ...articolo,
+                            codicePosizione: articolo.posizione ? articolo.posizione.codicePosizione : 'Posizione non disponibile'
+                        };
+                    } else {
+                        this.articoloTrovatoPerPosizione = null;
+                    }
+                    console.log(this.articoloTrovatoPerPosizione);
                 })
                 .catch(error => console.error('Errore:', error));
         },
@@ -146,13 +150,14 @@
                 })
                 .then(data => {
                     if (data) {
-                        this.articoli = [data];  // Restituiamo un singolo articolo in un array
+                        this.articoloPiuVecchio = data;  // Memorizza l'articolo più vecchio
                     } else {
-                        this.articoli = [];  // Nessun articolo trovato
+                        this.articoloPiuVecchio = null;  // Nessun articolo trovato
                     }
                 })
                 .catch(error => console.error('Errore:', error));
         }
+
 
 
 
