@@ -21,7 +21,11 @@
                         <button type="submit" class="btn btn-primary">Cerca</button>
                     </div>
                 </div>
+
             </form>
+            <div v-if="articoloTrovatoPerCodice === 'Nessun articolo trovato'" class="alert alert-danger mt-3" style="color: red; border: 1px solid red; padding: 10px; border-radius: 5px;">
+            <p >{{ articoloTrovatoPerCodice}}</p>
+            </div>
 
             <!-- Form per la ricerca per posizione -->
             <form @@submit.prevent="searchByPosizione">
@@ -31,11 +35,15 @@
                         <button type="submit" class="btn btn-primary">Cerca</button>
                     </div>
                 </div>
+
             </form>
+            <div v-if="articoloTrovatoPerPosizione === 'Nessun articolo trovato'" class="alert alert-danger mt-3" style="color: red; border: 1px solid red; padding: 10px; border-radius: 5px;">
+                <p>{{ articoloTrovatoPerPosizione }}</p>
+            </div>
         </div>
     </div>
 
-    <div v-if="articoloTrovatoPerCodice" class="card mb-4">
+    <div v-if="articoloTrovatoPerCodice && articoloTrovatoPerCodice !== 'Nessun articolo trovato'" class="card mb-4">
         <div class="card-header">
             <h3>Risultato della ricerca per codice</h3>
         </div>
@@ -67,7 +75,7 @@
         </div>
     </div>
 
-    <div v-if="articoloTrovatoPerPosizione" class="card mb-4">
+    <div v-if="articoloTrovatoPerPosizione && articoloTrovatoPerPosizione !== 'Nessun articolo trovato'" class="card mb-4">
         <div class="card-header">
             <h3>Risultato della ricerca per posizione</h3>
         </div>

@@ -4,74 +4,99 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Dashboard";
 }
-<div id="dashboard" class="container">
-    <h1>Dashboard</h1>
-    <div class="row">
-        <div class="col-md-4">
+
+<div id="dashboard" class="container mt-4">
+   
+    <h3 class="mb-4">Dashboard</h3> 
+
+    <div class="row mb-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
+                <div class="card-header">
+                    Numero Totale Articoli
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Numero Totale Articoli</h5>
                     <p class="card-text">{{ numeroTotaleArticoli }}</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
+                <div class="card-header">
+                    Articoli In Magazzino
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Articoli In Magazzino</h5>
                     <p class="card-text">{{ articoliInMagazzino }}</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Numero Totale Movimenti</h5>
-                    <p class="card-text">{{ numeroTotaleMovimenti }}</p>
+                <div class="card-header">
+                    Numero Totale Movimenti
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Posizioni Disponibili</h5>
-                    <p class="card-text">{{ numeroPosizioniDisponibili }}</p>
+                    <p class="card-text">{{ numeroTotaleMovimenti }}</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
+    <!-- Seconda riga di carte -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
+                <div class="card-header">
+                    Posizioni Disponibili
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Articoli Difettosi</h5>
+                    <p class="card-text">{{ numeroPosizioniDisponibili }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Articoli Difettosi
+                </div>
+                <div class="card-body">
                     <p class="card-text">{{ articoliDifettosi }}</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-    <div class="col-md-12">
-        <h3>Movimenti per Tipo</h3>
-        <ul>
-            <li v-for="([tipo, count], index) in movimentiPerTipo" :key="index" v-if="tipo !== '$id'">
-                {{ tipo }}: {{ count }}
-            </li>
-        </ul>
+    <!-- Sezione movimenti per tipo -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Movimenti per Tipo
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li v-for="([tipo, count], index) in movimentiPerTipo" :key="index" v-if="tipo !== '$id'">
+                            {{ tipo }}: {{ count }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
-        <h3>Media Giorni Permanenza Articoli</h3>
-        <canvas id="graficoMediaGiorniPermanenza" width="400" height="200"></canvas>
+    <!-- Sezione grafico media giorni permanenza articoli -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Media Giorni Permanenza Articoli
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoMediaGiorniPermanenza" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-
-
 
 </div>
 
