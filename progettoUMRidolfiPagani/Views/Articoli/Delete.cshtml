@@ -1,32 +1,39 @@
 @model progettoUMRidolfiPagani.ViewModels.DeleteArticoloViewModel
 
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Uscita Articolo";
 }
-<h2>Uscita Articolo</h2>
 
-<div id="uscita-articolo">
-    @Html.AntiForgeryToken()
-    <div>
-        <p><strong>Codice:</strong> @Model.Codice</p>
-        <p><strong>Descrizione:</strong> @Model.Descrizione</p>
-        <p><strong>Stato:</strong> @Model.Stato</p>
-        <p><strong>Posizione Corrente:</strong> {{ codicePosizioneCorrente }}</p>
-        <div class="form-group">
-            <label for="quantita">Quantità da fare uscire:</label>
-            <input type="number" v-model="quantita" class="form-control" min="1" :max="quantita" required />
+<div id="uscita-articolo" class="container mt-4">
+    <!-- Card contenitore -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Uscita Articolo</h3>
         </div>
-    </div>
+        <div class="card-body">
+            <!-- Dettagli dell'articolo -->
+            <div class="mb-4">
+                <p><strong>Codice:</strong> @Model.Codice</p>
+                <p><strong>Descrizione:</strong> @Model.Descrizione</p>
+                <p><strong>Stato:</strong> @Model.Stato</p>
+                <p><strong>Posizione Corrente:</strong> @Model.CodicePosizioneCorrente</p>
+            </div>
 
-    <div>
-        <p>Vuoi fare uscire l'articolo?</p>
-        <button class="btn btn-danger" @@click="confermaUscita">Si, procedi con l'eliminazione</button>
-        <a href="/Articoli" class="btn btn-secondary">No, torna alla pagina principale</a>
+            <!-- Selezione quantità e conferma -->
+            <div class="form-group mb-4">
+                <label for="quantita">Quantità da fare uscire:</label>
+                <input type="number" v-model="quantita" class="form-control" min="1" :max="quantita" required />
+            </div>
+
+            <div class="mb-3">
+                <p>Vuoi fare uscire l'articolo?</p>
+                <button class="btn btn-danger me-2" @@click="confermaUscita">Si, procedi con l'eliminazione</button>
+                <a href="/Articoli" class="btn btn-secondary">No, torna alla pagina principale</a>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
 <script src="/js/uscita-articolo.js"></script>
-

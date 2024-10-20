@@ -7,56 +7,62 @@
 
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
-<div id="nuovo-articolo">
-<h1>Registra Nuovo Articolo</h1>
 
-    <div class="form-group">
-        <label asp-for="Codice" class="control-label">Codice Articolo</label>
-            <input type="text" class="form-control" v-model="codice" id="Codice" />
-    </div>
+    <div id="nuovo-articolo" class="container mt-4">
+        <h3 class="mb-4">Registra Nuovo Articolo</h3> <!-- Stile di intestazione simile alla pagina articoli -->
+        <!-- Card per inserimento dati dell'articolo -->
+        <div class="card mb-4">
+            <div class="card-header">
+                Dati Articolo
+            </div>
+            <div class="card-body">
+                <div class="form-group mb-3">
+                    <label asp-for="Codice" class="control-label">Codice Articolo</label>
+                    <input type="text" class="form-control" v-model="codice" id="Codice" />
+                </div>
 
-    <div class="form-group">
-        <label asp-for="Descrizione" class="control-label">Descrizione Articolo</label>
-            <input type="text" class="form-control" v-model="descrizione" id="Descrizione" />
-    </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Descrizione" class="control-label">Descrizione Articolo</label>
+                    <input type="text" class="form-control" v-model="descrizione" id="Descrizione" />
+                </div>
 
-    <div class="form-group">
-        <label asp-for="Stato" class="control-label">Stato dell'Articolo</label>
-            <select asp-for="Stato" class="form-control" v-model="stato" id="Stato">
-            <option value="In Magazzino">In Magazzino</option>
-            <option value="Reparto">Reparto</option>
-            <option value="Difettoso">Difettoso</option>
-        </select>
-    </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Stato" class="control-label">Stato dell'Articolo</label>
+                    <select asp-for="Stato" class="form-control" v-model="stato" id="Stato">
+                        <option value="In Magazzino">In Magazzino</option>
+                        <option value="Reparto">Reparto</option>
+                        <option value="Difettoso">Difettoso</option>
+                    </select>
+                </div>
 
-    <div class="form-group">
-        <label asp-for="Quantita" class="control-label">Quantità</label>
-            <input type="number" class="form-control" v-model="quantita" id="Quantita" />
-    </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Quantita" class="control-label">Quantità</label>
+                    <input type="number" class="form-control" v-model="quantita" id="Quantita" />
+                </div>
 
-        <!-- Campo PosizioneId visibile solo se lo stato non è "Reparto" -->
-        <div v-if="showPosizione" class="form-group">
-            <label for="posizioneSelect">Seleziona una Posizione Libera</label>
-            <select v-model="selectedPosizione" class="form-control" id="posizioneSelect">
-                <option v-for="posizione in posizioniLibere" :key="posizione.id" :value="posizione.id">
-                    {{ posizione.codicePosizione }}
-                </option>
-            </select>
+                <!-- Campo PosizioneId visibile solo se lo stato non è "Reparto" -->
+                <div v-if="showPosizione" class="form-group mb-3">
+                    <label for="posizioneSelect">Seleziona una Posizione Libera</label>
+                    <select v-model="selectedPosizione" class="form-control" id="posizioneSelect">
+                        <option v-for="posizione in posizioniLibere" :key="posizione.id" :value="posizione.id">
+                            {{ posizione.codicePosizione }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card per azioni -->
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <input type="hidden" asp-for="DataArrivo" value="@DateTime.Now" />
+                <button type="button" class="btn btn-primary" @@click="createArticolo">Crea</button>
+                <a href="/Articoli" class="btn btn-secondary ms-2" style=" margin: 0 5px;">Torna alla pagina principale</a>
+            </div>
         </div>
 
 
-
-    <div class="form-group">
-        <input type="hidden" asp-for="DataArrivo" value="@DateTime.Now" />
     </div>
-
-    <div class="form-group">
-            <button type="button" class="btn btn-primary" @@click="createArticolo">Crea</button>
-            <a href="/Articoli" class="btn btn-secondary">Torna alla pagina principale</a>
-    </div>
-
-
-</div>
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>

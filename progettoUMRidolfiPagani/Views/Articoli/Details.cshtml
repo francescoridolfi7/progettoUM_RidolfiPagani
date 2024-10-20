@@ -4,50 +4,67 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Dettagli Articolo";
 }
-<h2>Dettagli Movimenti per Articolo @Model.Codice</h2>
 
-<div id="dettagliArticolo" data-articolo-id="@Model.Id">
-    <h4>Articolo</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Codice</dt>
-        <dd class="col-sm-10">{{ articolo?.codice }}</dd>
+<div id="dettagliArticolo" data-articolo-id="@Model.Id" class="container mt-4">
+    <!-- Card per i dettagli dell'articolo -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Dettagli Articolo - Codice: @Model.Codice</h3>
+        </div>
+        <div class="card-body">
+            <h4>Informazioni Articolo</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">Codice</dt>
+                <dd class="col-sm-9">{{ articolo?.codice }}</dd>
 
-        <dt class="col-sm-2">Descrizione</dt>
-        <dd class="col-sm-10">{{ articolo?.descrizione }}</dd>
+                <dt class="col-sm-3">Descrizione</dt>
+                <dd class="col-sm-9">{{ articolo?.descrizione }}</dd>
 
-        <dt class="col-sm-2">Quantità</dt>
-        <dd class="col-sm-10">{{ articolo?.quantita }}</dd>
+                <dt class="col-sm-3">Quantità</dt>
+                <dd class="col-sm-9">{{ articolo?.quantita }}</dd>
 
-        <dt class="col-sm-2">Stato</dt>
-        <dd class="col-sm-10">{{ articolo?.stato }}</dd>
-    </dl>
+                <dt class="col-sm-3">Stato</dt>
+                <dd class="col-sm-9">{{ articolo?.stato }}</dd>
+            </dl>
+        </div>
+    </div>
 
-    <h4>Movimenti</h4>
-    <table class="table" v-if="movimenti.length > 0">
-        <thead>
-            <tr>
-                <th>Data Movimento</th>
-                <th>Tipo Movimento</th>
-                <th>Quantità</th>
-                <th>Posizione Iniziale</th>
-                <th>Posizione Finale</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="movimento in movimenti" :key="movimento.id">
-                <td>{{ movimento.dataMovimento }}</td>
-                <td>{{ movimento.tipoMovimento }}</td>
-                <td>{{ movimento.quantita }}</td>
-                <td>{{ movimento.posizioneIniziale }}</td>
-                <td>{{ movimento.posizioneFinale }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <p v-else>Nessun movimento trovato per questo articolo.</p>
+    <!-- Card per i movimenti dell'articolo -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Movimenti dell'Articolo</h4>
+        </div>
+        <div class="card-body">
+            <table class="table" v-if="movimenti.length > 0">
+                <thead>
+                    <tr>
+                        <th>Data Movimento</th>
+                        <th>Tipo Movimento</th>
+                        <th>Quantità</th>
+                        <th>Posizione Iniziale</th>
+                        <th>Posizione Finale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="movimento in movimenti" :key="movimento.id">
+                        <td>{{ movimento.dataMovimento }}</td>
+                        <td>{{ movimento.tipoMovimento }}</td>
+                        <td>{{ movimento.quantita }}</td>
+                        <td>{{ movimento.posizioneIniziale }}</td>
+                        <td>{{ movimento.posizioneFinale }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p v-else>Nessun movimento trovato per questo articolo.</p>
+        </div>
+    </div>
 
-    <div>
-    <a href="/Articoli" class="btn btn-secondary">Torna alla pagina principale</a>
+    <!-- Card per il bottone -->
+    <div class="card">
+        <div class="card-body">
+            <a href="/Articoli" class="btn btn-secondary">Torna alla pagina principale</a>
+        </div>
     </div>
 </div>
 

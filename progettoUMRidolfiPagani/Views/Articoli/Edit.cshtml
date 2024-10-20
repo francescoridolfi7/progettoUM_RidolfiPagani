@@ -5,59 +5,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Sposta Articolo</h1>
-
-<div id="sposta-articolo">
-    <form method="post" asp-action="Edit">
-        @Html.AntiForgeryToken()
-
-        <div class="form-group">
-            <label for="Codice">Codice</label>
-            <input type="text" class="form-control" v-model="codice" id="Codice" readonly />
+<div class="container mt-4" id="sposta-articolo">
+    <!-- Card per il titolo -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Sposta Articolo</h2>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label for="Descrizione">Descrizione</label>
-            <input type="text" class="form-control" v-model="descrizione" id="Descrizione" readonly />
+    <!-- Card per il form di spostamento -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="post" asp-action="Edit">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group mb-3">
+                    <label for="Codice">Codice</label>
+                    <input type="text" class="form-control" v-model="codice" id="Codice" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Descrizione">Descrizione</label>
+                    <input type="text" class="form-control" v-model="descrizione" id="Descrizione" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Stato">Stato</label>
+                    <input type="text" class="form-control" v-model="stato" id="Stato" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Quantita">Quantità</label>
+                    <input type="number" class="form-control" v-model="quantita" id="Quantita" readonly />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="CodicePosizioneCorrente">Posizione Corrente</label>
+                    <input type="text" class="form-control" v-model="codicePosizioneCorrente" id="CodicePosizioneCorrente" readonly />
+                </div>
+
+                <!-- Select per scegliere una nuova posizione -->
+                <div class="form-group mb-4">
+                    <label for="PosizioneId">Seleziona Nuova Posizione</label>
+                    <select v-model="selectedPosizione" class="form-control" id="PosizioneId" required>
+                        <option value="" disabled>Seleziona una posizione</option>
+                        <option v-for="posizione in posizioniLibere" :key="posizione.id" :value="posizione.id">
+                            {{ posizione.codicePosizione }}
+                        </option>
+                    </select>
+                    <!-- Messaggio di errore se la posizione non è selezionata -->
+                    <div v-if="!selectedPosizione" class="text-danger mt-2">Devi selezionare una nuova posizione.</div>
+                </div>
+
+                <button type="button" class="btn btn-primary me-3" @@click="updateArticolo" :disabled="!selectedPosizione">Sposta Articolo</button>
+                <a href="/Articoli" class="btn btn-secondary">Torna alla pagina principale</a>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="Stato">Stato</label>
-            <input type="text" class="form-control" v-model="stato" id="Stato" readonly />
-        </div>
-
-        <div class="form-group">
-            <label for="Quantita">Quantità</label>
-            <input type="number" class="form-control" v-model="quantita" id="Quantita" readonly />
-        </div>
-
-        <div class="form-group">
-            <label for="CodicePosizioneCorrente">Posizione Corrente</label>
-            <input type="text" class="form-control" v-model="codicePosizioneCorrente" id="CodicePosizioneCorrente" readonly />
-        </div>
-
-        <!-- Select per scegliere una nuova posizione -->
-        <div class="form-group">
-            <label for="PosizioneId">Seleziona Nuova Posizione</label>
-            <select v-model="selectedPosizione" class="form-control" id="PosizioneId" required>
-                <option value="" disabled>Seleziona una posizione</option>
-                <option v-for="posizione in posizioniLibere" :key="posizione.id" :value="posizione.id">
-                    {{ posizione.codicePosizione }}
-                </option>
-            </select>
-            <!-- Messaggio di errore se la posizione non è selezionata -->
-            <div v-if="!selectedPosizione" class="text-danger mt-2">Devi selezionare una nuova posizione.</div>
-        </div>
-
-        <button type="button" class="btn btn-primary" @@click="updateArticolo" :disabled="!selectedPosizione">Sposta Articolo</button>
-
-    </form>
-</div>
-
-
-
-<div>
-    <a href="/Articoli" class="btn btn-secondary">Torna alla pagina principale</a>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
