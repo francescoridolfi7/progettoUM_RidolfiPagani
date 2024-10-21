@@ -37,3 +37,8 @@
     height: auto;
     margin-right: 20px;
 }
+
+.table-actions {
+    white-space: nowrap; 
+    width: 200px;
+}

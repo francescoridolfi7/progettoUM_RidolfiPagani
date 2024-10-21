@@ -25,7 +25,6 @@ const app = Vue.createApp({
                     return response.json();
                 })
                 .then(data => {
-                    // Assegnare i dati evitando i metadati non necessari
                     this.numeroTotaleArticoli = data.numeroTotaleArticoli;
                     this.articoliInMagazzino = data.articoliInMagazzino;
                     this.numeroTotaleMovimenti = data.numeroTotaleMovimenti;

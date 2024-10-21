@@ -43,33 +43,6 @@ const app = Vue.createApp({
                     this.errorMessages = ['Errore di connessione al server.'];
                 });
         },
-        /*login() {
-            fetch('/Account/Login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    Username: this.username,
-                    Password: this.password
-                })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(data => {
-                            this.errorMessages = data.errors || ['Username o password non validi.'];
-                        });
-                    }
-                    return response.json().then(data => {
-                        window.location.href = data.redirectUrl; // Reindirizza alla home o articoli
-                    });
-                })
-                .catch(error => {
-                    console.error('Errore:', error);
-                });
-        }*/
-
         login() {
             fetch('/Account/Login', {
                 method: 'POST',

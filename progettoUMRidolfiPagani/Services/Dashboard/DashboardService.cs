@@ -1,8 +1,8 @@
 using progettoUMRidolfiPagani.Models;
 using progettoUMRidolfiPagani.Services.Interface;
 using progettoUMRidolfiPagani.ViewModels;
-using progettoUMRidolfiPagani.Repository; // Aggiunto per l'uso di MagazzinoDbContext
-using Microsoft.EntityFrameworkCore; // Aggiunto per l'uso di ToListAsync e altre funzioni EF
+using progettoUMRidolfiPagani.Repository;
+using Microsoft.EntityFrameworkCore; 
 
 namespace progettoUMRidolfiPagani.Services
 {
@@ -11,7 +11,7 @@ namespace progettoUMRidolfiPagani.Services
         private readonly IArticoloService _articoloService;
         private readonly IMovimentoService _movimentoService;
         private readonly IPosizioneService _posizioneService;
-        private readonly MagazzinoDbContext _context; // Aggiunta del contesto DbContext
+        private readonly MagazzinoDbContext _context;
 
         public DashboardService(
             IArticoloService articoloService,
@@ -22,7 +22,7 @@ namespace progettoUMRidolfiPagani.Services
             _articoloService = articoloService;
             _movimentoService = movimentoService;
             _posizioneService = posizioneService;
-            _context = context; // Inizializzazione del contesto
+            _context = context; 
         }
 
         public async Task<int> GetNumeroTotaleArticoliAsync()
@@ -66,25 +66,21 @@ namespace progettoUMRidolfiPagani.Services
             int conteggioPermanenza = 0;
 
             foreach (var ingresso in ingressi)
-            {
-                // Trova la prima uscita per lo stesso articolo dopo l'ingresso
+            {                
                 var uscitaCorrispondente = uscite
                     .FirstOrDefault(u => u.ArticoloId == ingresso.ArticoloId && u.DataMovimento > ingresso.DataMovimento);
 
                 double giorniDiPermanenza;
 
                 if (uscitaCorrispondente != null)
-                {
-                    // Calcola i giorni di permanenza tra l'ingresso e l'uscita
+                {                   
                     giorniDiPermanenza = (uscitaCorrispondente.DataMovimento - ingresso.DataMovimento).TotalDays;
                 }
                 else
-                {
-                    // Se non c'è uscita, calcola i giorni di permanenza fino a oggi
+                {                  
                     giorniDiPermanenza = (DateTime.Now - ingresso.DataMovimento).TotalDays;
                 }
 
-                // Aggiungi alla somma totale dei giorni e incrementa il conteggio
                 sommaGiorni += giorniDiPermanenza;
                 conteggioPermanenza++;
             }

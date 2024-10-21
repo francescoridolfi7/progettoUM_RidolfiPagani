@@ -8,14 +8,12 @@
 <link rel="stylesheet" href="~/css/style.css" />
 
 <div class="container mt-4" id="sposta-articolo">
-    <!-- Card per il titolo -->
     <div class="card mb-4">
         <div class="card-header">
             <h2>Sposta Articolo</h2>
         </div>
     </div>
 
-    <!-- Card per il form di spostamento -->
     <div class="card mb-4">
         <div class="card-body">
             <form method="post" asp-action="Edit">
@@ -46,7 +44,6 @@
                     <input type="text" class="form-control" v-model="codicePosizioneCorrente" id="CodicePosizioneCorrente" readonly />
                 </div>
 
-                <!-- Select per scegliere una nuova posizione -->
                 <div class="form-group mb-4">
                     <label for="PosizioneId">Seleziona Nuova Posizione</label>
                     <select v-model="selectedPosizione" class="form-control" id="PosizioneId" required>
@@ -55,7 +52,6 @@
                             {{ posizione.codicePosizione }}
                         </option>
                     </select>
-                    <!-- Messaggio di errore se la posizione non è selezionata -->
                     <div v-if="!selectedPosizione" class="text-danger mt-2">Devi selezionare una nuova posizione.</div>
                 </div>
 

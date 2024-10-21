@@ -5,21 +5,20 @@ namespace progettoUMRidolfiPagani.Models
         public int Id { get; set; }
 
         // Relazione con Articolo
-        public int ArticoloId { get; set; } // Chiave esterna per Articolo
-        public required Articolo Articolo { get; set; }  // Navigazione
+        public int ArticoloId { get; set; } 
+        public required Articolo Articolo { get; set; }  
 
-        public TipoMovimento TipoMovimento { get; set; }  // Enum per tipo di movimento
-        public int? PosizioneInizialeId { get; set; } // Chiave esterna per la Posizione Iniziale
+        public TipoMovimento TipoMovimento { get; set; } 
+        public int? PosizioneInizialeId { get; set; } 
         public Posizione? PosizioneIniziale { get; set; }
-        public int? PosizioneFinaleId { get; set; } // Chiave esterna per la Posizione Finale
+        public int? PosizioneFinaleId { get; set; } 
         public Posizione? PosizioneFinale { get; set; } 
 
-        public DateTime DataMovimento { get; set; } = DateTime.Now; // Data del movimento
+        public DateTime DataMovimento { get; set; } = DateTime.Now;
 
-        public int Quantita { get; set; }  // Quantità movimentata
+        public int Quantita { get; set; }
     }
 
-    // Enum per i tipi di movimento
     public enum TipoMovimento
     {
         Ingresso,  // 0

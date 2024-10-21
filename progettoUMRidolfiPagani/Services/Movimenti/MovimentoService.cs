@@ -60,14 +60,14 @@ namespace progettoUMRidolfiPagani.Services
 
         public async Task<Movimento> SpostaArticoloAsync(int articoloId, int posizioneInizialeId, int posizioneFinaleId)
         {
-            // Trova l'articolo da spostare
+            //Trova l'articolo da spostare
             var articolo = await _context.Articoli.Include(a => a.Movimenti).FirstOrDefaultAsync(a => a.Id == articoloId);
             if (articolo == null)
             {
                 throw new ArgumentException("Articolo non trovato");
             }
 
-            // Trova la posizione iniziale e finale
+            //Trova la posizione iniziale e finale
             var posizioneIniziale = await _context.Posizioni.FindAsync(posizioneInizialeId);
             var posizioneFinale = await _context.Posizioni.FindAsync(posizioneFinaleId);
 
@@ -76,21 +76,19 @@ namespace progettoUMRidolfiPagani.Services
                 throw new ArgumentException("Posizione iniziale o finale non trovata");
             }
 
-            // Creare un nuovo movimento per registrare lo spostamento
             var nuovoMovimento = new Movimento
             {
                 Articolo = new Articolo { Id = articoloId },
                 PosizioneIniziale = new Posizione { Id = posizioneInizialeId },
                 PosizioneFinale = new Posizione { Id = posizioneFinaleId },
                 DataMovimento = DateTime.Now,
-                Quantita = articolo.Quantita,  // Usa la quantità associata all'articolo
+                Quantita = articolo.Quantita,  //Usa la quantità associata all'articolo
                 TipoMovimento = TipoMovimento.Spostamento
             };
 
-            // Aggiorna la posizione corrente dell'articolo
+            //Aggiorna la posizione corrente dell'articolo
             articolo.PosizioneId = posizioneFinaleId;
 
-            // Aggiungi il nuovo movimento e salva i cambiamenti nel contesto
             _context.Movimenti.Add(nuovoMovimento);
             await _context.SaveChangesAsync();
 

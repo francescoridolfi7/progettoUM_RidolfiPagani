@@ -18,7 +18,6 @@ namespace progettoUMRidolfiPagani.ViewModels
 
         public string CodicePosizioneCorrente { get; set; }
 
-        // Campo per la conferma dell'uscita
         [Required]
         public bool ConfermaUscita { get; set; }
     }

@@ -9,13 +9,11 @@
 
 <div id="ricerca-articolo" class="container mt-4">
 
-    <!-- Card per la ricerca -->
     <div class="card mb-4">
         <div class="card-header">
             <h3>Ricerca Articoli</h3>
         </div>
         <div class="card-body">
-            <!-- Form per la ricerca per codice -->
             <form @@submit.prevent="searchByCodice" class="mb-3">
                 <div class="input-group">
                     <input type="text" v-model="codice" class="form-control" placeholder="Cerca per codice">
@@ -28,7 +26,6 @@
                 <p>{{ articoloTrovatoPerCodice }}</p>
             </div>
 
-            <!-- Form per la ricerca per posizione -->
             <form @@submit.prevent="searchByPosizione">
                 <div class="input-group">
                     <input type="text" v-model="posizione" class="form-control" placeholder="Cerca per posizione">
@@ -111,7 +108,6 @@
         </div>
     </div>
 
-    <!-- Card per mostrare il totale degli articoli e difettosi -->
     <div class="card mb-4">
         <div class="card-header">
             <h3>Informazioni Articoli</h3>
@@ -137,7 +133,6 @@
         </div>
     </div>
 
-    <!-- Card per l'articolo più vecchio -->
     <div class="card mb-4" v-if="articoloPiuVecchio">
         <div class="card-header">
             <h3>Articolo Più Vecchio</h3>

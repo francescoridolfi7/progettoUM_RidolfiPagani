@@ -5,14 +5,13 @@
             descrizione: '',
             quantita: 0,
             stato: '',
-            selectedPosizione: null, // Variabile per tracciare la posizione selezionata
+            selectedPosizione: null, //Variabile per tracciare la posizione selezionata
             posizioniLibere: [],
-            showPosizione: true // Variabile per controllare la visibilità del campo Posizione
+            showPosizione: true //Variabile per controllare la visibilità del campo Posizione
         };
     },
     watch: {
         stato(newVal) {
-            // Se lo stato è "Reparto", nascondi il campo Posizione e imposta selectedPosizione a null
             if (newVal === 'Reparto') {
                 this.showPosizione = false;
                 this.selectedPosizione = null;
@@ -51,13 +50,12 @@
                 return;
             }
 
-            // Prepariamo i dati per il POST
             const articoloData = {
                 codice: this.codice,
                 descrizione: this.descrizione,
                 quantita: this.quantita,
                 stato: this.stato,
-                posizioneId: this.stato === 'Reparto' ? null : this.selectedPosizione // PosizioneId è null se lo stato è "Reparto"
+                posizioneId: this.stato === 'Reparto' ? null : this.selectedPosizione //PosizioneId è null se lo stato è "Reparto"
             };
 
             fetch('/Articoli/Create', {
@@ -70,7 +68,7 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        window.location.href = '/Articoli'; // Reindirizza all'index dopo il successo*/
+                        window.location.href = '/Articoli';
                     } else {
                         console.error('Errore durante la creazione dell\'articolo:', response.status);
                     }

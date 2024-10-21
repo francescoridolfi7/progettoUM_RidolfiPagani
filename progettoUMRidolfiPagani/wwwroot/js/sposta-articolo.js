@@ -1,13 +1,13 @@
 ﻿const app = Vue.createApp({
     data() {
         return {
-            codice: '',  // Codice dell'articolo
-            descrizione: '',  // Descrizione dell'articolo
-            quantita: 0,  // Quantità totale dell'articolo
-            stato: '',  // Stato dell'articolo
-            codicePosizioneCorrente: '',  // Codice della posizione corrente
-            selectedPosizione: null,  // Posizione selezionata per lo spostamento
-            posizioniLibere: [],  // Lista delle posizioni libere
+            codice: '',  
+            descrizione: '',  
+            quantita: 0,  
+            stato: '',  
+            codicePosizioneCorrente: '',  //Codice della posizione corrente
+            selectedPosizione: null,  //Posizione selezionata per lo spostamento
+            posizioniLibere: [],  //Lista delle posizioni libere
             idPosizioneCorrente: null
         };
     },
@@ -23,10 +23,10 @@
                 .then(data => {
                     this.codice = data.codice;
                     this.descrizione = data.descrizione;
-                    this.quantita = data.quantita;  // Imposta sempre la quantità totale
+                    this.quantita = data.quantita;  
                     this.stato = data.stato;
                     this.codicePosizioneCorrente = data.codicePosizioneCorrente;
-                    this.selectedPosizione = data.posizioneId;  // Imposta la posizione corrente come selezionata
+                    this.selectedPosizione = data.posizioneId;  //Imposta la posizione corrente come selezionata
                     this.idPosizioneCorrente = data.posizioneId;
                 })
                 .catch(error => console.error('Errore nel recupero dell\'articolo:', error));
@@ -52,8 +52,8 @@
 
             const articoloData = {
                 id: articoloId,
-                quantita: this.quantita,  // Passa la quantità totale
-                posizioneId: this.selectedPosizione,  // La nuova posizione selezionata
+                quantita: this.quantita,  
+                posizioneId: this.selectedPosizione, 
                 posizioneIdCorrente: this.idPosizioneCorrente
             };
 

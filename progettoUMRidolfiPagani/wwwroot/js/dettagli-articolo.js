@@ -1,8 +1,8 @@
 ﻿const app = Vue.createApp({
     data() {
         return {
-            articolo: {},  // Assicurati che sia inizializzato come oggetto vuoto
-            movimenti: [],  // Assicurati che sia inizializzato come array vuoto
+            articolo: {},  
+            movimenti: [],  
             errore: null
         };
     },
@@ -19,8 +19,8 @@
                     throw new Error(`Errore durante il caricamento dell'articolo: ${response.statusText}`);
                 }
                 const data = await response.json();
-                this.articolo = data;  // Assegna direttamente i dati ricevuti all'oggetto articolo
-                this.movimenti = data.movimenti?.$values || [];  // Estrai i movimenti dall'oggetto $values
+                this.articolo = data;  
+                this.movimenti = data.movimenti?.$values || []; 
             } catch (error) {
                 this.errore = error.message;
                 console.error('Errore durante il caricamento dei dettagli dell\'articolo:', error);

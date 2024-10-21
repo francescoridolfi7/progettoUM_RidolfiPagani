@@ -13,14 +13,13 @@ namespace progettoUMRidolfiPagani.ViewModels
         public int Quantita { get; set; }
         public string Stato { get; set; }
 
-        // La posizione corrente dell'articolo
         public int? PosizioneIdCorrente { get; set; }
 
-        // La nuova posizione selezionata dall'utente
+        //La nuova posizione selezionata dall'utente
         [Required] 
         public int? PosizioneId { get; set; }
 
-        // Lista delle posizioni libere per la selezione
+        //Lista delle posizioni libere per la selezione
         public List<Posizione> PosizioniLibere { get; set; }
     }
 

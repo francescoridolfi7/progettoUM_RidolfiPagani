@@ -18,14 +18,13 @@ namespace progettoUMRidolfiPagani
         {
             var host = CreateHostBuilder(args).Build();
 
-            // Run database migrations at startup
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
                     var context = services.GetRequiredService<MagazzinoDbContext>();
-                    context.Database.Migrate(); // Applies any pending migrations at startup
+                    context.Database.Migrate(); 
                 }
                 catch (Exception ex)
                 {

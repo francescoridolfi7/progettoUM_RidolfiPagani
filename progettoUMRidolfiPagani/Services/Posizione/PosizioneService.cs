@@ -67,7 +67,7 @@ namespace progettoUMRidolfiPagani.Services
 
             if (await CheckDisponibilitaPosizioneAsync(nuovaPosizioneId))
             {
-                // Crea un nuovo movimento per registrare lo spostamento
+                //Crea un nuovo movimento per registrare lo spostamento
                 var nuovoMovimento = new Movimento
                 {
                     Articolo = new Articolo { Id = articoloId },
@@ -81,7 +81,7 @@ namespace progettoUMRidolfiPagani.Services
 
                 _context.Movimenti.Add(nuovoMovimento);
 
-                // Aggiorna la posizione corrente dell'articolo
+                //Aggiorna la posizione corrente dell'articolo
                 articolo.PosizioneId = nuovaPosizioneId;
 
                 await _context.SaveChangesAsync();

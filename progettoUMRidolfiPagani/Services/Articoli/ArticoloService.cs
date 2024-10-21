@@ -28,36 +28,33 @@ namespace progettoUMRidolfiPagani.Services
 
         public async Task<Articolo> CreateAsync(Articolo articolo)
         {
-            // Aggiungi l'articolo al database
             _context.Articoli.Add(articolo);
             await _context.SaveChangesAsync();
 
-            // Crea un nuovo movimento associato all'articolo
+            //Crea un nuovo movimento associato all'articolo
             var movimento = new Movimento
             {
                 Articolo = articolo,
-                ArticoloId = articolo.Id, // Associa l'articolo al movimento
-                TipoMovimento = 0, // Movimento in entrata (0)
-                PosizioneInizialeId = null, // Nessuna posizione iniziale
-                PosizioneFinaleId = articolo.PosizioneId, // La posizione selezionata dall'utente
-                DataMovimento = articolo.DataArrivo, // Uguale alla DataArrivo dell'articolo
-                Quantita = articolo.Quantita // Quantità selezionata dall'utente
+                ArticoloId = articolo.Id, 
+                TipoMovimento = 0, 
+                PosizioneInizialeId = null, 
+                PosizioneFinaleId = articolo.PosizioneId, 
+                DataMovimento = articolo.DataArrivo, 
+                Quantita = articolo.Quantita 
             };
 
-            // Aggiungi il movimento al database
             _context.Movimenti.Add(movimento);
             await _context.SaveChangesAsync();
 
-            // Aggiorna la posizione associata all'articolo
             if (articolo.PosizioneId.HasValue)
             {
                 var posizione = await _context.Posizioni.FindAsync(articolo.PosizioneId.Value);
                 if (posizione != null)
                 {
-                    posizione.Occupata = true; // Imposta la posizione come occupata
+                    posizione.Occupata = true; //Imposta la posizione come occupata
                     posizione.Quantita = articolo.Quantita;
                     _context.Posizioni.Update(posizione);
-                    await _context.SaveChangesAsync(); // Salva le modifiche nel database
+                    await _context.SaveChangesAsync();
                 }
             }
 
@@ -79,7 +76,7 @@ namespace progettoUMRidolfiPagani.Services
 
             _context.Articoli.Update(articoloDb);
 
-            // Aggiorna la nuova posizione
+            //Aggiorna la nuova posizione
             var nuovaPosizione = await _context.Posizioni.FirstOrDefaultAsync(p => p.Id == nuovaPosizioneId);
             if (nuovaPosizione != null)
             {
@@ -96,28 +93,27 @@ namespace progettoUMRidolfiPagani.Services
                     _context.Posizioni.Update(vecchiaPosizione);
                 }
 
-            // Crea un nuovo record nella tabella Movimenti
             var movimento = new Movimento
             {
                 Articolo = articolo,
-                ArticoloId = articoloDb.Id,  // L'articolo che è stato spostato
-                TipoMovimento = (TipoMovimento)1, // Spostamento (1)
-                PosizioneInizialeId = posizioneIdCorrente,  // Posizione originale
-                PosizioneFinaleId = nuovaPosizioneId,  // Posizione finale
-                Quantita = articoloDb.Quantita,  // Quantità spostata
-                DataMovimento = DateTime.Now  // Imposta la data del movimento
+                ArticoloId = articoloDb.Id,  
+                TipoMovimento = (TipoMovimento)1, 
+                PosizioneInizialeId = posizioneIdCorrente,  
+                PosizioneFinaleId = nuovaPosizioneId, 
+                Quantita = articoloDb.Quantita,  
+                DataMovimento = DateTime.Now  
             };
 
             _context.Movimenti.Add(movimento);
 
-            await _context.SaveChangesAsync();  // Salva tutte le modifiche nel database
+            await _context.SaveChangesAsync();  
             return articolo;
         }
 
         public async Task DeleteAsync(int articoloId, int quantitaDaUscire)
         {
             var articolo = await _context.Articoli
-                .Include(a => a.Posizione)  // Includi la posizione collegata all'articolo
+                .Include(a => a.Posizione)  
                 .FirstOrDefaultAsync(a => a.Id == articoloId);
 
             if (articolo == null)
@@ -125,12 +121,12 @@ namespace progettoUMRidolfiPagani.Services
 
             var posizione = articolo.Posizione;
 
-            // Creazione di un nuovo record nella tabella Movimenti prima dell'eliminazione
+            
             var movimento = new Movimento
             {
                 Articolo = articolo,
                 ArticoloId = articolo.Id,
-                TipoMovimento = (TipoMovimento)2,  // Uscita
+                TipoMovimento = (TipoMovimento)2,  //Uscita
                 PosizioneInizialeId = posizione?.Id,
                 PosizioneFinaleId = null,
                 Quantita = quantitaDaUscire,
@@ -140,7 +136,6 @@ namespace progettoUMRidolfiPagani.Services
             _context.Movimenti.Add(movimento);
             await _context.SaveChangesAsync();
 
-            // Ora gestiamo l'uscita totale o parziale dell'articolo
             if (quantitaDaUscire >= articolo.Quantita)
             {
                 if (posizione != null)
@@ -150,7 +145,7 @@ namespace progettoUMRidolfiPagani.Services
                     _context.Posizioni.Update(posizione);
                 }
 
-                _context.Articoli.Remove(articolo);  // Elimina l'articolo
+                _context.Articoli.Remove(articolo);
             }
             else
             {
@@ -164,7 +159,7 @@ namespace progettoUMRidolfiPagani.Services
                 }
             }
 
-            await _context.SaveChangesAsync();  // Salva tutte le altre modifiche nel contesto originale
+            await _context.SaveChangesAsync();  
         }
 
         public async Task<Articolo> GetByCodiceAsync(string codice)
@@ -223,8 +218,8 @@ namespace progettoUMRidolfiPagani.Services
         {
             return await _context.Articoli
                 .Include(a => a.Posizione)
-                .OrderBy(a => a.DataArrivo)  // Ordina per data di arrivo
-                .FirstOrDefaultAsync();  // Restituisci l'articolo più vecchio
+                .OrderBy(a => a.DataArrivo)  
+                .FirstOrDefaultAsync();  
         }
 
         public async Task RiparaArticoloAsync(int id)
@@ -235,11 +230,11 @@ namespace progettoUMRidolfiPagani.Services
                 throw new Exception("Articolo non trovato");
             }
 
-            // Imposta lo stato dell'articolo a "In Magazzino"
+            //Imposta lo stato dell'articolo a "In Magazzino"
             articolo.Stato = "In Magazzino";
 
             _context.Articoli.Update(articolo);
-            await _context.SaveChangesAsync(); // Salva le modifiche nel database
+            await _context.SaveChangesAsync();
         }
 
 

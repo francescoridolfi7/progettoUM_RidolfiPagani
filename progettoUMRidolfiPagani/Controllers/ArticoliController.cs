@@ -17,22 +17,17 @@ namespace progettoUMRidolfiPagani.Controllers
             _articoloService = articoloService;
         }
 
-        // GET: Articoli
+        //GET: Articoli
         public async Task<IActionResult> Index()
-        {
-            // Ottieni il conteggio totale degli articoli
+        {          
             var totalArticoli = await _articoloService.GetArticoliCountAsync();
-
-            // Ottieni il conteggio degli articoli difettosi
+          
             var articoliDifettosi = await _articoloService.GetArticoliDifettosiCountAsync();
-
-            // Ottieni gli articoli in esaurimento
+           
             var articoliInEsaurimento = await _articoloService.GetArticoliInEsaurimentoAsync();
-
-            // Ottieni tutti gli articoli
+           
             var articoli = await _articoloService.GetAllAsync();
 
-            // Crea un ViewModel per passare i dati alla vista
             var viewModel = new ArticoliViewModel
             {
                 TotalArticoli = totalArticoli,
@@ -81,13 +76,11 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Articoli/Create
         public async Task<IActionResult> Create()
         {
-            // Ottieni le posizioni libere
             var posizioniLibere = await _articoloService.GetPosizioniLibereAsync();
 
-            // Crea un ViewModel per passare i dati alla vista Create
             var createViewModel = new CreateArticoloViewModel
             {
-                PosizioniLibere = posizioniLibere.ToList()  // Convertiamo in lista
+                PosizioniLibere = posizioniLibere.ToList() 
             };
 
             return View(createViewModel);
@@ -132,13 +125,13 @@ namespace progettoUMRidolfiPagani.Controllers
                 return NotFound();
             }
 
-            // Verifica che l'articolo abbia una posizione associata
+            //Verifica che l'articolo abbia una posizione associata
             string codicePosizioneCorrente = articolo.Posizione?.CodicePosizione ?? "Nessuna posizione";
 
-            // Ottieni le posizioni libere
+            //Ottieni le posizioni libere
             var posizioniLibere = await _articoloService.GetPosizioniLibereAsync();
 
-            // Crea il ViewModel per la vista di Edit
+            //Crea il ViewModel per la vista di Edit
             var editViewModel = new EditArticoloViewModel
             {
                 Id = articolo.Id,
@@ -146,7 +139,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 Descrizione = articolo.Descrizione,
                 Quantita = articolo.Quantita,
                 Stato = articolo.Stato,
-                PosizioneIdCorrente = articolo.PosizioneId, // Posizione corrente
+                PosizioneIdCorrente = articolo.PosizioneId, //Posizione corrente
                 PosizioniLibere = posizioniLibere.ToList()
             };
 
@@ -165,14 +158,12 @@ namespace progettoUMRidolfiPagani.Controllers
                 return NotFound();
             }
 
-            // Rimossi i campi che non devono essere modificabili dal model state
             ModelState.Remove("PosizioniLibere");
             ModelState.Remove("Codice");
             ModelState.Remove("Descrizione");
             ModelState.Remove("Stato");
             ModelState.Remove("Quantita");
 
-            // Verifica che i valori originali siano stati ricevuti correttamente
             Console.WriteLine($"Quantità ricevuta: {model.Quantita}");
             Console.WriteLine($"PosizioneId ricevuta: {model.PosizioneId}");
             Console.WriteLine($"Posizione originale ricevuta: {model.PosizioneIdCorrente}");
@@ -187,7 +178,6 @@ namespace progettoUMRidolfiPagani.Controllers
                         return NotFound();
                     }
 
-                    // Usa i valori originali per gestire lo spostamento
                     await _articoloService.UpdateAsync(
                         articolo,
                         model.PosizioneId,
@@ -221,7 +211,6 @@ namespace progettoUMRidolfiPagani.Controllers
                 return NotFound();
             }
 
-            // Creiamo un DeleteArticoloViewModel
             var deleteViewModel = new DeleteArticoloViewModel
             {
                 Id = articolo.Id,
@@ -256,19 +245,14 @@ namespace progettoUMRidolfiPagani.Controllers
         // GET: Articoli/Search
         public async Task<IActionResult> Research()
         {
-            // Ottieni il conteggio totale degli articoli
             var totalArticoli = await _articoloService.GetArticoliCountAsync();
 
-            // Ottieni il conteggio degli articoli difettosi
             var articoliDifettosi = await _articoloService.GetArticoliDifettosiCountAsync();
 
-            // Ottieni gli articoli in esaurimento
             var articoliInEsaurimento = await _articoloService.GetArticoliInEsaurimentoAsync();
 
-            // Ottieni tutti gli articoli
             var articoli = await _articoloService.GetAllAsync();
 
-            // Crea un ViewModel per passare i dati alla vista
             var viewModel = new ArticoliViewModel
             {
                 TotalArticoli = totalArticoli,
@@ -285,7 +269,7 @@ namespace progettoUMRidolfiPagani.Controllers
         public async Task<IActionResult> GetByPosizione(string posizione)
         {
             var articolo = await _articoloService.GetByPosizioneAsync(posizione);
-            return Json(articolo); // Restituisce i risultati come JSON per il frontend
+            return Json(articolo); 
         }
 
 

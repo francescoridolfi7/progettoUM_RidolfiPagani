@@ -9,8 +9,7 @@
     @Html.AntiForgeryToken()
 
     <div id="nuovo-articolo" class="container mt-4">
-        <h3 class="mb-4">Registra Nuovo Articolo</h3> <!-- Stile di intestazione simile alla pagina articoli -->
-        <!-- Card per inserimento dati dell'articolo -->
+        <h3 class="mb-4">Registra Nuovo Articolo</h3> 
         <div class="card mb-4">
             <div class="card-header">
                 Dati Articolo
@@ -40,7 +39,6 @@
                     <input type="number" class="form-control" v-model="quantita" id="Quantita" />
                 </div>
 
-                <!-- Campo PosizioneId visibile solo se lo stato non è "Reparto" -->
                 <div v-if="showPosizione" class="form-group mb-3">
                     <label for="posizioneSelect">Seleziona una Posizione Libera</label>
                     <select v-model="selectedPosizione" class="form-control" id="posizioneSelect">
@@ -52,7 +50,6 @@
             </div>
         </div>
 
-        <!-- Card per azioni -->
         <div class="card mb-4">
             <div class="card-body text-center">
                 <input type="hidden" asp-for="DataArrivo" value="@DateTime.Now" />

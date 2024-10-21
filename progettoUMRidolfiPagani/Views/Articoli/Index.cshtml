@@ -9,7 +9,6 @@
 
 <div id="articoli" class="container mt-4">
 
-    <!-- Card per la lista degli articoli -->
     <div class="card mb-4">
         <div class="card-header">
             <h3>Lista degli Articoli</h3>
@@ -34,7 +33,7 @@
                         <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.descrizione }}</td>
                         <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.quantita }}</td>
                         <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.codicePosizione }}</td>
-                        <td class="text-center">
+                        <td class="text-center table-actions">
                                 <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
                                 <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
                                 <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
@@ -47,7 +46,6 @@
         </div>
     </div>
 
-    <!-- Card per la lista degli articoli in esaurimento -->
     <div class="card mb-4">
         <div class="card-header">
             <h3>Articoli in Esaurimento</h3>
@@ -70,12 +68,15 @@
                         <td>{{ articolo.descrizione }}</td>
                         <td>{{ articolo.quantita }}</td>
                         <td>{{ articolo.codicePosizione }}</td>
-                        <td class="text-center">
-                                <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
-                                <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
-                                <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
-                                <button v-if="articolo.stato === 'Difettoso'" @@click="riparaArticolo(articolo.id)" class="btn btn-warning btn-sm buttonspace">Ripara</button>
-                        </td>
+                            <td class="text-center">
+                                <div class="d-inline">
+                                    <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace d-inline">Sposta</a>
+                                    <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace d-inline">Uscita</a>
+                                    <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary btn-sm buttonspace d-inline">Dettagli Movimenti</a>
+                                    <button v-if="articolo.stato === 'Difettoso'" @@click="riparaArticolo(articolo.id)" class="btn btn-warning btn-sm buttonspace d-inline">Ripara</button>
+                                </div>
+                            </td>
+
                     </tr>
                 </tbody>
             </table>

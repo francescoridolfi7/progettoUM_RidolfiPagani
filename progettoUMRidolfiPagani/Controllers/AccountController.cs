@@ -17,14 +17,14 @@ namespace progettoUMRidolfiPagani.Controllers
             _context = context;
         }
 
-        // Login
+        //Login
         [HttpGet]
         public IActionResult Login()
         {
             return View(new LoginViewModel());
         }
 
-        // Registrazione
+        //Registrazione
         [HttpGet]
         public IActionResult Register()
         {
@@ -57,7 +57,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 Cognome = model.Cognome,
                 Email = model.Email,
                 Username = model.Username,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password) // Assicurati di utilizzare un hash sicuro
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password) 
             };
 
             _context.Utenti.Add(nuovoUtente);
@@ -75,7 +75,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 return BadRequest(new { errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
             }
 
-            // Cerca l'utente nel database tramite lo username
+            //Cerca l'utente nel database tramite lo username
             var user = await _context.Utenti.FirstOrDefaultAsync(u => u.Username == model.Username);
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
@@ -83,7 +83,7 @@ namespace progettoUMRidolfiPagani.Controllers
                 return BadRequest(new { errors = new[] { "Username o password non validi." } });
             }
 
-            // Se il login ha successo, salva l'utente nella sessione
+            //Se il login ha successo, salva l'utente nella sessione
             HttpContext.Session.SetString("Username", user.Username);
 
             return Ok(new { message = "Login avvenuto con successo!", redirectUrl = Url.Action("Index", "Articoli") });
@@ -94,7 +94,7 @@ namespace progettoUMRidolfiPagani.Controllers
         [HttpPost]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear(); // Rimuove tutti i dati della sessione
+            HttpContext.Session.Clear(); 
             return RedirectToAction("Login", "Account");
         }
 

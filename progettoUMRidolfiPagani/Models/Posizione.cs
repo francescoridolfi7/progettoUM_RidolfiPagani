@@ -2,15 +2,15 @@
 {
     public class Posizione
     {
-        public int Id { get; set; } // Identificativo unico della posizione
+        public int Id { get; set; } 
 
-        public string CodicePosizione { get; set; } // Codice univoco della posizione nel magazzino
+        public string CodicePosizione { get; set; } 
 
-        public bool Occupata { get; set; } // Flag che indica se la posizione è occupata
+        public bool Occupata { get; set; } 
 
-        public int Quantita { get; set; } // Quantità di articoli nella posizione
+        public int Quantita { get; set; }
 
-        public ICollection<Articolo> Articoli { get; set; } // Lista degli articoli in questa posizione
+        public ICollection<Articolo> Articoli { get; set; }
 
     }
 }

@@ -11,6 +11,5 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<int> GetNumeroPosizioniDisponibiliAsync();
         Task<IEnumerable<Articolo>> GetArticoliInEsaurimentoAsync();
         Task<IEnumerable<Movimento>> GetDatiGraficoMovimentiAsync();
-        //Task<double> GetMediaGiorniPermanenzaAsync();
     }
 }

@@ -6,13 +6,11 @@
 }
 
 <div id="uscita-articolo" class="container mt-4">
-    <!-- Card contenitore -->
     <div class="card">
         <div class="card-header">
             <h3>Uscita Articolo</h3>
         </div>
         <div class="card-body">
-            <!-- Dettagli dell'articolo -->
             <div class="mb-4">
                 <p><strong>Codice:</strong> @Model.Codice</p>
                 <p><strong>Descrizione:</strong> @Model.Descrizione</p>
@@ -20,7 +18,6 @@
                 <p><strong>Posizione Corrente:</strong> @Model.CodicePosizioneCorrente</p>
             </div>
 
-            <!-- Selezione quantità e conferma -->
             <div class="form-group mb-4">
                 <label for="quantita">Quantità da fare uscire:</label>
                 <input type="number" v-model="quantita" class="form-control" min="1" :max="quantita" required />

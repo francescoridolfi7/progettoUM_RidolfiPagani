@@ -30,7 +30,6 @@ namespace progettoUMRidolfiPagani.Controllers
             return View(dashboardViewModel);
         }
 
-        // Nuova azione per ottenere i dati della dashboard
         [HttpGet]
         public async Task<IActionResult> GetDashboardData()
         {

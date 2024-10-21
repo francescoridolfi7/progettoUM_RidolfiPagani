@@ -23,20 +23,17 @@ namespace progettoUMRidolfiPagani
 
         public IConfiguration Configuration { get; }
 
-        // Questo metodo viene chiamato dal runtime. Utilizzare per aggiungere servizi al contenitore.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configurazione del DbContext con MySQL
+            //Configurazione del DbContext con MySQL
             services.AddDbContext<MagazzinoDbContext>(options =>
                 options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(new Version(8, 0, 21)) // Versione di MySQL
+                    new MySqlServerVersion(new Version(8, 0, 21))
                 ));
 
-            // Aggiungi Identity e collegalo a MagazzinoDbContext
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                // Configura opzioni di Identity
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 1;
                 options.Password.RequireNonAlphanumeric = false;
@@ -47,20 +44,16 @@ namespace progettoUMRidolfiPagani
             .AddEntityFrameworkStores<MagazzinoDbContext>()
             .AddDefaultTokenProviders();
 
-            // Registrazione dei servizi personalizzati
             services.AddScoped<IArticoloService, ArticoloService>();
             services.AddScoped<IMovimentoService, MovimentoService>();
             services.AddScoped<IPosizioneService, PosizioneService>();
             services.AddScoped<IDashboardService, DashboardService>();
 
-            // Aggiungi i servizi MVC e Razor
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            // Configurazione SignalR
             services.AddSignalR();
 
-            // Serializzatore JSON per preservare i riferimenti circolari
             services.AddControllersWithViews()
                 .AddJsonOptions(options =>
                 {
@@ -69,7 +62,6 @@ namespace progettoUMRidolfiPagani
                     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                 });
 
-            // Configurazione CORS (facoltativo, se necessario)
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins", builder =>
@@ -80,13 +72,12 @@ namespace progettoUMRidolfiPagani
 
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Timeout della sessione
+                options.IdleTimeout = TimeSpan.FromMinutes(30); 
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
         }
 
-        // Questo metodo viene chiamato dal runtime. Utilizzare per configurare il middleware della pipeline HTTP.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -104,24 +95,22 @@ namespace progettoUMRidolfiPagani
 
             app.UseRouting();
 
-            // Configura CORS
             app.UseCors("AllowAllOrigins");
 
             app.UseSession();
 
-            // Abilita autenticazione e autorizzazione
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                // rotta esplicita per Articoli/Index
+                //Rotta esplicita per Articoli/Index
                 endpoints.MapControllerRoute(
                     name: "articoli",
                     pattern: "Articoli/{action=Index}/{id?}",
                     defaults: new { controller = "Articoli", action = "Index" });
 
-                // Rotta di default per Account/Login
+                //Rotta di default per Account/Login
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}/{id?}");
