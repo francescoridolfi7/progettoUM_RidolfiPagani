@@ -396,8 +396,19 @@ namespace progettoUMRidolfiPagani.Controllers
             return Ok(response);
         }
 
-
-
+        [HttpPost]
+        public async Task<IActionResult> Ripara(int id)
+        {
+            try
+            {
+                await _articoloService.RiparaArticoloAsync(id); 
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
 
 
 

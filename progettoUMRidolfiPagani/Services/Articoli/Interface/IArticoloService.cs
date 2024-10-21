@@ -19,6 +19,7 @@ namespace progettoUMRidolfiPagani.Services.Interface
         Task<IEnumerable<Posizione>> GetPosizioniLibereAsync();
         Task<Posizione> GetPosizioneByIdAsync(int id);
         Task<Articolo> GetArticoloPiuVecchioAsync();
+        Task RiparaArticoloAsync(int id);
     }
 }
 

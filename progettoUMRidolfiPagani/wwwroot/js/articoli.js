@@ -53,7 +53,32 @@
                     }));
                 })
                 .catch(error => console.error('Errore:', error));
+        },
+        riparaArticolo(id) {
+            fetch(`/Articoli/Ripara/${id}`, {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore durante la riparazione dell\'articolo');
+                    }
+
+                    // Aggiorna lo stato dell'articolo nella lista degli articoli
+                    const articoloRiparato = this.articoli.find(articolo => articolo.id === id);
+                    if (articoloRiparato) {
+                        articoloRiparato.stato = 'In Magazzino'; // Cambia lo stato in "In Magazzino"
+                    }
+
+                    // Aggiorna la lista degli articoli in esaurimento
+                    this.articoliInEsaurimento = this.articoliInEsaurimento.filter(articolo => articolo.id !== id);
+
+                    console.log('Articolo riparato con successo!');
+                })
+                .catch(error => {
+                    console.error('Errore:', error);
+                });
         }
+    
 
     }
 });

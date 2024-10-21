@@ -227,6 +227,22 @@ namespace progettoUMRidolfiPagani.Services
                 .FirstOrDefaultAsync();  // Restituisci l'articolo più vecchio
         }
 
+        public async Task RiparaArticoloAsync(int id)
+        {
+            var articolo = await _context.Articoli.FirstOrDefaultAsync(a => a.Id == id);
+            if (articolo == null)
+            {
+                throw new Exception("Articolo non trovato");
+            }
+
+            // Imposta lo stato dell'articolo a "In Magazzino"
+            articolo.Stato = "In Magazzino";
+
+            _context.Articoli.Update(articolo);
+            await _context.SaveChangesAsync(); // Salva le modifiche nel database
+        }
+
+
 
 
 

@@ -38,6 +38,7 @@
                                 <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
                                 <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
                                 <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
+                                <button v-if="articolo.stato === 'Difettoso'" @@click="riparaArticolo(articolo.id)" class="btn btn-warning btn-sm buttonspace">Ripara</button>
                         </td>
                     </tr>
                 </tbody>
@@ -73,6 +74,7 @@
                                 <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
                                 <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
                                 <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
+                                <button v-if="articolo.stato === 'Difettoso'" @@click="riparaArticolo(articolo.id)" class="btn btn-warning btn-sm buttonspace">Ripara</button>
                         </td>
                     </tr>
                 </tbody>
