@@ -254,9 +254,30 @@ namespace progettoUMRidolfiPagani.Controllers
         }
 
         // GET: Articoli/Search
-        public IActionResult Search()
+        public async Task<IActionResult> Research()
         {
-            return View();
+            // Ottieni il conteggio totale degli articoli
+            var totalArticoli = await _articoloService.GetArticoliCountAsync();
+
+            // Ottieni il conteggio degli articoli difettosi
+            var articoliDifettosi = await _articoloService.GetArticoliDifettosiCountAsync();
+
+            // Ottieni gli articoli in esaurimento
+            var articoliInEsaurimento = await _articoloService.GetArticoliInEsaurimentoAsync();
+
+            // Ottieni tutti gli articoli
+            var articoli = await _articoloService.GetAllAsync();
+
+            // Crea un ViewModel per passare i dati alla vista
+            var viewModel = new ArticoliViewModel
+            {
+                TotalArticoli = totalArticoli,
+                ArticoliDifettosi = articoliDifettosi,
+                ArticoliInEsaurimento = articoliInEsaurimento,
+                Articoli = articoli.ToList()
+            };
+
+            return View(viewModel);
         }
 
         // GET: Articoli/GetByPosizione
