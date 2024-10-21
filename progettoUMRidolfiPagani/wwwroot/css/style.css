@@ -31,3 +31,9 @@
 .buttonspace {
     margin: 2px 5px;
 }
+
+.img {
+    width: 40px;
+    height: auto;
+    margin-right: 20px;
+}

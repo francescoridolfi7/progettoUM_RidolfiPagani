@@ -3,9 +3,12 @@
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="~/img/logo.ico">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Magazzino</title>
@@ -15,12 +18,16 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         @if (Context.Session.GetString("Username") != null)
         {
+            <img src="~/img/logo.ico" alt="Logo" class="img" />
+
             <a class="navbar-brand" href="@Url.Action("Index", "Articoli")">Home</a>
             <a class="navbar-brand" href="@Url.Action("Research", "Articoli")">Ricerca</a>
             <a class="navbar-brand" href="@Url.Action("Index", "Dashboard")">Dashboard</a>
         }
         else
         {
+            <img src="~/img/logo.ico" alt="Logo" class="img" />
+
             <span class="navbar-brand text-muted" style="pointer-events: none;">Home</span>
             <span class="navbar-brand text-muted" style="pointer-events: none;">Ricerca</span>
             <span class="navbar-brand text-muted" style="pointer-events: none;">Dashboard</span>
