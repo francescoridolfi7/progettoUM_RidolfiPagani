@@ -52,7 +52,7 @@
                             {{ posizione.codicePosizione }}
                         </option>
                     </select>
-                    <div v-if="!selectedPosizione" class="text-danger mt-2">Devi selezionare una nuova posizione.</div>
+                    <div v-if="hasInteractedWithSelect && !selectedPosizione" class="text-danger mt-2">Devi selezionare una nuova posizione.</div>
                 </div>
 
                 <button type="button" class="btn btn-primary me-3 buttonspace" @@click="updateArticolo" :disabled="!selectedPosizione">Sposta Articolo</button>

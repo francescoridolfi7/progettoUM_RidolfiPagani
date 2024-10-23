@@ -50,8 +50,8 @@
                         <td>{{ movimento.dataMovimento }}</td>
                         <td>{{ movimento.tipoMovimento }}</td>
                         <td>{{ movimento.quantita }}</td>
-                        <td>{{ movimento.posizioneIniziale }}</td>
-                        <td>{{ movimento.posizioneFinale }}</td>
+                        <td>{{ movimento.posizioneIniziale ? movimento.posizioneIniziale : "Camion" }}
+                        <td>{{ movimento.posizioneFinale ? movimento.posizioneFinale : "Reparto" }}</td>
                     </tr>
                 </tbody>
             </table>

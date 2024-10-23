@@ -26,7 +26,7 @@
                     this.quantita = data.quantita;  
                     this.stato = data.stato;
                     this.codicePosizioneCorrente = data.codicePosizioneCorrente;
-                    this.selectedPosizione = data.posizioneId;  //Imposta la posizione corrente come selezionata
+                    /*this.selectedPosizione = data.posizioneId;  //Imposta la posizione corrente come selezionata*/
                     this.idPosizioneCorrente = data.posizioneId;
                 })
                 .catch(error => console.error('Errore nel recupero dell\'articolo:', error));
