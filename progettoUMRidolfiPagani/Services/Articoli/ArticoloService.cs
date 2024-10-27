@@ -23,6 +23,7 @@ namespace progettoUMRidolfiPagani.Services
         {
             return await _context.Articoli
                 .Include(a => a.Movimenti)
+                .Include(a => a.Posizione)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
