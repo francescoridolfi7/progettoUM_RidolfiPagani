@@ -98,7 +98,7 @@
                             <td>{{ articoloTrovatoPerPosizione.codicePosizione }}</td>
                             <td class="text-center">
                                 <a :href="`/Articoli/Edit/${articoloTrovatoPerPosizione.id}`" v-if="articoloTrovatoPerPosizione.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
-                                <a :href="`/Articoli/Delete/${articoloTrovatoPerPosizione.id}`" v-if="articoloTrovatoPerPosizione.stato !== 'Reparto'" class="btn btn-danger btn-sm-0 buttonspace">Uscita</a>
+                                <a :href="`/Articoli/Delete/${articoloTrovatoPerPosizione.id}`" v-if="articoloTrovatoPerPosizione.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
                                 <a :href="`/Articoli/Details/${articoloTrovatoPerPosizione.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
                             </td>
                         </tr>
