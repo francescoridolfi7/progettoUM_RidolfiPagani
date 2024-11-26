@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div v-if="articoloTrovatoPerCodice && articoloTrovatoPerCodice !== 'Nessun articolo trovato'" class="card mb-4">
+    <div v-if="isSearchByCodiceActive && articoloTrovatoPerCodice" class="card mb-4">
         <div class="card-header">
             <h3>Risultato della ricerca per codice</h3>
         </div>
@@ -58,14 +58,15 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ articoloTrovatoPerCodice.codice }}</td>
-                            <td>{{ articoloTrovatoPerCodice.descrizione }}</td>
-                            <td>{{ articoloTrovatoPerCodice.quantita }}</td>
-                            <td>{{ articoloTrovatoPerCodice.codicePosizione }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerCodice.stato === 'Difettoso'}">{{ articoloTrovatoPerCodice.codice }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerCodice.stato === 'Difettoso'}">{{ articoloTrovatoPerCodice.descrizione }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerCodice.stato === 'Difettoso'}">{{ articoloTrovatoPerCodice.quantita }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerCodice.stato === 'Difettoso'}">{{ articoloTrovatoPerCodice.codicePosizione }}</td>
                             <td class="text-center">
                                 <a :href="`/Articoli/Edit/${articoloTrovatoPerCodice.id}`" v-if="articoloTrovatoPerCodice.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
                                 <a :href="`/Articoli/Delete/${articoloTrovatoPerCodice.id}`" v-if="articoloTrovatoPerCodice.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
                                 <a :href="`/Articoli/Details/${articoloTrovatoPerCodice.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
+                                <button v-if="articoloTrovatoPerCodice.stato === 'Difettoso'" @@click="riparaArticolo(articoloTrovatoPerCodice.id)" class="btn btn-warning btn-sm buttonspace d-inline">Ripara</button>
                             </td>
                         </tr>
                     </tbody>
@@ -74,7 +75,7 @@
         </div>
     </div>
 
-    <div v-if="articoloTrovatoPerPosizione && articoloTrovatoPerPosizione !== 'Nessun articolo trovato'" class="card mb-4">
+    <div v-if="isSearchByPosizioneActive && articoloTrovatoPerPosizione" class="card mb-4">
         <div class="card-header">
             <h3>Risultato della ricerca per posizione</h3>
         </div>
@@ -92,14 +93,15 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ articoloTrovatoPerPosizione.codice }}</td>
-                            <td>{{ articoloTrovatoPerPosizione.descrizione }}</td>
-                            <td>{{ articoloTrovatoPerPosizione.quantita }}</td>
-                            <td>{{ articoloTrovatoPerPosizione.codicePosizione }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerPosizione.stato === 'Difettoso'}">{{ articoloTrovatoPerPosizione.codice }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerPosizione.stato === 'Difettoso'}">{{ articoloTrovatoPerPosizione.descrizione }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerPosizione.stato === 'Difettoso'}">{{ articoloTrovatoPerPosizione.quantita }}</td>
+                            <td :class="{'text-danger': articoloTrovatoPerPosizione.stato === 'Difettoso'}">{{ articoloTrovatoPerPosizione.codicePosizione }}</td>
                             <td class="text-center">
                                 <a :href="`/Articoli/Edit/${articoloTrovatoPerPosizione.id}`" v-if="articoloTrovatoPerPosizione.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
                                 <a :href="`/Articoli/Delete/${articoloTrovatoPerPosizione.id}`" v-if="articoloTrovatoPerPosizione.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
                                 <a :href="`/Articoli/Details/${articoloTrovatoPerPosizione.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
+                                <button v-if="articoloTrovatoPerPosizione.stato === 'Difettoso'" @@click="riparaArticolo(articoloTrovatoPerPosizione.id)" class="btn btn-warning btn-sm buttonspace d-inline">Ripara</button>
                             </td>
                         </tr>
                     </tbody>
@@ -151,14 +153,15 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ articoloPiuVecchio.codice }}</td>
-                            <td>{{ articoloPiuVecchio.descrizione }}</td>
-                            <td>{{ articoloPiuVecchio.quantita }}</td>
-                            <td>{{ articoloPiuVecchio.codicePosizione }}</td>
+                            <td :class="{'text-danger': articoloPiuVecchio.stato === 'Difettoso'}">{{ articoloPiuVecchio.codice }}</td>
+                            <td :class="{'text-danger': articoloPiuVecchio.stato === 'Difettoso'}">{{ articoloPiuVecchio.descrizione }}</td>
+                            <td :class="{'text-danger': articoloPiuVecchio.stato === 'Difettoso'}">{{ articoloPiuVecchio.quantita }}</td>
+                            <td :class="{'text-danger': articoloPiuVecchio.stato === 'Difettoso'}">{{ articoloPiuVecchio.codicePosizione }}</td>
                             <td class="text-center">
                                 <a :href="`/Articoli/Edit/${articoloPiuVecchio.id}`" class="btn btn-primary btn-sm buttonspace">Sposta</a>
                                 <a :href="`/Articoli/Delete/${articoloPiuVecchio.id}`" class="btn btn-danger btn-sm buttonspace">Uscita</a>
                                 <a :href="`/Articoli/Details/${articoloPiuVecchio.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
+                                <button v-if="articoloPiuVecchio.stato === 'Difettoso'" @@click="riparaArticolo(articoloPiuVecchio.id)" class="btn btn-warning btn-sm buttonspace d-inline">Ripara</button>
                             </td>
                         </tr>
                     </tbody>

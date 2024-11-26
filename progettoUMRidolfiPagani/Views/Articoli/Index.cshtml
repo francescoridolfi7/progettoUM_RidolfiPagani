@@ -64,10 +64,10 @@
                 </thead>
                 <tbody>
                     <tr v-for="articolo in articoliInEsaurimento" :key="articolo.id">
-                        <td>{{ articolo.codice }}</td>
-                        <td>{{ articolo.descrizione }}</td>
-                        <td>{{ articolo.quantita }}</td>
-                        <td>{{ articolo.codicePosizione }}</td>
+                            <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.codice }}</td>
+                            <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.descrizione }}</td>
+                            <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.quantita }}</td>
+                            <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.codicePosizione }}</td>
                             <td class="text-center">
                                 <div class="d-inline">
                                     <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace d-inline">Sposta</a>

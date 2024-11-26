@@ -374,7 +374,8 @@ namespace progettoUMRidolfiPagani.Controllers
                 codice = articoloPiuVecchio.Codice,
                 descrizione = articoloPiuVecchio.Descrizione,
                 quantita = articoloPiuVecchio.Quantita,
-                codicePosizione = articoloPiuVecchio.Posizione?.CodicePosizione ?? "Articolo consegnato direttamente al reparto"
+                codicePosizione = articoloPiuVecchio.Posizione?.CodicePosizione ?? "Articolo consegnato direttamente al reparto",
+                stato = articoloPiuVecchio.Stato
             };
 
             return Ok(response);

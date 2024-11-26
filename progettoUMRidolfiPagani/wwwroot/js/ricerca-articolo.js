@@ -7,7 +7,9 @@
             articoliDifettosi: 0,
             articoloPiuVecchio: null,
             articoloTrovatoPerCodice: null,
-            articoloTrovatoPerPosizione: null
+            articoloTrovatoPerPosizione: null,
+            isSearchByCodiceActive: false, 
+            isSearchByPosizioneActive: false 
         };
     },
     mounted() {
@@ -16,18 +18,18 @@
     },
     methods: {
         searchByCodice() {
+            this.isSearchByCodiceActive = true; // Attiva la ricerca
+            this.isSearchByPosizioneActive = false; //Disabilita la ricerca per posizione
             console.log("Valore di codice:", this.codice);
             if (!this.codice) {
-                console.error('Errore: il campo codice è vuoto');
-                this.articoloTrovatoPerCodice = 'Nessun articolo trovato'; 
+                this.articoloTrovatoPerCodice = null; // Nessuna ricerca valida
                 return;
             }
             fetch(`/Articoli/GetByCodice?codice=${this.codice}`)
                 .then(response => {
                     if (!response.ok) {
                         if (response.status === 404) {
-                            console.warn('Nessun articolo trovato per il codice inserito.');
-                            this.articoloTrovatoPerCodice = 'Nessun articolo trovato'; 
+                            this.articoloTrovatoPerCodice = null;
                             return null;
                         } else {
                             throw new Error('Errore nella richiesta: ' + response.status);
@@ -42,28 +44,27 @@
                             codicePosizione: data.posizione ? data.posizione.codicePosizione : 'Posizione non disponibile'
                         };
                     } else {
-                        this.articoloTrovatoPerCodice = 'Nessun articolo trovato';  
+                        this.articoloTrovatoPerCodice = null;
                     }
-                    console.log(this.articoloTrovatoPerCodice);
                 })
                 .catch(error => {
                     console.error('Errore:', error);
-                    this.articoloTrovatoPerCodice = 'Errore durante la ricerca';  
+                    this.articoloTrovatoPerCodice = null;
                 });
         },
         searchByPosizione() {
+            this.isSearchByPosizioneActive = true; // Attiva la ricerca
+            this.isSearchByCodiceActive = false; // Disabilita la ricerca per codice
             console.log("Valore di posizione:", this.posizione);
             if (!this.posizione) {
-                console.error('Errore: il campo posizione è vuoto');
-                this.articoloTrovatoPerPosizione = 'Nessun articolo trovato'; 
+                this.articoloTrovatoPerPosizione = null; // Nessuna ricerca valida
                 return;
             }
             fetch(`/Articoli/GetByPosizione?posizione=${this.posizione}`)
                 .then(response => {
                     if (!response.ok) {
                         if (response.status === 404) {
-                            console.warn('Nessun articolo trovato per la posizione inserita.');
-                            this.articoloTrovatoPerPosizione = 'Nessun articolo trovato';  
+                            this.articoloTrovatoPerPosizione = null;
                             return null;
                         } else {
                             throw new Error('Errore nella richiesta: ' + response.status);
@@ -79,13 +80,12 @@
                             codicePosizione: articolo.posizione ? articolo.posizione.codicePosizione : 'Posizione non disponibile'
                         };
                     } else {
-                        this.articoloTrovatoPerPosizione = 'Nessun articolo trovato';  
+                        this.articoloTrovatoPerPosizione = null;
                     }
-                    console.log(this.articoloTrovatoPerPosizione);
                 })
                 .catch(error => {
                     console.error('Errore:', error);
-                    this.articoloTrovatoPerPosizione = 'Errore durante la ricerca';  
+                    this.articoloTrovatoPerPosizione = null;
                 });
         },
         getTotaleArticoli() {
@@ -130,6 +130,30 @@
                     }
                 })
                 .catch(error => console.error('Errore:', error));
+        },
+        riparaArticolo(id) {
+            fetch(`/Articoli/Ripara/${id}`, {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore durante la riparazione dell\'articolo');
+                    }
+                    console.log('Articolo riparato con successo!');
+
+                    // Aggiorna lo stato dell'articolo trovato per codice
+                    if (this.articoloTrovatoPerCodice && this.articoloTrovatoPerCodice.id === id) {
+                        this.articoloTrovatoPerCodice.stato = 'In Magazzino'; // Cambia lo stato
+                    }
+
+                    // Aggiorna la lista degli articoli tramite una nuova ricerca
+                    this.searchByCodice();
+                    this.searchByPosizione();
+                    this.searchArticoloPiuVecchio();
+                })
+                .catch(error => {
+                    console.error('Errore:', error);
+                });
         }
     }
 });
