@@ -70,10 +70,10 @@
                             <td :class="{'text-danger': articolo.stato === 'Difettoso'}">{{ articolo.codicePosizione }}</td>
                             <td class="text-center">
                                 <div class="d-inline">
-                                    <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace d-inline">Sposta</a>
-                                    <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace d-inline">Uscita</a>
-                                    <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary btn-sm buttonspace d-inline">Dettagli Movimenti</a>
-                                    <button v-if="articolo.stato === 'Difettoso'" @@click="riparaArticolo(articolo.id)" class="btn btn-warning btn-sm buttonspace d-inline">Ripara</button>
+                                    <a :href="`/Articoli/Edit/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-primary btn-sm buttonspace">Sposta</a>
+                                    <a :href="`/Articoli/Delete/${articolo.id}`" v-if="articolo.stato !== 'Reparto'" class="btn btn-danger btn-sm buttonspace">Uscita</a>
+                                    <a :href="`/Articoli/Details/${articolo.id}`" class="btn btn-primary btn-sm buttonspace">Dettagli Movimenti</a>
+                                    <button v-if="articolo.stato === 'Difettoso'" @@click="riparaArticolo(articolo.id)" class="btn btn-warning btn-sm buttonspace">Ripara</button>
                                 </div>
                             </td>
 
